@@ -1,0 +1,8 @@
+### Playbook Configuration Variables
+
+## User info
+username: neumann
+
+dotfiles:
+    url: https://github.com/neumann-mlucas/dotfiles.git
+    destination: .dotfiles

@@ -1,0 +1,118 @@
+- name: Install window manager related packages
+  community.general.pacman:
+   name:
+    - bspwm
+    - clipmenu
+    - dmenu
+    - feh
+    - pass
+    - polybar
+    - redshift
+    - rofi
+    - rofi-calc
+    - rofi-pass
+    - sxhkd
+    - unclutter
+   state: present
+
+- name: Install GUI apps
+  community.general.pacman:
+   name:
+    - arandr
+    - firefox
+    - flatpak
+    - foliate
+    - zathura
+    - zathura-djvu
+    - zathura-pdf-mupdf
+   state: present
+
+- name: Install more CLI tools
+  community.general.pacman:
+   name:
+    - dictd
+    - diffstatic
+    - direnv
+    - fast
+    - flite
+    - github-cli
+    - glow
+    - hunspell
+    - hunspell-en_us
+    - imagemagick
+    - jq
+    - lazygit
+    - mplayer
+    - mpv
+    - procs
+    - scrot
+    - sufraw
+    - tokei
+    - trash-cli
+    - words
+    - yank
+    - yazi
+   state: present
+
+
+- name: Install Notebook Stuff
+  community.general.pacman:
+   name:
+    - tlp
+   state: present
+
+- name: Install programming languages, runtimes and LSPs
+  community.general.pacman:
+   name:
+    - clang
+    - ghc
+    - go
+    - go-tools
+    - julia
+    - ruff
+    - ruff-lsp
+    - rust
+    - sqlfluff
+    - stylua
+   state: present
+
+# TODO aur packages
+# activitywatch-bin 0.12.3b15-1
+# ast-grep-bin 0.16.0-1
+# bluez-alsa-git 3.1.0.r112.gf3b84e9-1
+# bsp-layout 0.0.10-3
+# choose-rust-git r112.d434bd2-1
+# erdtree-bin 1.4.1-1
+# fast 0.0.4-1
+# hackernews_tui 0.13.4-1
+# kernel-alive 0.5-1
+# keyd 2.4.3-3
+# megasync-bin 4.11.0-4
+# newsraft 0.22-2
+# nnn-nerd 4.9-1
+# picom-jonaburg-git 0.1-5
+# python-pdbp 1.5.0-1
+# rofi-bluetooth-git r33.9d91c04-2
+# rofi-power-menu-git 3.0.2.r0.g368ba43-1
+# rofi-wifi-menu-git 32.bd5f34f-1
+# typespeed 0.6.5-10
+# ueberzugpp 2.9.2-2
+# viddy 0.4.0-2
+# yay 12.2.0-1
+
+# TODO pipx
+# package black 23.12.1, installed using Python 3.11.3
+# package flake8 7.0.0, installed using Python 3.11.3
+# package git-sim 0.3.3, installed using Python 3.11.3
+# package isort 5.13.2, installed using Python 3.11.3
+# package mypy 1.8.0, installed using Python 3.11.3
+# package nsz 4.6.1, installed using Python 3.11.3
+# package pdbp 1.5.0, installed using Python 3.11.5
+# package pipenv 2023.11.15, installed using Python 3.11.3
+# package poetry 1.7.1, installed using Python 3.11.3
+# package radon 6.0.1, installed using Python 3.11.6
+# package shell-gpt 1.1.0, installed using Python 3.11.3
+# package speedread 0.2, installed using Python 3.11.5
+# package tts 0.22.0, installed using Python 3.11.5
+# package visidata 3.0.1, installed using Python 3.11.3
+# package yt-dlp 2023.12.30, installed using Python 3.11.3

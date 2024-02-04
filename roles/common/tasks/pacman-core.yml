@@ -1,0 +1,114 @@
+- name: Install basic utils
+  community.general.pacman:
+   name:
+    - linux
+    - linux-firmware
+    - linux-headers
+    - base
+    - base-devel
+    - git
+    - networkmanager
+    - openssh
+   state: present
+
+- name: Install system utils
+  community.general.pacman:
+   name:
+    - cronie
+    - intel-ucode
+    - reflector
+    - thermald
+    - ufw
+    - zram-generator
+   state: present
+
+- name: Install GNU packages
+  community.general.pacman:
+   name:
+    - coreutils
+    - diffutils
+    - findutils
+    - gawk
+    - gcc
+    - gcc-libs
+    - grep
+    - make
+    - man-db
+    - man-pages
+    - sed
+    - tree
+    - which
+   state: present
+
+- name: Install archival utils
+  community.general.pacman:
+    name:
+      - atool
+      - bzip2
+      - gzip
+      - p7zip
+      - tar
+      - unrar
+      - unzip
+      - xz
+      - zip
+    state: present
+
+- name: Install download utils
+  community.general.pacman:
+    name:
+      - curl
+      - wget
+    state: present
+
+- name: Install python
+  community.general.pacman:
+    name:
+      - pyenv
+      - python
+      - python-pipx
+    state: present
+
+- name: Install DEV apps
+  community.general.pacman:
+   name:
+    - alacritty
+    - kitty
+    - neovim
+    - python-pynvim
+   state: present
+
+- name: Install CLI tools
+  community.general.pacman:
+   name:
+    - bash
+    - bat
+    - ctags
+    - duf
+    - dust
+    - eza
+    - fd
+    - fzf
+    - git-delta
+    - gping
+    - ripgrep
+    - starship
+    - stow
+    - sxiv
+    - tealdeer
+    - zoxide
+    - zsh
+    - zsh-autosuggestions 
+    - zsh-history-substring-search 
+    - zsh-syntax-highlighting 
+   state: present
+
+- name: Install Fonts
+  community.general.pacman:
+   name:
+     - ttf-fira-code 
+     - ttf-firacode-nerd 
+     - ttf-hack-nerd 
+     - ttf-iosevka-nerd 
+     - ttf-monaspace-variable 
+   state: present

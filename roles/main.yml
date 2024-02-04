@@ -1,0 +1,4 @@
+- hosts: managed
+  become: true
+  roles:
+    - common

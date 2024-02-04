@@ -1,0 +1,9 @@
+- name: Clone user dotfiles
+  git: repo={{ dotfiles.url }} dest=/home/{{ username }}/{{ dotfiles.destination }} accept_hostkey=yes update=true
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Stow dotfiles
+  ansible.builtin.command: stow --no-folding --dotfiles -t ~ -d /home/{{ username }}/{{ dotfiles.destination }} .
+  become: yes
+  become_user: "{{ username }}"

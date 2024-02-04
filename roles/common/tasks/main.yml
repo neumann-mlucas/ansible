@@ -1,0 +1,11 @@
+- name: Full system upgrade
+  pacman: 
+   update_cache: yes
+   upgrade: yes
+
+- import_tasks: pacman-core.yml
+
+- import_tasks: dotfiles.yml
+
+- name: Clean pacman cache
+  ansible.builtin.command: pacman -Sc --noconfirm
