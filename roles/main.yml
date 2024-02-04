@@ -1,4 +1,4 @@
-- hosts: managed
+- hosts: local:managed
   become: true
   roles:
     - common
