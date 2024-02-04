@@ -7,3 +7,46 @@
 - name: Regenerate grub config
   ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg 
 
+- name: Change pacman config
+  ansible.builtin.replace:
+    path: /etc/pacman.conf
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
+  with_items:
+    - { regexp: '^#Color$', replace: 'Color' }
+    - { regexp: '^#VerbosePkgLists$', replace: 'VerbosePkgLists' }
+    - { regexp: '^#ParallelDownloads = 5$', replace: 'ParallelDownloads = 5' }
+
+- name: Change jorunald max log size
+  ansible.builtin.replace:
+    path: /etc/systemd/journald.conf
+    regexp: '^#SystemMaxUse=$'
+    replace: 'SystemMaxUse=100M' 
+
+- name: Set vm.swappiness to 1
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/10-swappiness.conf
+    content: |
+      vm.swappiness=1
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
+- name: Set zram config
+  ansible.builtin.copy:
+    dest: /etc/systemd/zram-generator.conf
+    content: |
+      [zram0]
+      zram-size = ram
+      compression-algorithm = zstd
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+    
+- name: Generate zram
+  ansible.builtin.command: systemctl daemon-reload
+
+- name: Start zram
+  ansible.builtin.command: systemctl start /dev/zram0
