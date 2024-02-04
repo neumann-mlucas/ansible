@@ -1,3 +1,15 @@
+# TODO:
+# - config for the desktop: wayland, sound, bluetooth
+# - organize global variables
+# - battery config for the laptop
+# - hyperland
+# - backup with btrfs
+# - docker setup
+# - pihole
+# - synchthing
+# - mega cloud
+# - other service: nextcloud, plex etc
+# - update yay, delete caches etc
 
 - import_tasks: pacman-update.yml
 
@@ -19,3 +31,7 @@
 
 - import_tasks: services.yml
 
+- name: Reboot the system
+  ansible.builtin.reboot:
+    reboot_timeout: 10
+  when: first_install | bool
