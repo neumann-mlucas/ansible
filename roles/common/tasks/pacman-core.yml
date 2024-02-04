@@ -15,6 +15,7 @@
   community.general.pacman:
    name:
     - cronie
+    - fail2ban
     - intel-ucode
     - reflector
     - thermald

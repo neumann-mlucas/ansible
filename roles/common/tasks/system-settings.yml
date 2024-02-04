@@ -53,7 +53,7 @@
 
 - name: Set keyd config
   ansible.builtin.copy:
-    dest: /etc/systemd/zram-generator.conf
+    dest: /etc/keyd/default.conf
     content: |
       [ids]
 

@@ -5,15 +5,17 @@
   import_tasks: pacman-core.yml
   when: first_install | bool
 
-- import_tasks: system-settings.yml
-
-# - name: Set some system setting only on first install
-#   import_tasks: system-settings.yml
-#   when: first_install | bool
+- name: Set some system setting - first install only
+  import_tasks: system-settings.yml
+  when: first_install | bool
 
 - import_tasks: yay.yml
 
 - import_tasks: dotfiles.yml
+
+- name: Set network and firewall setting - first install only
+  import_tasks: network.yml
+  when: first_install | bool
 
 - import_tasks: services.yml
 

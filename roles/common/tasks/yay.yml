@@ -24,7 +24,7 @@
 
 - name: Install AUR package using yay
   ansible.builtin.shell:
-    cmd: yay -S --noconfirm -needed {{ item }}
+    cmd: yay -S --noconfirm --needed {{ item }}
   become: no
   become_user: "{{ ansible_user_id }}"
   loop:
@@ -33,3 +33,4 @@
     - keyd 
     - nnn-nerd 
     - viddy 
+  when: yay_installed is failed
