@@ -6,6 +6,7 @@
   loop:
     - NetworkManager.service
     - fstrim.timer
+    - keyd.service
     - reflector.timer
     - sshd.service
     - thermald.service
@@ -17,6 +18,7 @@
   loop:
     - NetworkManager.service
     - fstrim.timer
+    - keyd.service
     - reflector.timer
     - sshd.service
     - thermald.service

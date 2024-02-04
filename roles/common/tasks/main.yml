@@ -1,13 +1,19 @@
+
 - import_tasks: pacman-update.yml
 
 - name: Run pacman install only on first install
   import_tasks: pacman-core.yml
   when: first_install | bool
 
+- import_tasks: system-settings.yml
+
+# - name: Set some system setting only on first install
+#   import_tasks: system-settings.yml
+#   when: first_install | bool
+
+- import_tasks: yay.yml
+
 - import_tasks: dotfiles.yml
 
 - import_tasks: services.yml
 
-- name: Set some system setting only on first install
-  import_tasks: system-settings.yml
-  when: first_install | bool

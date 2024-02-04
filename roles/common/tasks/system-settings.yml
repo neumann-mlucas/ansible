@@ -50,3 +50,27 @@
 
 - name: Start zram
   ansible.builtin.command: systemctl start /dev/zram0
+
+- name: Set keyd config
+  ansible.builtin.copy:
+    dest: /etc/systemd/zram-generator.conf
+    content: |
+      [ids]
+
+      *
+
+      [main]
+
+      capslock = overload(meta, esc)
+      insert = S-insert
+
+      [alt]
+      h = left
+      j = down
+      k = up
+      l = right
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+

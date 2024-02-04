@@ -1,0 +1,35 @@
+- name: Check if yay is installed
+  ansible.builtin.raw: command -v yay
+  register: yay_installed
+  ignore_errors: yes
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Clone yay repository
+  ansible.builtin.git:
+    repo: 'https://aur.archlinux.org/yay.git'
+    dest: '/home/{{ username }}/yay'
+  become: yes
+  become_user: "{{ username }}"
+  when: yay_installed is failed
+
+- name: Build and install yay
+  ansible.builtin.shell:
+    cmd: makepkg -si --noconfirm
+    chdir: '/home/{{ username }}/yay'
+  become: yes
+  become_user: "{{ username }}"
+  when: yay_installed is failed
+
+
+- name: Install AUR package using yay
+  ansible.builtin.shell:
+    cmd: yay -S --noconfirm -needed {{ item }}
+  become: no
+  become_user: "{{ ansible_user_id }}"
+  loop:
+    - erdtree-bin 
+    - choose-rust-git 
+    - keyd 
+    - nnn-nerd 
+    - viddy 
