@@ -1,11 +1,13 @@
-- name: Full system upgrade
-  pacman: 
-   update_cache: yes
-   upgrade: yes
+- import_tasks: pacman-update.yml
 
-- import_tasks: pacman-core.yml
+- name: Run pacman install only on first install
+  import_tasks: pacman-core.yml
+  when: first_install | bool
 
 - import_tasks: dotfiles.yml
 
-- name: Clean pacman cache
-  ansible.builtin.command: pacman -Sc --noconfirm
+- import_tasks: services.yml
+
+- name: Set some system setting only on first install
+  import_tasks: system-settings.yml
+  when: first_install | bool

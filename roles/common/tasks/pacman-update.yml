@@ -1,0 +1,13 @@
+- name: Full system upgrade
+  pacman: 
+   update_cache: yes
+   upgrade: yes
+
+- name: Delete orphan packages
+  ansible.builtin.shell:
+    cmd: pacman -Qtdq | xargs -r pacman -Rns --noconfirm
+  args:
+    executable: /bin/bash
+
+- name: Clean pacman cache
+  ansible.builtin.command: pacman -Sc --noconfirm

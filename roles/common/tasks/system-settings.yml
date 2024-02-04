@@ -1,0 +1,9 @@
+- name: change shell to zsh
+  become: yes
+  user:
+   name: "{{ username }}"
+   shell: /usr/bin/zsh
+
+- name: Regenerate grub config
+  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg 
+
