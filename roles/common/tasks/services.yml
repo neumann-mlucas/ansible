@@ -2,6 +2,7 @@
   ansible.builtin.systemd_service:
     name: "{{ item }}"
     enabled: true
+    state: restarted
     masked: no
   loop:
     - NetworkManager.service
@@ -10,19 +11,21 @@
     - keyd.service
     - reflector.timer
     - sshd.service
+    - syncthing@{{ username }}.service
     - thermald.service
     - ufw.service
 
-- name: Restart multiple services
-  ansible.builtin.systemd_service:
-    name: "{{ item }}"
-    state: restarted
-  loop:
-    - NetworkManager.service
-    - fail2ban.service
-    - fstrim.service
-    - keyd.service
-    - reflector.service
-    - sshd.service
-    - thermald.service
-    - ufw.service
+# - name: Restart multiple services
+#   ansible.builtin.systemd_service:
+#     name: "{{ item }}"
+#     state: restarted
+#   loop:
+#     - NetworkManager.service
+#     - fail2ban.service
+#     - fstrim.service
+#     - keyd.service
+#     - reflector.service
+#     - sshd.service
+#     - syncthing@{{ username }}.service
+#     - thermald.service
+#     - ufw.service

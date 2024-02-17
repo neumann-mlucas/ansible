@@ -9,6 +9,7 @@
     - git
     - networkmanager
     - openssh
+    - rsync
    state: present
 
 - name: Install system utils
@@ -18,6 +19,7 @@
     - fail2ban
     - intel-ucode
     - reflector
+    - syncthing
     - thermald
     - ufw
     - zram-generator
@@ -75,9 +77,9 @@
    name:
     - alacritty
     - kitty
+    - meld
     - neovim
     - python-pynvim
-    - meld
    state: present
 
 - name: Install CLI tools
