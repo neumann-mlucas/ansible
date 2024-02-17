@@ -53,6 +53,10 @@
   community.general.ufw:
     state: enabled
 
+- name: Enable logging in UFW
+  community.general.ufw:
+    logging: on
+
 - name: Create fail2ban config
   ansible.builtin.copy:
     dest: /etc/fail2ban/jail.conf

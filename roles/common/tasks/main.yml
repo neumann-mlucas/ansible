@@ -29,7 +29,9 @@
   import_tasks: network.yml
   when: first_install | bool
 
-- import_tasks: services.yml
+- name: Enable several services
+  import_tasks: services.yml
+  when: first_install | bool
 
 - name: Reboot the system
   ansible.builtin.reboot:
