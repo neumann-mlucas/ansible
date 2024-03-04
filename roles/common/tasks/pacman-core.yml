@@ -87,6 +87,7 @@
    name:
     - bash
     - bat
+    - btop
     - ctags
     - duf
     - dust
