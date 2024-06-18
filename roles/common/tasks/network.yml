@@ -7,7 +7,7 @@
       Port 3141
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: yes
 
 - name: UFW set default outgoing policy to allow
@@ -23,19 +23,19 @@
 - name: UFW allow HTTPS traffic
   community.general.ufw:
     rule: allow
-    port: '443'
+    port: "443"
     proto: tcp
 
 - name: UFW allow HTTP traffic
   community.general.ufw:
     rule: allow
-    port: '80'
+    port: "80"
     proto: tcp
 
 - name: UFW allow all access from local network
   community.general.ufw:
     rule: allow
-    src: '192.168.0.0/24'
+    src: "192.168.0.0/24"
 
 # - name: UFW limit SSH traffic to prevent brute-force attacks
 #   community.general.ufw:
@@ -46,13 +46,13 @@
 - name: UFW enable SSH traffic on port 3141
   community.general.ufw:
     rule: allow
-    port: '3141'
+    port: "3141"
     proto: tcp
 
 - name: UFW enable Syncthing port
   community.general.ufw:
     rule: allow
-    port: '22000'
+    port: "22000"
     proto: tcp
 
 - name: Enable UFW
@@ -77,6 +77,5 @@
       enabled = true
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: yes
-

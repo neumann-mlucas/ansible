@@ -1,80 +1,78 @@
 - name: Install window manager related packages
   community.general.pacman:
-   name:
-    - bspwm
-    - clipmenu
-    - dmenu
-    - feh
-    - pass
-    - polybar
-    - redshift
-    - rofi
-    - rofi-calc
-    - rofi-pass
-    - sxhkd
-    - unclutter
-   state: present
+    name:
+      - bspwm
+      - clipmenu
+      - dmenu
+      - feh
+      - pass
+      - polybar
+      - redshift
+      - rofi
+      - rofi-calc
+      - rofi-pass
+      - sxhkd
+      - unclutter
+    state: present
 
 - name: Install GUI apps
   community.general.pacman:
-   name:
-    - arandr
-    - firefox
-    - flatpak
-    - foliate
-    - zathura
-    - zathura-djvu
-    - zathura-pdf-mupdf
-   state: present
+    name:
+      - arandr
+      - firefox
+      - foliate
+      - zathura
+      - zathura-djvu
+      - zathura-pdf-mupdf
+    state: present
 
 - name: Install more CLI tools
   community.general.pacman:
-   name:
-    - dictd
-    - diffstatic
-    - direnv
-    - fast
-    - flite
-    - github-cli
-    - glow
-    - hunspell
-    - hunspell-en_us
-    - imagemagick
-    - jq
-    - lazygit
-    - mplayer
-    - mpv
-    - procs
-    - scrot
-    - sufraw
-    - tokei
-    - trash-cli
-    - words
-    - yank
-    - yazi
-   state: present
-
+    name:
+      - dictd
+      - diffstatic
+      - direnv
+      - fast
+      - flite
+      - github-cli
+      - glow
+      - hunspell
+      - hunspell-en_us
+      - imagemagick
+      - jq
+      - lazygit
+      - mplayer
+      - mpv
+      - procs
+      - scrot
+      - sufraw
+      - tokei
+      - trash-cli
+      - words
+      - yank
+      - yazi
+    state: present
 
 - name: Install Notebook Stuff
   community.general.pacman:
-   name:
-    - tlp
-   state: present
+    name:
+      - tlp
+    state: present
 
 - name: Install programming languages, runtimes and LSPs
   community.general.pacman:
-   name:
-    - clang
-    - ghc
-    - go
-    - go-tools
-    - julia
-    - ruff
-    - ruff-lsp
-    - rust
-    - sqlfluff
-    - stylua
-   state: present
+    name:
+      - clang
+      - ghc
+      - go
+      - go-tools
+      - julia
+      - ruff
+      - ruff-lsp
+      - rust
+      - sqlfluff
+      - stylua
+    state: present
 
 - name: Install AUR package using yay
   ansible.builtin.shell:
@@ -82,18 +80,18 @@
   become: no
   become_user: "{{ ansible_user_id }}"
   loop:
-    - activitywatch-bin 
-    - bsp-layout 
-    - fast 
-    - megasync-bin 
-    - newsraft 
-    - picom-jonaburg-git 
-    - python-pdbp 
-    - rofi-bluetooth-git 
-    - rofi-power-menu-git 
-    - rofi-wifi-menu-git 
-    - typespeed 
-    - ueberzugpp 
+    - activitywatch-bin
+    - bsp-layout
+    - fast
+    - megasync-bin
+    - newsraft
+    - picom-jonaburg-git
+    - python-pdbp
+    - rofi-bluetooth-git
+    - rofi-power-menu-git
+    - rofi-wifi-menu-git
+    - typespeed
+    - ueberzugpp
 
 - name: Install python package using pipx
   ansible.builtin.shell:
@@ -101,14 +99,14 @@
   become: no
   become_user: "{{ ansible_user_id }}"
   loop:
-    - black 
-    - flake8 
-    - git-sim 
-    - isort 
-    - mypy 
-    - pdbp 
-    - pipenv 
-    - poetry 
-    - radon 
-    - visidata 
-    - yt-dlp 
+    - black
+    - flake8
+    - git-sim
+    - isort
+    - mypy
+    - pdbp
+    - pipenv
+    - poetry
+    - radon
+    - visidata
+    - yt-dlp

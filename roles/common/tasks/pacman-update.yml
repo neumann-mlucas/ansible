@@ -1,7 +1,7 @@
 - name: Full system upgrade
-  pacman: 
-   update_cache: yes
-   upgrade: yes
+  pacman:
+    update_cache: yes
+    upgrade: yes
 
 - name: Delete orphan packages
   ansible.builtin.shell:

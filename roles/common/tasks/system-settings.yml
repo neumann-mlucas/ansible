@@ -1,27 +1,27 @@
 - name: change shell to zsh
   become: yes
   user:
-   name: "{{ username }}"
-   shell: /usr/bin/zsh
+    name: "{{ username }}"
+    shell: /usr/bin/zsh
 
 - name: Regenerate grub config
-  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg 
+  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
 
 - name: Change pacman config
   ansible.builtin.replace:
     path: /etc/pacman.conf
-    regexp: '{{ item.regexp }}'
-    replace: '{{ item.replace }}'
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
   with_items:
-    - { regexp: '^#Color$', replace: 'Color' }
-    - { regexp: '^#VerbosePkgLists$', replace: 'VerbosePkgLists' }
-    - { regexp: '^#ParallelDownloads = 5$', replace: 'ParallelDownloads = 5' }
+    - { regexp: "^#Color$", replace: "Color" }
+    - { regexp: "^#VerbosePkgLists$", replace: "VerbosePkgLists" }
+    - { regexp: "^#ParallelDownloads = 5$", replace: "ParallelDownloads = 5" }
 
 - name: Change jorunald max log size
   ansible.builtin.replace:
     path: /etc/systemd/journald.conf
-    regexp: '^#SystemMaxUse=$'
-    replace: 'SystemMaxUse=100M' 
+    regexp: "^#SystemMaxUse=$"
+    replace: "SystemMaxUse=100M"
 
 - name: Set vm.swappiness to 1
   ansible.builtin.copy:
@@ -30,7 +30,7 @@
       vm.swappiness=1
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: yes
 
 - name: Set zram config
@@ -42,9 +42,9 @@
       compression-algorithm = zstd
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: yes
-    
+
 - name: Generate zram
   ansible.builtin.command: systemctl daemon-reload
 
@@ -71,6 +71,5 @@
       l = right
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: yes
-

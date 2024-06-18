@@ -1,47 +1,53 @@
 - name: Install basic utils
   community.general.pacman:
-   name:
-    - linux
-    - linux-firmware
-    - linux-headers
-    - base
-    - base-devel
-    - git
-    - networkmanager
-    - openssh
-    - rsync
-   state: present
+    name:
+      - linux
+      - linux-firmware
+      - linux-headers
+      - base
+      - base-devel
+      - git
+      - networkmanager
+      - openssh
+      - rsync
+    state: present
 
 - name: Install system utils
   community.general.pacman:
-   name:
-    - cronie
-    - fail2ban
-    - intel-ucode
-    - reflector
-    - syncthing
-    - thermald
-    - ufw
-    - zram-generator
-   state: present
+    name:
+      - cronie
+      - fail2ban
+      - intel-ucode
+      - reflector
+      - syncthing
+      - thermald
+      - ufw
+      - zram-generator
+    state: present
+
+- name: Install Flatpak
+  community.general.pacman:
+    name:
+      - flatpak
+    state: present
 
 - name: Install GNU packages
   community.general.pacman:
-   name:
-    - coreutils
-    - diffutils
-    - findutils
-    - gawk
-    - gcc
-    - gcc-libs
-    - grep
-    - make
-    - man-db
-    - man-pages
-    - sed
-    - tree
-    - which
-   state: present
+    name:
+      - coreutils
+      - diffutils
+      - findutils
+      - gawk
+      - gcc
+      - gcc-libs
+      - grep
+      - make
+      - man-db
+      - man-pages
+      - sed
+      - tree
+      - which
+    state: present
 
 - name: Install archival utils
   community.general.pacman:
@@ -74,46 +80,46 @@
 
 - name: Install DEV apps
   community.general.pacman:
-   name:
-    - alacritty
-    - kitty
-    - meld
-    - neovim
-    - python-pynvim
-   state: present
+    name:
+      - alacritty
+      - kitty
+      - meld
+      - neovim
+      - python-pynvim
+    state: present
 
 - name: Install CLI tools
   community.general.pacman:
-   name:
-    - bash
-    - bat
-    - btop
-    - ctags
-    - duf
-    - dust
-    - eza
-    - fd
-    - fzf
-    - git-delta
-    - gping
-    - ripgrep
-    - starship
-    - stow
-    - sxiv
-    - tealdeer
-    - zoxide
-    - zsh
-    - zsh-autosuggestions 
-    - zsh-history-substring-search 
-    - zsh-syntax-highlighting 
-   state: present
+    name:
+      - bash
+      - bat
+      - btop
+      - ctags
+      - duf
+      - dust
+      - eza
+      - fd
+      - fzf
+      - git-delta
+      - gping
+      - ripgrep
+      - starship
+      - stow
+      - sxiv
+      - tealdeer
+      - zoxide
+      - zsh
+      - zsh-autosuggestions
+      - zsh-history-substring-search
+      - zsh-syntax-highlighting
+    state: present
 
 - name: Install Fonts
   community.general.pacman:
-   name:
-     - ttf-fira-code 
-     - ttf-firacode-nerd 
-     - ttf-hack-nerd 
-     - ttf-iosevka-nerd 
-     - ttf-monaspace-variable 
-   state: present
+    name:
+      - ttf-fira-code
+      - ttf-firacode-nerd
+      - ttf-hack-nerd
+      - ttf-iosevka-nerd
+      - ttf-monaspace-variable
+    state: present
