@@ -1,0 +1,14 @@
+- name: Ensure Flatpak is installed
+  ansible.builtin.package:
+    name: flatpak
+    state: present
+
+- name: Add the Flathub repository
+  ansible.builtin.command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  args:
+    creates: /var/lib/flatpak/repo/flathub
+
+- name: Install the desired Flatpak package
+  ansible.builtin.command: flatpak install -y flathub com.example.AppName
+  args:
+    creates: /var/lib/flatpak/app/org.jellyfin.JellyfinServer
