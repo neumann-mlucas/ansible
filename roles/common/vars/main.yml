@@ -6,5 +6,5 @@ username: neumann
 first_install: false
 
 dotfiles:
-    url: https://github.com/neumann-mlucas/dotfiles.git
-    destination: .dotfiles
+  url: https://github.com/neumann-mlucas/dotfiles.git
+  destination: .dotfiles
