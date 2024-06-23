@@ -33,3 +33,23 @@
     - keyd
     - nnn-nerd
     - viddy
+  when: first_install | bool
+
+- name: Install Desktop AUR package using yay
+  ansible.builtin.shell:
+    cmd: yay -S --noconfirm {{ item }}
+  become: no
+  become_user: "{{ ansible_user_id }}"
+  loop:
+    - activitywatch-bin
+    - fast
+    - newsraft
+    - typespeed
+    # - bsp-layout
+    # - megasync-bin
+    # - picom-jonaburg-git
+    # - rofi-bluetooth-git
+    # - rofi-power-menu-git
+    # - rofi-wifi-menu-git
+    # - ueberzugpp
+  when: "'desktops' in group_names"
