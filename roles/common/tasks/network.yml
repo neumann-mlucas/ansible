@@ -37,12 +37,6 @@
     rule: allow
     src: "192.168.0.0/24"
 
-# - name: UFW limit SSH traffic to prevent brute-force attacks
-#   community.general.ufw:
-#     rule: limit
-#     port: '22'
-#     proto: tcp
-
 - name: UFW enable SSH traffic on port 3141
   community.general.ufw:
     rule: allow
