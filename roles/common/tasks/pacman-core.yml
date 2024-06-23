@@ -25,12 +25,6 @@
       - zram-generator
     state: present
 
-- name: Install Flatpak
-  community.general.pacman:
-    name:
-      - flatpak
-    state: present
-
 - name: Install GNU packages
   community.general.pacman:
     name:
@@ -123,3 +117,13 @@
       - ttf-iosevka-nerd
       - ttf-monaspace-variable
     state: present
+
+- name: Install Server Packages
+  community.general.pacman:
+    name:
+      - jellyfin-server
+      - jellyfin-web
+      - pi-hole-ftl
+      - pi-hole-server
+    state: present
+  when: "'servers' in group_names"
