@@ -20,7 +20,6 @@
     name:
       - arandr
       - firefox
-      - foliate
       - zathura
       - zathura-djvu
       - zathura-pdf-mupdf
@@ -30,7 +29,7 @@
   community.general.pacman:
     name:
       - dictd
-      - diffstatic
+      - difftastic
       - direnv
       - fast
       - flite
