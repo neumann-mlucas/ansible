@@ -38,7 +38,7 @@
 - name: Install Desktop AUR package using yay
   ansible.builtin.shell:
     cmd: yay -S --noconfirm {{ item }}
-  become: no
+  become: yes
   become_user: "{{ ansible_user_id }}"
   loop:
     - activitywatch-bin
@@ -46,6 +46,7 @@
     - newsraft
     - typespeed
     # - bsp-layout
+    # - lazydocker-bin
     # - megasync-bin
     # - picom-jonaburg-git
     # - rofi-bluetooth-git
