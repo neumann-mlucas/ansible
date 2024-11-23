@@ -75,9 +75,9 @@
 
 - name: Install AUR package using yay
   ansible.builtin.shell:
-    cmd: yay -S --noconfirm {{ item }}
-  become: no
-  become_user: "{{ ansible_user_id }}"
+    cmd: yay -S --sudoloop --noconfirm {{ item }}
+  become: yes
+  become_user: "{{ username }}"
   loop:
     - activitywatch-bin
     - bsp-layout
@@ -103,9 +103,21 @@
     - git-sim
     - isort
     - mypy
-    - pdbp
     - pipenv
     - poetry
     - radon
     - visidata
     - yt-dlp
+    # - pdbp
+
+- name: Upgrade python packages using pipx
+  ansible.builtin.shell:
+    cmd: pipx upgrade-all
+  become: no
+  become_user: "{{ ansible_user_id }}"
+
+- name: Clean pip cache
+  ansible.builtin.shell:
+    cmd: pip cache purge
+  become: no
+  become_user: "{{ ansible_user_id }}"

@@ -21,36 +21,36 @@
   become_user: "{{ username }}"
   when: yay_installed is failed
 
+- name: Refresh AUR index
+  ansible.builtin.shell:
+    cmd: yay -Syy --noconfirm
+  become: yes
+  become_user: "{{ username }}"
+
 - name: Install AUR package using yay
   ansible.builtin.shell:
-    cmd: yay -S --noconfirm --needed {{ item }}
-  become: no
-  become_user: "{{ ansible_user_id }}"
+    cmd: yay -S --sudoloop --noconfirm --needed {{ item }}
+  become: yes
+  become_user: "{{ username }}"
   loop:
     - choose-rust-git
     - erdtree-bin
+    - fast
     - hadolint-bin
     - keyd
+    - lazydocker-bin
     - nnn-nerd
+    - ueberzugpp
     - viddy
   when: first_install | bool
 
 - name: Install Desktop AUR package using yay
   ansible.builtin.shell:
-    cmd: yay -S --noconfirm {{ item }}
+    cmd: yay -S --sudoloop --noconfirm {{ item }}
   become: yes
-  become_user: "{{ ansible_user_id }}"
+  become_user: "{{ username }}"
   loop:
     - activitywatch-bin
-    - fast
     - newsraft
     - typespeed
-    # - bsp-layout
-    # - lazydocker-bin
-    # - megasync-bin
-    # - picom-jonaburg-git
-    # - rofi-bluetooth-git
-    # - rofi-power-menu-git
-    # - rofi-wifi-menu-git
-    # - ueberzugpp
   when: "'desktops' in group_names"
