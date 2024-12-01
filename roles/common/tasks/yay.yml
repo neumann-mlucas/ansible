@@ -36,6 +36,7 @@
     - choose-rust-git
     - erdtree-bin
     - fast
+    - fzf-tab-source
     - hadolint-bin
     - keyd
     - lazydocker-bin
