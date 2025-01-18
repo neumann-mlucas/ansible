@@ -6,10 +6,15 @@
       - linux-headers
       - base
       - base-devel
-      - git
+      # core utils
       - networkmanager
+      - git
       - openssh
       - rsync
+      # firmware related
+      - udisks2
+      - fwupd
+      - fwupd-docs
     state: present
 
 - name: Install system utils

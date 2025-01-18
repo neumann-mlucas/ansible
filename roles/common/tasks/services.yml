@@ -8,14 +8,15 @@
     - NetworkManager.service
     - fail2ban.service
     - fstrim.timer
+    - fwupd.service
     - keyd.service
     - reflector.timer
     - sshd.service
     - syncthing@{{ username }}.service
     - thermald.service
+    - udisks2.service
     - ufw.service
 
-# add pihole to this
 - name: Enable homeserver services
   ansible.builtin.systemd_service:
     name: "{{ item }}"
