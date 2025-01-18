@@ -41,8 +41,7 @@
     - keyd
     - lazydocker-bin
     - nnn-nerd
-    - ueberzugpp
-    - viddy
+    - viddy-bin
   when: first_install | bool
 
 - name: Install Desktop AUR package using yay
