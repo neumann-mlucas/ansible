@@ -1,112 +1,79 @@
-- name: Install window manager related packages
+# TODO: MOVE TO WAYLAND
+- name: Install XORG BSPWM desktop environment
   community.general.pacman:
     name:
       - bspwm
       - clipmenu
       - dmenu
       - feh
-      - pass
       - polybar
       - redshift
       - rofi
       - rofi-calc
-      - rofi-pass
       - sxhkd
       - unclutter
     state: present
 
+# TODO: MOVE TO FLATPAK
 - name: Install GUI apps
   community.general.pacman:
     name:
-      - arandr
-      - firefox
+      - arandr # XORG
       - zathura
       - zathura-djvu
       - zathura-pdf-mupdf
     state: present
 
+  # CHECK IF NEEDED
 - name: Install more CLI tools
   community.general.pacman:
     name:
       - dictd
-      - difftastic
-      - direnv
-      - fast
+      - dict-wn
       - flite
-      - github-cli
-      - glow
-      - hunspell
-      - hunspell-en_us
       - imagemagick
-      - jq
-      - lazygit
       - mplayer
       - mpv
-      - procs
       - scrot
       - surfraw
-      - tokei
-      - trash-cli
-      - words
-      - yank
-      - yazi
+      - taskd
     state: present
 
+# MORE NOTEBOOK STUFF
 - name: Install Notebook Stuff
   community.general.pacman:
     name:
       - tlp
     state: present
 
-- name: Install programming languages, runtimes and LSPs
-  community.general.pacman:
-    name:
-      - clang
-      - codespell
-      - ghc
-      - go
-      - go-tools
-      - julia
-      - ruff
-      - ruff-lsp
-      - rust
-      - sqlfluff
-      - stylua
-      - vale
-    state: present
+# CHECK IF MASON CAN DO THAT
+# - name: Install programming languages, runtimes and LSPs
+#   community.general.pacman:
+#     name:
+#       - clang
+#       - codespell
+#       - ghc
+#       - go
+#       - go-tools
+#       - julia
+#       - ruff
+#       - ruff-lsp
+#       - rust
+#       - sqlfluff
+#       - stylua
+#       - vale
+#     state: present
 
-- name: Install AUR package using yay
-  ansible.builtin.shell:
-    cmd: yay -S --sudoloop --noconfirm {{ item }}
-  become: yes
-  become_user: "{{ username }}"
-  loop:
-    - activitywatch-bin
-    - bsp-layout
-    - fast
-    - megasync-bin
-    - newsraft
-    - picom-jonaburg-git
-    - python-pdbp
-    - rofi-bluetooth-git
-    - rofi-power-menu-git
-    - rofi-wifi-menu-git
-    - typespeed
-    - ueberzugpp
-
+# try to move all python stuff to here
 - name: Install python package using pipx
   ansible.builtin.shell:
     cmd: pipx install {{ item }}
   become: no
   become_user: "{{ ansible_user_id }}"
   loop:
-    - black
-    - flake8
     - git-sim
     - isort
     - mypy
-    - pipenv
-    - poetry
     - radon
     - visidata
     - yt-dlp

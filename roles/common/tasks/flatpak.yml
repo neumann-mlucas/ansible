@@ -19,28 +19,35 @@
     name: "{{ item }}"
     state: present
   loop:
+    # essentials
+    # - org.mozilla.firefox
     - com.github.johnfactotum.Foliate
-    - com.github.muriloventuroso.pdftricks
-    - com.github.tenderowl.frog
-    - com.spotify.Client
     - com.transmissionbt.Transmission
-    - com.valvesoftware.Steam
-    - io.dbeaver.DBeaverCommunity
-    - md.obsidian.Obsidian
-    - net.ankiweb.Anki
-    - net.mkiol.SpeechNote
-    - net.puddletag.puddletag
-    - org.DolphinEmu.dolphin-emu
-    - org.citra_emu.citra
-    - org.gimp.GIMP
-    - org.kiwix.desktop
-    - org.libreoffice.LibreOffice
-    - org.mozilla.Thunderbird
-    - org.upscayl.Upscayl
     - org.videolan.VLC
-    - org.zealdocs.Zeal
-    - site.someones.Lonewolf
-    - us.zoom.Zoom
+    # # basic desktop apps
+    # - com.spotify.Client
+    # - md.obsidian.Obsidian
+    # - net.ankiweb.Anki
+    # - org.gimp.GIMP
+    # - org.libreoffice.LibreOffice
+    # - org.mozilla.Thunderbird
+    # - us.zoom.Zoom
+    # # dev
+    # - org.gnome.meld
+    # - io.dbeaver.DBeaverCommunity
+    # - org.kiwix.desktop
+    # - org.zealdocs.Zeal
+    # # utils
+    # - com.github.muriloventuroso.pdftricks
+    # - com.github.tenderowl.frog
+    # - net.mkiol.SpeechNote
+    # - net.puddletag
+    # - org.upscayl.Upscayl
+    # - site.someones.Lonewolf
+    # # games
+    # - com.valvesoftware.Steam
+    # - org.DolphinEmu.dolphin-emu
+    # - org.citra_emu.citra
   when: "'desktop' in group_names"
 
 - name: Update all Flatpak applications

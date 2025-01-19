@@ -1,33 +1,33 @@
-- name: Install basic utils
+- name: Install core software
   community.general.pacman:
     name:
+      # kernel related
       - linux
       - linux-firmware
       - linux-headers
       - base
       - base-devel
-      # core utils
-      - networkmanager
+      # core tools
       - git
-      - openssh
-      - rsync
+      - zram-generator
       # firmware related
-      - udisks2
       - fwupd
       - fwupd-docs
+      - intel-ucode
+      - udisks2
     state: present
 
-- name: Install system utils
+- name: Install system services
   community.general.pacman:
     name:
       - cronie
       - fail2ban
-      - intel-ucode
+      - networkmanager
+      - openssh
       - reflector
       - syncthing
       - thermald
       - ufw
-      - zram-generator
     state: present
 
 - name: Install GNU packages
@@ -62,29 +62,34 @@
       - zip
     state: present
 
-- name: Install download utils
+- name: Install network utils
   community.general.pacman:
     name:
       - curl
       - wget
+      - net-tools
+      - gping
     state: present
 
-- name: Install python
+- name: Install python packages
   community.general.pacman:
     name:
       - pyenv
       - python
       - python-pipx
+      - uv
     state: present
 
-- name: Install DEV apps
+- name: Install TUIs
   community.general.pacman:
     name:
-      - alacritty
       - kitty
-      - meld
+      - ghostty
+      - btop # TESTING
+      - lazygit
       - neovim
       - python-pynvim
+      - yazi
     state: present
 
 - name: Install CLI tools
@@ -92,20 +97,27 @@
     name:
       - bash
       - bat
-      - btop
       - ctags
+      - difftastic
       - duf
       - dust
       - eza
       - fd
       - fzf
       - git-delta
-      - gping
+      - github-cli
+      - hyperfine
+      - jq
+      - procs
       - ripgrep
+      - ripgrep-all
+      - rsync
       - starship
       - stow
-      - sxiv
       - tealdeer
+      - tokei
+      - words
+      - yank
       - zoxide
       - zsh
       - zsh-autosuggestions
@@ -120,7 +132,6 @@
       - ttf-firacode-nerd
       - ttf-hack-nerd
       - ttf-iosevka-nerd
-      - ttf-monaspace-variable
     state: present
 
 - name: Install Server Packages

@@ -3,13 +3,11 @@
 # - organize global variables
 # - battery config for the laptop
 # - hyperland
-# - backup with btrfs
 # - docker setup
 # - pihole
 # - synchthing
 # - mega cloud
 # - other service: nextcloud, plex etc
-# - update yay, delete caches etc
 
 - import_tasks: pacman-update.yml
 

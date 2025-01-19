@@ -51,6 +51,11 @@
   become_user: "{{ username }}"
   loop:
     - activitywatch-bin
+    - bsp-layout
+    - megasync-bin
     - newsraft
-    - typespeed
+    # - picom-jonaburg-git
+    # - python-pdbp # install which pipx?
+    # - typespeed
   when: "'desktops' in group_names"
+
