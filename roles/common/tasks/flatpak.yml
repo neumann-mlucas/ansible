@@ -20,7 +20,7 @@
     state: present
   loop:
     # essentials
-    # - org.mozilla.firefox
+    - org.mozilla.firefox
     - com.github.johnfactotum.Foliate
     - com.transmissionbt.Transmission
     - org.videolan.VLC

@@ -50,9 +50,9 @@
   become: yes
   become_user: "{{ username }}"
   loop:
-    - activitywatch-bin
+    # - activitywatch-bin
     # - bsp-layout
-    - megasync-bin
+    # - megasync-bin
     - newsraft
     # - picom-jonaburg-git
     # - python-pdbp # install which pipx?

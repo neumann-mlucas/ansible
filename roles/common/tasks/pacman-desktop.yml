@@ -1,37 +1,36 @@
-# TODO: MOVE TO WAYLAND
-- name: Install XORG BSPWM desktop environment
+- name: Install desktop environment
   community.general.pacman:
     name:
-      - bspwm
-      - clipmenu
-      - dmenu
-      - feh
-      - polybar
-      - redshift
-      - rofi
-      - rofi-calc
-      - sxhkd
-      - unclutter
+      - wayland
+      - gnome
+      - hyprland
     state: present
 
-# TODO: MOVE TO FLATPAK
-- name: Install GUI apps
+- name: Install audio with pipewire
   community.general.pacman:
     name:
-      - arandr # XORG
+      - pipewire-audio
+      - pipewire-alsa
+      - pipewire-pulse
+      - pipewire-jack
+      - pipewire-docs
+    state: present
+
+- name: Install pdf reader
+  community.general.pacman:
+    name:
       - zathura
       - zathura-djvu
       - zathura-pdf-mupdf
     state: present
 
-  # CHECK IF NEEDED
 - name: Install more CLI tools
   community.general.pacman:
     name:
       - dictd
-      - dict-wn
+      # - dict-wn
       - flite
-      - imagemagick
+      # - imagemagick
       - mplayer
       - mpv
       - scrot
@@ -46,25 +45,6 @@
       - tlp
     state: present
 
-# CHECK IF MASON CAN DO THAT
-# - name: Install programming languages, runtimes and LSPs
-#   community.general.pacman:
-#     name:
-#       - clang
-#       - codespell
-#       - ghc
-#       - go
-#       - go-tools
-#       - julia
-#       - ruff
-#       - ruff-lsp
-#       - rust
-#       - sqlfluff
-#       - stylua
-#       - vale
-#     state: present
-
-# try to move all python stuff to here
 - name: Install python package using pipx
   ansible.builtin.shell:
     cmd: pipx install {{ item }}
@@ -72,8 +52,6 @@
   become_user: "{{ ansible_user_id }}"
   loop:
     - git-sim
-    - isort
-    - mypy
     - radon
     - visidata
     - yt-dlp

@@ -54,6 +54,15 @@
 - name: Start zram
   ansible.builtin.command: systemctl start /dev/zram0
 
+- name: Create keyd dir
+  ansible.builtin.file:
+    path: /etc/keyd
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: yes
+
 - name: Set keyd config
   ansible.builtin.copy:
     dest: /etc/keyd/default.conf
