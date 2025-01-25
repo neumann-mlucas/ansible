@@ -15,19 +15,22 @@
   with_items:
     - { regexp: "^#Color$", replace: "Color" }
     - { regexp: "^#VerbosePkgLists$", replace: "VerbosePkgLists" }
-    - { regexp: "^#ParallelDownloads = 5$", replace: "ParallelDownloads = 5" }
+    - { regexp: "^#ParallelDownloads = 5$", replace: "ParallelDownloads = 20" }
 
 - name: Change jorunald max log size
   ansible.builtin.replace:
     path: /etc/systemd/journald.conf
     regexp: "^#SystemMaxUse=$"
-    replace: "SystemMaxUse=100M"
+    replace: "SystemMaxUse=256M"
 
 - name: Set vm.swappiness to 1
   ansible.builtin.copy:
     dest: /etc/sysctl.d/10-swappiness.conf
     content: |
-      vm.swappiness=1
+      vm.swappiness = 180
+      vm.watermark_boost_factor = 0
+      vm.watermark_scale_factor = 125
+      vm.page-cluster = 0
     owner: root
     group: root
     mode: "0644"

@@ -33,8 +33,9 @@
     # - org.mozilla.Thunderbird
     # - us.zoom.Zoom
     # # dev
-    # - org.gnome.meld
     # - io.dbeaver.DBeaverCommunity
+    # - io.missioncenter.MissionCenter
+    # - org.gnome.meld
     # - org.kiwix.desktop
     # - org.zealdocs.Zeal
     # # utils

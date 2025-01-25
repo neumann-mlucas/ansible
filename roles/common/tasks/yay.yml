@@ -36,11 +36,11 @@
     - choose-rust-git
     - erdtree-bin
     - fast
-    - fzf-tab-source
-    - hadolint-bin
+    # - fzf-tab-source
+    # - hadolint-bin
     - keyd
     - lazydocker-bin
-    - nnn-nerd
+    # - nnn-nerd
     - viddy-bin
   when: first_install | bool
 
@@ -51,7 +51,7 @@
   become_user: "{{ username }}"
   loop:
     - activitywatch-bin
-    - bsp-layout
+    # - bsp-layout
     - megasync-bin
     - newsraft
     # - picom-jonaburg-git
