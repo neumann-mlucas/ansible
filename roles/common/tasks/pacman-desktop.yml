@@ -4,6 +4,11 @@
       - wayland
       - gnome
       - hyprland
+      - cliphist
+      - hyprpaper
+      - hyprsunset
+      - wofi
+      - wofibar
     state: present
 
 - name: Install audio with pipewire
