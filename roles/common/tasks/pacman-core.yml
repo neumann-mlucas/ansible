@@ -66,18 +66,26 @@
   community.general.pacman:
     name:
       - curl
-      - wget
-      - net-tools
       - gping
+      - iputils
+      - net-tools
+      - wget
     state: present
 
-- name: Install python packages
+- name: Install python stuff
   community.general.pacman:
     name:
       - pyenv
       - python
       - python-pipx
       - uv
+    state: present
+
+- name: Install go stuff
+  community.general.pacman:
+    name:
+      - go
+      - go-tools
     state: present
 
 - name: Install TUIs
