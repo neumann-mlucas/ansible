@@ -14,11 +14,15 @@
 - name: Install audio with pipewire
   community.general.pacman:
     name:
-      - pipewire-audio
+      - alsa-firmware
+      - alsa-plugins
+      - alsa-tools
       - pipewire-alsa
-      - pipewire-pulse
+      - pipewire-audio
       - pipewire-jack
+      - pipewire-pulse
       - pipewire-docs
+      - sof-firmware
     state: present
 
 - name: Install pdf reader
