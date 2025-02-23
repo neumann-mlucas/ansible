@@ -1,12 +1,16 @@
 - name: Install desktop environment
   community.general.pacman:
     name:
-      - wayland
-      - gnome
-      - hyprland
+      - brightnessctl
       - cliphist
+      - gnome
+      - grim
+      - hyprland
       - hyprpaper
       - hyprsunset
+      - mako
+      - slurp
+      - wayland
       - wofi
       - wofibar
     state: present
