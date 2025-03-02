@@ -149,7 +149,7 @@
     name:
       - jellyfin-server
       - jellyfin-web
-      - pi-hole-ftl
-      - pi-hole-server
+      # - pi-hole-ftl
+      # - pi-hole-server
     state: present
   when: "'servers' in group_names"
