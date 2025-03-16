@@ -38,4 +38,3 @@
     - keyd
     - lazydocker-bin
     - viddy-bin
-  when: first_install | bool

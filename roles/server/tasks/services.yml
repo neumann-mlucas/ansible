@@ -6,5 +6,5 @@
     masked: no
   loop:
     - jellyfin.service
-    - pi-hole-gravity.service
-    - pihole-FTL.service
+    # - pi-hole-gravity.service
+    # - pihole-FTL.service

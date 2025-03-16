@@ -5,13 +5,15 @@
 #
 - name: Set system setting
   import_tasks: system.yml
-  when: first_install | bool
 #
 - import_tasks: dotfiles.yml
 #
 - name: Set network and firewall settings
   import_tasks: network.yml
-  when: first_install | bool
 #
 - name: Enable several services
   import_tasks: services.yml
+
+#
+# - name: Misc shell setups
+#   import_tasks: misc.yml
