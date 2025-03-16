@@ -3,9 +3,10 @@
     cmd: pipx upgrade-all
   become: no
   become_user: "{{ ansible_user_id }}"
+
 #
-- name: Clean pip cache
-  ansible.builtin.shell:
-    cmd: pip cache purge
-  become: no
-  become_user: "{{ ansible_user_id }}"
+# - name: Clean pip cache
+#   ansible.builtin.shell:
+#     cmd: pip cache purge
+#   become: no
+#   become_user: "{{ ansible_user_id }}"
