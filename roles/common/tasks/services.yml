@@ -16,7 +16,7 @@
     - thermald.service
     - udisks2.service
     - ufw.service
-
+#
 - name: Enable desktop services
   ansible.builtin.systemd_service:
     name: "{{ item }}"
@@ -26,7 +26,7 @@
   loop:
     - gdm.service
   when: "'desktop' in group_names"
-
+#
 - name: Enable homeserver services
   ansible.builtin.systemd_service:
     name: "{{ item }}"
@@ -38,4 +38,3 @@
     - pi-hole-gravity.service
     - pihole-FTL.service
   when: "'servers' in group_names"
-

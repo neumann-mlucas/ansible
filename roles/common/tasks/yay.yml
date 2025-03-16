@@ -4,7 +4,7 @@
   ignore_errors: yes
   become: yes
   become_user: "{{ username }}"
-
+#
 - name: Clone yay repository
   ansible.builtin.git:
     repo: "https://aur.archlinux.org/yay.git"
@@ -12,7 +12,7 @@
   become: yes
   become_user: "{{ username }}"
   when: yay_installed is failed
-
+#
 - name: Build and install yay
   ansible.builtin.shell:
     cmd: makepkg -si --noconfirm
@@ -20,13 +20,13 @@
   become: yes
   become_user: "{{ username }}"
   when: yay_installed is failed
-
+#
 - name: Refresh AUR index
   ansible.builtin.shell:
     cmd: yay -Syy --noconfirm
   become: yes
   become_user: "{{ username }}"
-
+#
 - name: Install AUR package using yay
   ansible.builtin.shell:
     cmd: yay -S --sudoloop --noconfirm --needed {{ item }}
@@ -37,13 +37,11 @@
     - erdtree-bin
     - fast
     # - fzf-tab-source
-    # - hadolint-bin
     - keyd
     - lazydocker-bin
-    # - nnn-nerd
     - viddy-bin
   when: first_install | bool
-
+#
 - name: Install Desktop AUR package using yay
   ansible.builtin.shell:
     cmd: yay -S --sudoloop --noconfirm {{ item }}
@@ -58,4 +56,3 @@
     # - python-pdbp # install which pipx?
     # - typespeed
   when: "'desktops' in group_names"
-

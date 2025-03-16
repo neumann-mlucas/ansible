@@ -1,3 +1,4 @@
+#
 - name: Install desktop environment
   community.general.pacman:
     name:
@@ -12,9 +13,9 @@
       - slurp
       - wayland
       - wofi
-      - wofibar
+      - waybar
     state: present
-
+#
 - name: Install audio with pipewire
   community.general.pacman:
     name:
@@ -28,7 +29,7 @@
       - pipewire-docs
       - sof-firmware
     state: present
-
+#
 - name: Install pdf reader
   community.general.pacman:
     name:
@@ -36,7 +37,7 @@
       - zathura-djvu
       - zathura-pdf-mupdf
     state: present
-
+#
 - name: Install more CLI tools
   community.general.pacman:
     name:
@@ -50,14 +51,13 @@
       - surfraw
       - taskd
     state: present
-
-# MORE NOTEBOOK STUFF
+#
 - name: Install Notebook Stuff
   community.general.pacman:
     name:
       - tlp
     state: present
-
+#
 - name: Install python package using pipx
   ansible.builtin.shell:
     cmd: pipx install {{ item }}
@@ -68,15 +68,17 @@
     - radon
     - visidata
     - yt-dlp
-
+#
 - name: Upgrade python packages using pipx
   ansible.builtin.shell:
     cmd: pipx upgrade-all
   become: no
   become_user: "{{ ansible_user_id }}"
-
+#
 - name: Clean pip cache
   ansible.builtin.shell:
     cmd: pip cache purge
   become: no
   become_user: "{{ ansible_user_id }}"
+
+#
