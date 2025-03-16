@@ -1,0 +1,5 @@
+- hosts: desktops
+  become: true
+  roles:
+    - common
+    - desktop

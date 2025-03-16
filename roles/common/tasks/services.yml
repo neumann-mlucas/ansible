@@ -6,6 +6,7 @@
     masked: no
   loop:
     - NetworkManager.service
+    - docker.service
     - fail2ban.service
     - fstrim.timer
     - fwupd.service
@@ -16,25 +17,3 @@
     - thermald.service
     - udisks2.service
     - ufw.service
-#
-- name: Enable desktop services
-  ansible.builtin.systemd_service:
-    name: "{{ item }}"
-    enabled: true
-    state: restarted
-    masked: no
-  loop:
-    - gdm.service
-  when: "'desktop' in group_names"
-#
-- name: Enable homeserver services
-  ansible.builtin.systemd_service:
-    name: "{{ item }}"
-    enabled: true
-    state: restarted
-    masked: no
-  loop:
-    - jellyfin.service
-    - pi-hole-gravity.service
-    - pihole-FTL.service
-  when: "'servers' in group_names"

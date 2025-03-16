@@ -1,0 +1,15 @@
+- name: Install desktops packages
+  import_tasks: pacman.yml
+#
+- name: Install AUR packages
+- import_tasks: yay.yml
+#
+- name: Install flatpak packages
+- import_tasks: flatpak.yml
+#
+- name: Enable desktop services
+  import_tasks: services.yml
+#
+- name: Reboot the system
+  ansible.builtin.reboot:
+    reboot_timeout: 10
