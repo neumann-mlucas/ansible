@@ -1,30 +1,29 @@
 - name: Install Flatpak
   community.general.pacman:
-    name:
-      - flatpak
+    name: [flatpak]
     state: present
-
+#
 - name: Ensure Flatpak is installed
   ansible.builtin.package:
     name: flatpak
     state: present
-
+#
 - name: Add the Flathub repository
   ansible.builtin.command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   args:
     creates: /var/lib/flatpak/repo/flathub
-
+#
 - name: Install the desired Flatpak desktop apps
   flatpak:
-    name: "{{ item }}"
+    name: '{{ item }}'
     state: present
   loop:
-    # essentials
+    # # ESSENTIALS
     - org.mozilla.firefox
     - com.github.johnfactotum.Foliate
     - com.transmissionbt.Transmission
     - org.videolan.VLC
-    # # basic desktop apps
+    # # BASIC DESKTOP APPS
     # - com.spotify.Client
     # - md.obsidian.Obsidian
     # - net.ankiweb.Anki
@@ -32,25 +31,25 @@
     # - org.libreoffice.LibreOffice
     # - org.mozilla.Thunderbird
     # - us.zoom.Zoom
-    # # dev
+    # # DEV APPS
     # - io.dbeaver.DBeaverCommunity
     # - io.missioncenter.MissionCenter
-    # - org.gnome.meld
-    # - org.kiwix.desktop
-    # - org.zealdocs.Zeal
-    # # utils
+    - org.gnome.meld
+    - org.kiwix.desktop
+    - org.zealdocs.Zeal
+    # # FILE UTILS
     # - com.github.muriloventuroso.pdftricks
     # - com.github.tenderowl.frog
     # - net.mkiol.SpeechNote
     # - net.puddletag
     # - org.upscayl.Upscayl
     # - site.someones.Lonewolf
-    # # games
+    # # GAMES
     # - com.valvesoftware.Steam
     # - org.DolphinEmu.dolphin-emu
     # - org.citra_emu.citra
   when: "'desktop' in group_names"
-
+#
 - name: Update all Flatpak applications
   ansible.builtin.command: flatpak update -y
-  become: yes
+  become: true

@@ -16,7 +16,7 @@
       - intel-ucode
       - udisks2
     state: present
-
+#
 - name: Install system services
   community.general.pacman:
     name:
@@ -29,7 +29,7 @@
       - thermald
       - ufw
     state: present
-
+#
 - name: Install GNU packages
   community.general.pacman:
     name:
@@ -47,7 +47,7 @@
       - tree
       - which
     state: present
-
+#
 - name: Install archival utils
   community.general.pacman:
     name:
@@ -61,33 +61,35 @@
       - xz
       - zip
     state: present
-
+#
 - name: Install network utils
   community.general.pacman:
     name:
       - curl
+      - curlie
       - gping
       - iputils
       - net-tools
       - wget
     state: present
-
+#
 - name: Install python stuff
   community.general.pacman:
     name:
       - pyenv
       - python
+      - python-pip
       - python-pipx
       - uv
     state: present
-
+#
 - name: Install go stuff
   community.general.pacman:
     name:
       - go
       - go-tools
     state: present
-
+#
 - name: Install TUIs
   community.general.pacman:
     name:
@@ -99,7 +101,7 @@
       - python-pynvim
       - yazi
     state: present
-
+#
 - name: Install CLI tools
   community.general.pacman:
     name:
@@ -134,7 +136,6 @@
       - zsh-history-substring-search
       - zsh-syntax-highlighting
     state: present
-
 - name: Install Fonts
   community.general.pacman:
     name:
@@ -143,7 +144,6 @@
       - ttf-hack-nerd
       - ttf-iosevka-nerd
     state: present
-
 - name: Install Server Packages
   community.general.pacman:
     name:

@@ -1,20 +1,20 @@
 - name: Clone user dotfiles
   git: repo={{ dotfiles.url }} dest=/home/{{ username }}/{{ dotfiles.destination }} accept_hostkey=yes update=true
-  become: yes
-  become_user: "{{ username }}"
-
+  become: true
+  become_user: '{{ username }}'
+#
 - name: Check bashrc stat
   ansible.builtin.stat:
-    path: "/home/{{ username }}/.bashrc"
+    path: /home/{{ username }}/.bashrc
   register: file_stat
-
+#
 - name: Delete bashrc so stow does not fail
   ansible.builtin.file:
-    path: "/home/{{ username }}/.bashrc"
+    path: /home/{{ username }}/.bashrc
     state: absent
   when: not file_stat.stat.islnk
-
+#
 - name: Stow dotfiles
   ansible.builtin.command: stow -R --no-folding --dotfiles -t ~ -d /home/{{ username }}/{{ dotfiles.destination }} .
-  become: yes
-  become_user: "{{ username }}"
+  become: true
+  become_user: '{{ username }}'

@@ -7,56 +7,56 @@
       Port 3141
     owner: root
     group: root
-    mode: "0644"
-  become: yes
-
+    mode: '0644'
+  become: true
+#
 - name: UFW set default outgoing policy to allow
   community.general.ufw:
     direction: outgoing
     policy: allow
-
+#
 - name: UFW set default incoming policy to deny
   community.general.ufw:
     direction: incoming
     policy: deny
-
+#
 - name: UFW allow HTTPS traffic
   community.general.ufw:
     rule: allow
-    port: "443"
+    port: '443'
     proto: tcp
-
+#
 - name: UFW allow HTTP traffic
   community.general.ufw:
     rule: allow
-    port: "80"
+    port: '80'
     proto: tcp
-
+#
 - name: UFW allow all access from local network
   community.general.ufw:
     rule: allow
-    src: "192.168.0.0/24"
-
+    src: 192.168.0.0/24
+#
 - name: UFW enable SSH traffic on port 3141
   community.general.ufw:
     rule: allow
-    port: "3141"
+    port: '3141'
     proto: tcp
-
+#
 - name: UFW enable Syncthing port
   community.general.ufw:
     rule: allow
-    port: "22000"
+    port: '22000'
     proto: tcp
-
+#
 - name: Enable UFW
   community.general.ufw:
     state: enabled
-
+#
 - name: Enable logging in UFW
   community.general.ufw:
-    logging: on
-
+    logging: true
+#
 - name: Create fail2ban config
   ansible.builtin.copy:
     dest: /etc/fail2ban/jail.conf
@@ -66,10 +66,9 @@
       bantime = 3600
       findtime = 600
       maxretry = 5
-
       [sshd]
       enabled = true
     owner: root
     group: root
-    mode: "0644"
-  become: yes
+    mode: '0644'
+  become: true
