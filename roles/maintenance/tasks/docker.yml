@@ -1,2 +1,2 @@
 - name: Clean dangling docker images
-  ansible.builtin.command: docker image prune
+  ansible.builtin.command: docker image prune --force
