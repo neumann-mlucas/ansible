@@ -28,7 +28,7 @@ $ fdisk -l
 
 - create a partition
 ```sh
-$ cfdisk /dev/nvme_drive
+$ cfdisk /dev/sdX
 #    label  GPT
 #     1 Gb  FAT # efi_partition
 #   XXX Gb ext4 # root_partition
@@ -36,7 +36,7 @@ $ cfdisk /dev/nvme_drive
 
 - format partitions and mount
 ```sh
-$ mkds.ext4 /dev/root_partition
+$ mkfs.ext4 /dev/root_partition
 $ mkfs.fat -F 32 /dev/efi_partition
 
 $ mount /dev/root_partition /mnt
@@ -99,7 +99,7 @@ $ EDITOR=nvim visudo
 $ pacaman -S man man-db texinfo git
 
 $ pacman -S networkmanager
-$ systemctl enable NetworkManager
+$ systemctl enable NetworkManager.service
 
 $ pacman -S reflector
 $ systemctl enable reflector.service
