@@ -53,12 +53,12 @@
     name:
       - tlp
     state: present
-# should be in a different file
+#
 - name: Install python package using pipx
   ansible.builtin.shell:
     cmd: pipx install {{ item }}
-  become: no
-  become_user: "{{ ansible_user_id }}"
+  become: yes
+  become_user: "{{ username }}"
   loop:
     - git-sim
     - radon

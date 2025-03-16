@@ -7,4 +7,3 @@
 - name: Reboot the system
   ansible.builtin.reboot:
     reboot_timeout: 10
-  when: first_install | bool
