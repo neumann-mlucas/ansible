@@ -1,0 +1,10 @@
+- name: Enable server systemd services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    enabled: true
+    state: restarted
+    masked: no
+  loop:
+    - jellyfin.service
+    - pi-hole-gravity.service
+    - pihole-FTL.service

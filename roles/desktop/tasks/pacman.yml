@@ -1,3 +1,16 @@
+- name: Install audio with pipewire
+  community.general.pacman:
+    name:
+      - alsa-firmware
+      - alsa-plugins
+      - alsa-tools
+      - pipewire-alsa
+      - pipewire-audio
+      - pipewire-jack
+      - pipewire-pulse
+      - pipewire-docs
+      - sof-firmware
+    state: present
 #
 - name: Install desktop environment
   community.general.pacman:
@@ -16,21 +29,7 @@
       - waybar
     state: present
 #
-- name: Install audio with pipewire
-  community.general.pacman:
-    name:
-      - alsa-firmware
-      - alsa-plugins
-      - alsa-tools
-      - pipewire-alsa
-      - pipewire-audio
-      - pipewire-jack
-      - pipewire-pulse
-      - pipewire-docs
-      - sof-firmware
-    state: present
-#
-- name: Install pdf reader
+- name: Install pdf readers
   community.general.pacman:
     name:
       - zathura
@@ -42,22 +41,19 @@
   community.general.pacman:
     name:
       - dictd
-      # - dict-wn
       - flite
-      # - imagemagick
       - mplayer
       - mpv
-      - scrot
       - surfraw
       - taskd
     state: present
 #
-- name: Install Notebook Stuff
+- name: Install notebook stuff
   community.general.pacman:
     name:
       - tlp
     state: present
-#
+# should be in a different file
 - name: Install python package using pipx
   ansible.builtin.shell:
     cmd: pipx install {{ item }}
@@ -68,17 +64,3 @@
     - radon
     - visidata
     - yt-dlp
-#
-- name: Upgrade python packages using pipx
-  ansible.builtin.shell:
-    cmd: pipx upgrade-all
-  become: no
-  become_user: "{{ ansible_user_id }}"
-#
-- name: Clean pip cache
-  ansible.builtin.shell:
-    cmd: pip cache purge
-  become: no
-  become_user: "{{ ansible_user_id }}"
-
-#

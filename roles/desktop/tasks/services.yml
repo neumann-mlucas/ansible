@@ -1,0 +1,9 @@
+- name: Enable desktop services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    enabled: true
+    state: restarted
+    masked: no
+  loop:
+    - gdm.service
+    - tlp.service

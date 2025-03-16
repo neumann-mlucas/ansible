@@ -1,4 +1,5 @@
-- hosts: desktops:servers
+- hosts: servers
   become: true
   roles:
     - common
+    - server

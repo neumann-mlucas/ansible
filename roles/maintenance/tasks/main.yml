@@ -1,0 +1,5 @@
+- import_tasks: pacman.yml
+- import_tasks: yay.yml
+- import_tasks: docker.yml
+- import_tasks: flatpak.yml
+- import_tasks: pip.yml

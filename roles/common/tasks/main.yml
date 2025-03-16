@@ -1,31 +1,17 @@
-- import_tasks: pacman-update.yml
+- name: Install core packages
+  import_tasks: pacman.yml
 #
-- name: Run pacman install only on first install
-  import_tasks: pacman-core.yml
-  when: first_install | bool
+- import_tasks: yay.yml
 #
-- name: Use pacman to install desktops apps
-  import_tasks: pacman-desktop.yml
-  when: "'desktops' in group_names"
-#
-- name: Set some system setting - first install only
-  import_tasks: system-settings.yml
+- name: Set system setting
+  import_tasks: system.yml
   when: first_install | bool
 #
 - import_tasks: dotfiles.yml
 #
-- import_tasks: flatpak.yml
-#
-- import_tasks: yay.yml
-#
-- name: Set network and firewall setting
+- name: Set network and firewall settings
   import_tasks: network.yml
   when: first_install | bool
 #
 - name: Enable several services
   import_tasks: services.yml
-#
-- name: Reboot the system
-  ansible.builtin.reboot:
-    reboot_timeout: 10
-  when: first_install | bool

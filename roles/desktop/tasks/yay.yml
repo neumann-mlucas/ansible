@@ -1,0 +1,11 @@
+- name: Install desktop AUR packages using yay
+  ansible.builtin.shell:
+    cmd: yay -S --sudoloop --noconfirm {{ item }}
+  become: yes
+  become_user: "{{ username }}"
+  loop:
+    - activitywatch-bin
+    - dict-wn
+    - newsraft
+    # - megasync-bin
+    # - typespeed

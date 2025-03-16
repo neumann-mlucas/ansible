@@ -1,0 +1,10 @@
+- name: Install server packages
+  import_tasks: pacman.yml
+#
+- name: Enable server services
+  import_tasks: services.yml
+#
+- name: Reboot the system
+  ansible.builtin.reboot:
+    reboot_timeout: 10
+  when: first_install | bool

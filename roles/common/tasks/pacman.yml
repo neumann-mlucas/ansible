@@ -48,6 +48,17 @@
       - which
     state: present
 #
+- name: Install containerization related software
+  community.general.pacman:
+    name:
+      - docker
+      - docker-buildx
+      - docker-compose
+      - kubectl
+      - kubectx
+      - k9s
+    state: present
+#
 - name: Install archival utils
   community.general.pacman:
     name:
@@ -136,6 +147,7 @@
       - zsh-history-substring-search
       - zsh-syntax-highlighting
     state: present
+#
 - name: Install Fonts
   community.general.pacman:
     name:
@@ -144,12 +156,3 @@
       - ttf-hack-nerd
       - ttf-iosevka-nerd
     state: present
-- name: Install Server Packages
-  community.general.pacman:
-    name:
-      - jellyfin-server
-      - jellyfin-web
-      # - pi-hole-ftl
-      # - pi-hole-server
-    state: present
-  when: "'servers' in group_names"

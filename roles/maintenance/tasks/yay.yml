@@ -1,0 +1,3 @@
+- name: Clean yay cache
+  ansible.builtin.command: yay -Sc --noconfirm
+  become: yes

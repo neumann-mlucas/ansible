@@ -1,0 +1,4 @@
+- hosts: desktops:servers
+  become: true
+  roles:
+    - maintenance

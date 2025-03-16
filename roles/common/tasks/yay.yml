@@ -35,24 +35,7 @@
   loop:
     - choose-rust-git
     - erdtree-bin
-    - fast
-    # - fzf-tab-source
     - keyd
     - lazydocker-bin
     - viddy-bin
   when: first_install | bool
-#
-- name: Install Desktop AUR package using yay
-  ansible.builtin.shell:
-    cmd: yay -S --sudoloop --noconfirm {{ item }}
-  become: yes
-  become_user: "{{ username }}"
-  loop:
-    # - activitywatch-bin
-    # - bsp-layout
-    # - megasync-bin
-    - newsraft
-    # - picom-jonaburg-git
-    # - python-pdbp # install which pipx?
-    # - typespeed
-  when: "'desktops' in group_names"
