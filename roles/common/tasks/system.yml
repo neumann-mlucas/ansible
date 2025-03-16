@@ -4,6 +4,19 @@
     name: "{{ username }}"
     shell: /usr/bin/zsh
 #
+- name: Create docker group
+  become: yes
+  group:
+    name: docker
+    state: present
+#
+- name: Add user to docker group
+  become: yes
+  user:
+    name: "{{ username }}"
+    groups: docker
+    append: yes
+#
 - name: Regenerate grub config
   ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
 #
@@ -23,7 +36,7 @@
     regexp: "^#SystemMaxUse=$"
     replace: "SystemMaxUse=256M"
 #
-- name: Set vm.swappiness to 1
+- name: Optimize vm.swappiness
   ansible.builtin.copy:
     dest: /etc/sysctl.d/10-swappiness.conf
     content: |
@@ -31,6 +44,18 @@
       vm.watermark_boost_factor = 0
       vm.watermark_scale_factor = 125
       vm.page-cluster = 0
+    owner: root
+    group: root
+    mode: "0644"
+  become: yes
+#
+- name: Set ip forwarding setting (docker needs this)
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/20-ipfowarding.conf
+    content: |
+      net.ipv4.ip_forward = 1
+      net.ipv4.conf.all.forwarding = 1
+      net.ipv6.conf.all.forwarding = 1
     owner: root
     group: root
     mode: "0644"
