@@ -6,13 +6,24 @@
 - name: Check bashrc stat
   ansible.builtin.stat:
     path: /home/{{ username }}/.bashrc
-  register: file_stat
+  register: file_stat_bashrc
 #
 - name: Delete bashrc so stow does not fail
   ansible.builtin.file:
     path: /home/{{ username }}/.bashrc
     state: absent
-  when: not file_stat.stat.islnk
+  when: not file_stat_bashrc.stat.islnk
+#
+- name: Check hyprland.config stat
+  ansible.builtin.stat:
+    path: /home/{{ username }}/.config/hypr/hyprland.conf
+  register: file_stat_hypr
+#
+- name: Delete bashrc so stow does not fail
+  ansible.builtin.file:
+    path: /home/{{ username }}/.config/hypr/hyprland.conf
+    state: absent
+  when: not file_stat_hypr.stat.islnk
 #
 - name: Stow dotfiles
   ansible.builtin.command: stow -R --no-folding --dotfiles -t ~ -d /home/{{ username }}/{{ dotfiles.destination }} .
