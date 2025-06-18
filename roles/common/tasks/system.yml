@@ -34,7 +34,7 @@
   ansible.builtin.replace:
     path: /etc/systemd/journald.conf
     regexp: "^#SystemMaxUse=$"
-    replace: "SystemMaxUse=256M"
+    replace: "SystemMaxUse=512M"
 #
 - name: Optimize vm.swappiness
   ansible.builtin.copy:
