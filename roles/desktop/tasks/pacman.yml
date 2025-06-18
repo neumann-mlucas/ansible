@@ -27,6 +27,9 @@
       - wayland
       - wofi
       - waybar
+      - xdg-desktop-portal
+      - xdg-desktop-portal-gtk
+      - xdg-desktop-portal-hyprland
     state: present
 #
 - name: Install pdf readers
