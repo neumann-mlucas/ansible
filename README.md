@@ -115,7 +115,8 @@ $ nvim /etc/hosts
 # 127.0.1.1        HOSTNAME
 ```
 
-- test
+
+- test inintramfs
 ```sh
 mkinitcpio -P
 ```
@@ -133,7 +134,7 @@ $ EDITOR=nvim visudo
 
 - enable services and download basic stuff
 ```sh
-$ pacaman -S man man-db texinfo git
+$ pacman -S man man-db texinfo git
 
 $ pacman -S networkmanager
 $ systemctl enable NetworkManager.service
@@ -144,7 +145,7 @@ $ reflector -c 'Brazil' -f 12 -l 10 -n 12 --save /etc/pacman.d/mirrorlist
 
 $ pacman pipewire-audio pipewire-docs pipewire-alsa pipewire-jack pipewire-pulse
 
-$ pacman -S wayland xorg gnome hyprland
+$ pacman -S wayland gnome hyprland # or: $ pacman -S wayland gdm hyprland
 $ systemctl enable gdm.service
 ```
 
@@ -163,9 +164,38 @@ umount -R /mnt
 reboot
 ```
 
+
 ### AFTER REBOOT
 
 - clone this repository and run one of the playbooks
+
+```bash
+git clone https://github.com/neumann-mlucas/ansiable
+cd ansiable
+# change hosts to only localhost
+sudo ansiable-playbook -i inventories/hosts roles/desktop.yml
+```
+
 - set a static IP address
+
+> TODO
+
+
 - set ssh keys
+
+> TODO
+
+
 - set syncthing folder
+
+> TODO
+
+
+- run fwup
+
+```bash
+fwupdmgr get-devices
+fwupdmgr refresh
+fwupdmgr get-updates
+fwupdmgr update
+```
