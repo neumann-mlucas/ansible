@@ -3,3 +3,4 @@
 - import_tasks: docker.yml
 - import_tasks: flatpak.yml
 - import_tasks: pip.yml
+- import_tasks: misc.yml

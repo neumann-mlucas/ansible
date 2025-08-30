@@ -1,0 +1,5 @@
+- name: Clean go cache
+  ansible.builtin.shell:
+    cmd: go clean -cache
+  become: yes
+  become_user: "{{ ansible_user_id }}"
