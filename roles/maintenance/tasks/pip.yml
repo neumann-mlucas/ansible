@@ -1,9 +1,3 @@
-- name: Upgrade pipx python packages
-  ansible.builtin.shell:
-    cmd: pipx upgrade-all
-  become: no
-  become_user: "{{ ansible_user_id }}"
-#
 - name: Clean pip cache
   ansible.builtin.shell:
     cmd: pip cache purge

@@ -90,7 +90,6 @@
       - pyenv
       - python
       - python-pip
-      - python-pipx
       - uv
     state: present
 #
