@@ -30,7 +30,7 @@
     - {regexp: "^#VerbosePkgLists$", replace: "VerbosePkgLists"}
     - {regexp: "^#ParallelDownloads = 5$", replace: "ParallelDownloads = 20"}
 #
-- name: Change jorunald max log size
+- name: Change journald max log size
   ansible.builtin.replace:
     path: /etc/systemd/journald.conf
     regexp: "^#SystemMaxUse=$"
@@ -51,7 +51,7 @@
 #
 - name: Set ip forwarding setting (docker needs this)
   ansible.builtin.copy:
-    dest: /etc/sysctl.d/20-ipfowarding.conf
+    dest: /etc/sysctl.d/20-ipforwarding.conf
     content: |
       net.ipv4.ip_forward = 1
       net.ipv4.conf.all.forwarding = 1
@@ -77,7 +77,7 @@
   ansible.builtin.command: systemctl daemon-reload
 #
 - name: Start zram
-  ansible.builtin.command: systemctl start /dev/zram0
+  ansible.builtin.command: systemctl start zram0
 #
 - name: Create keyd dir
   ansible.builtin.file:

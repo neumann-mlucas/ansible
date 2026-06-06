@@ -170,10 +170,10 @@ reboot
 - clone this repository and run one of the playbooks
 
 ```bash
-git clone https://github.com/neumann-mlucas/ansiable
-cd ansiable
+git clone https://github.com/neumann-mlucas/ansible
+cd ansible
 # change hosts to only localhost
-sudo ansiable-playbook -i inventories/hosts roles/desktop.yml
+sudo ansible-playbook -i inventories/hosts roles/desktop.yml
 ```
 
 - set a static IP address

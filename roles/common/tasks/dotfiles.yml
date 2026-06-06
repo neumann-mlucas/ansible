@@ -19,7 +19,7 @@
     path: /home/{{ username }}/.config/hypr/hyprland.conf
   register: file_stat_hypr
 #
-- name: Delete bashrc so stow does not fail
+- name: Delete hyprland.conf so stow does not fail
   ansible.builtin.file:
     path: /home/{{ username }}/.config/hypr/hyprland.conf
     state: absent
