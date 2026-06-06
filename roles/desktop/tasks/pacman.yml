@@ -44,9 +44,11 @@
   community.general.pacman:
     name:
       - dictd
+      - firefox
       - flite
       - mplayer
       - mpv
+      - npm
       - surfraw
       - task
     state: present
@@ -57,9 +59,9 @@
       - tlp
     state: present
 #
-- name: Install python package using pipx
+- name: Install python tools using uv
   ansible.builtin.shell:
-    cmd: pipx install {{ item }}
+    cmd: uv tool install {{ item }}
   become: yes
   become_user: "{{ username }}"
   loop:

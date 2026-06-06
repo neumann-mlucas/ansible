@@ -1,5 +1,5 @@
-- name: Upgrade pipx packages
+- name: Upgrade uv tools
   ansible.builtin.shell:
-    cmd: pipx upgrade-all
+    cmd: uv tool upgrade --all
   become: no
   become_user: "{{ ansible_user_id }}"
