@@ -1,0 +1,66 @@
+---
+# Pairs Syncthing between desktops and servers.
+# Requires syncthing to be running on all hosts.
+# Run: sudo ansible-playbook -i inventories/hosts roles/syncthing-pair.yml
+#
+# This is idempotent — safe to re-run. Devices/folders already configured
+# are skipped (ignore_errors handles "already exists" from the CLI).
+
+- name: Collect Syncthing device IDs from all hosts
+  hosts: desktops:servers
+  gather_facts: false
+  become: yes
+  become_user: "{{ username }}"
+  tasks:
+    - name: Get device ID
+      ansible.builtin.shell:
+        cmd: syncthing cli show system | python3 -c "import sys,json; print(json.load(sys.stdin)['myID'])"
+      register: device_id_raw
+      changed_when: false
+
+    - name: Store device ID as host fact
+      ansible.builtin.set_fact:
+        syncthing_device_id: "{{ device_id_raw.stdout | trim }}"
+
+- name: Configure Syncthing on all hosts
+  hosts: desktops:servers
+  gather_facts: false
+  become: yes
+  become_user: "{{ username }}"
+  vars:
+    folder_id: "shared-{{ username }}"
+  tasks:
+    - name: Add remote devices
+      ansible.builtin.command: >-
+        syncthing cli config devices add
+        --device-id {{ hostvars[item].syncthing_device_id }}
+        --name {{ item }}
+      loop: "{{ ansible_play_hosts | difference([inventory_hostname]) }}"
+      register: add_device_result
+      failed_when:
+        - add_device_result.rc != 0
+        - "'already' not in (add_device_result.stderr | lower)"
+      changed_when: add_device_result.rc == 0
+
+    - name: Add shared folder
+      ansible.builtin.command: >-
+        syncthing cli config folders add
+        --id {{ folder_id }}
+        --path {{ syncthing_share_path }}
+        --label Sync
+      register: add_folder_result
+      failed_when:
+        - add_folder_result.rc != 0
+        - "'already' not in (add_folder_result.stderr | lower)"
+      changed_when: add_folder_result.rc == 0
+
+    - name: Share folder with remote devices
+      ansible.builtin.command: >-
+        syncthing cli config folders {{ folder_id }} devices add
+        --device-id {{ hostvars[item].syncthing_device_id }}
+      loop: "{{ ansible_play_hosts | difference([inventory_hostname]) }}"
+      register: share_folder_result
+      failed_when:
+        - share_folder_result.rc != 0
+        - "'already' not in (share_folder_result.stderr | lower)"
+      changed_when: share_folder_result.rc == 0
