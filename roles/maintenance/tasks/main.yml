@@ -4,3 +4,4 @@
 - import_tasks: flatpak.yml
 - import_tasks: pip.yml
 - import_tasks: misc.yml
+- import_tasks: health.yml

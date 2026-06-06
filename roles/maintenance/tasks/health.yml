@@ -1,0 +1,20 @@
+- name: Check for failed systemd services
+  ansible.builtin.command: systemctl --failed --no-legend
+  register: failed_services
+  changed_when: false
+#
+- name: Report failed services
+  ansible.builtin.debug:
+    msg: "Failed services detected: {{ failed_services.stdout_lines }}"
+  when: failed_services.stdout | length > 0
+#
+- name: Check for critical journal errors since last boot
+  ansible.builtin.shell:
+    cmd: journalctl -p 3 -xb --no-pager -n 20
+  register: journal_errors
+  changed_when: false
+#
+- name: Report critical journal errors
+  ansible.builtin.debug:
+    msg: "{{ journal_errors.stdout_lines }}"
+  when: journal_errors.stdout | length > 0

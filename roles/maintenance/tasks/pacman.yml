@@ -1,5 +1,5 @@
 - name: Full system upgrade
-  pacman:
+  community.general.pacman:
     update_cache: yes
     upgrade: yes
 #
