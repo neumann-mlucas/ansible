@@ -1,0 +1,40 @@
+- name: Allow DNS traffic for pi-hole
+  community.general.ufw:
+    rule: allow
+    port: '53'
+    proto: "{{ item }}"
+  loop:
+    - tcp
+    - udp
+  become: yes
+#
+- name: Allow Jellyfin from local network
+  community.general.ufw:
+    rule: allow
+    port: '8096'
+    proto: tcp
+    src: "192.168.0.0/24"
+  become: yes
+#
+- name: Get active NetworkManager connection name for primary interface
+  ansible.builtin.shell:
+    cmd: nmcli -t -f NAME,DEVICE con show --active | grep ":{{ ansible_default_ipv4.interface }}$" | cut -d: -f1
+  register: nm_conn_name
+  changed_when: false
+  become: yes
+#
+- name: Set static IP via NetworkManager
+  community.general.nmcli:
+    conn_name: "{{ nm_conn_name.stdout | trim }}"
+    ifname: "{{ ansible_default_ipv4.interface }}"
+    type: ethernet
+    ip4: "{{ static_ip }}/{{ network_prefix }}"
+    gw4: "{{ network_gateway }}"
+    dns4:
+      - "127.0.0.1"
+      - "{{ network_gateway }}"
+    method4: manual
+    state: present
+    autoconnect: yes
+  become: yes
+  when: nm_conn_name.stdout | trim != ""

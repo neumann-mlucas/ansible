@@ -1,0 +1,8 @@
+- name: Create Jellyfin media directory
+  ansible.builtin.file:
+    path: "{{ jellyfin_media_path }}"
+    state: directory
+    owner: jellyfin
+    group: jellyfin
+    mode: "0755"
+  become: yes

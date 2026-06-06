@@ -3,6 +3,4 @@
     name:
       - jellyfin-server
       - jellyfin-web
-      # - pi-hole-ftl
-      # - pi-hole-server
     state: present

@@ -1,0 +1,8 @@
+- name: Install pi-hole via AUR
+  ansible.builtin.shell:
+    cmd: yay -S --sudoloop --noconfirm --needed {{ item }}
+  become: yes
+  become_user: "{{ username }}"
+  loop:
+    - pi-hole-server
+    - pi-hole-ftl
