@@ -1,6 +1,6 @@
 - name: Upgrade AUR packages
   ansible.builtin.shell:
-    cmd: yay -Syu --aur --noconfirm
+    cmd: yay -Syu --aur --sudoloop --noconfirm
   become: yes
   become_user: "{{ username }}"
 #
