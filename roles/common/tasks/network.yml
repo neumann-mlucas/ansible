@@ -59,7 +59,7 @@
 #
 - name: Create fail2ban config
   ansible.builtin.copy:
-    dest: /etc/fail2ban/jail.conf
+    dest: /etc/fail2ban/jail.local
     content: |
       [DEFAULT]
       ignoreip = 127.0.0.1/8 ::1
