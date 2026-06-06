@@ -1,0 +1,31 @@
+- name: Create keyd config directory
+  ansible.builtin.file:
+    path: /etc/keyd
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: yes
+#
+- name: Set keyd config
+  ansible.builtin.copy:
+    dest: /etc/keyd/default.conf
+    content: |
+      [ids]
+
+      *
+
+      [main]
+
+      capslock = overload(meta, esc)
+      insert = S-insert
+
+      [alt]
+      h = left
+      j = down
+      k = up
+      l = right
+    owner: root
+    group: root
+    mode: "0644"
+  become: yes

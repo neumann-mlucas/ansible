@@ -54,9 +54,6 @@
       - docker
       - docker-buildx
       - docker-compose
-      - kubectl
-      - kubectx
-      - k9s
     state: present
 #
 - name: Install archival utils
@@ -91,22 +88,12 @@
       - uv
     state: present
 #
-- name: Install go stuff
-  community.general.pacman:
-    name:
-      - go
-      - go-tools
-    state: present
-#
 - name: Install TUIs
   community.general.pacman:
     name:
       - bottom
-      - ghostty
-      - lazygit
       - neovim
       - python-pynvim
-      - yazi
     state: present
 #
 - name: Install CLI tools
@@ -144,13 +131,4 @@
       - zsh-autosuggestions
       - zsh-history-substring-search
       - zsh-syntax-highlighting
-    state: present
-#
-- name: Install Fonts
-  community.general.pacman:
-    name:
-      - ttf-fira-code
-      - ttf-firacode-nerd
-      - ttf-hack-nerd
-      - ttf-iosevka-nerd
     state: present

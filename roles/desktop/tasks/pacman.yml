@@ -40,17 +40,50 @@
       - zathura-pdf-mupdf
     state: present
 #
+- name: Install TUI tools
+  community.general.pacman:
+    name:
+      - ghostty
+      - lazygit
+      - yazi
+    state: present
+#
 - name: Install more CLI tools
   community.general.pacman:
     name:
       - dictd
       - firefox
       - flite
+      - keyd
       - mplayer
       - mpv
       - npm
       - surfraw
       - task
+    state: present
+#
+- name: Install go toolchain
+  community.general.pacman:
+    name:
+      - go
+      - go-tools
+    state: present
+#
+- name: Install kubernetes tools
+  community.general.pacman:
+    name:
+      - k9s
+      - kubectl
+      - kubectx
+    state: present
+#
+- name: Install fonts
+  community.general.pacman:
+    name:
+      - ttf-fira-code
+      - ttf-firacode-nerd
+      - ttf-hack-nerd
+      - ttf-iosevka-nerd
     state: present
 #
 - name: Install notebook stuff
@@ -62,6 +95,8 @@
 - name: Install python tools using uv
   ansible.builtin.shell:
     cmd: uv tool install {{ item }}
+  register: uv_install_result
+  changed_when: "'Already installed' not in uv_install_result.stdout"
   become: yes
   become_user: "{{ username }}"
   loop:

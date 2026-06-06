@@ -7,6 +7,9 @@
 - name: Install flatpak packages
   import_tasks: flatpak.yml
 #
+- name: Configure desktop system settings
+  import_tasks: system.yml
+#
 - name: Enable desktop services
   import_tasks: services.yml
 #
