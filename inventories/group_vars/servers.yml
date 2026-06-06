@@ -1,2 +1,8 @@
 is_desktop: false
 is_server: true
+
+static_ip: 192.168.0.100
+network_prefix: 24
+network_gateway: 192.168.0.1
+
+jellyfin_media_path: /mnt/media

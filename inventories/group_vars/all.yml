@@ -1,1 +1,2 @@
 username: neumann
+syncthing_share_path: "/home/{{ username }}/Sync"
