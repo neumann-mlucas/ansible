@@ -105,7 +105,6 @@
     name:
       - bottom
       - ghostty
-      - kitty
       - lazygit
       - neovim
       - python-pynvim
@@ -121,7 +120,6 @@
       - difftastic
       - duf
       - dust
-      - erdtree
       - expac
       - eza
       - fd

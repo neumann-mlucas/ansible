@@ -2,8 +2,9 @@
   ansible.builtin.systemd_service:
     name: "{{ item }}"
     enabled: true
-    state: restarted
+    state: started
     masked: no
   loop:
     - gdm.service
+    - thermald.service
     - tlp.service

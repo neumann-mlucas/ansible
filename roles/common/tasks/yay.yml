@@ -21,6 +21,12 @@
   become_user: "{{ username }}"
   when: yay_installed is failed
 #
+- name: Remove yay build directory
+  ansible.builtin.file:
+    path: "/home/{{ username }}/yay"
+    state: absent
+  when: yay_installed is failed
+#
 - name: Refresh AUR index
   ansible.builtin.shell:
     cmd: yay -Syy --noconfirm
@@ -34,7 +40,6 @@
   become_user: "{{ username }}"
   loop:
     - choose-rust-git
-    - erdtree-bin
     - keyd
     - lazydocker-bin
     - viddy-bin

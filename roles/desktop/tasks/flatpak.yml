@@ -3,11 +3,6 @@
     name: [flatpak]
     state: present
 #
-- name: Ensure flatpak is installed
-  ansible.builtin.package:
-    name: flatpak
-    state: present
-#
 - name: Add the flathub repository
   ansible.builtin.command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   args:
@@ -49,4 +44,3 @@
     # - com.valvesoftware.Steam
     # - org.DolphinEmu.dolphin-emu
     # - org.citra_emu.citra
-  when: "'desktop' in group_names"

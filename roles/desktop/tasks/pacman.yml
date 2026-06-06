@@ -48,7 +48,7 @@
       - mplayer
       - mpv
       - surfraw
-      - taskd
+      - task
     state: present
 #
 - name: Install notebook stuff
