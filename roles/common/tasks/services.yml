@@ -10,7 +10,6 @@
     - fail2ban.service
     - fstrim.timer
     - fwupd.service
-    - keyd.service
     - reflector.timer
     - sshd.service
     - syncthing@{{ username }}.service

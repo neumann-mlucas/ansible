@@ -19,6 +19,7 @@
 #
 - name: Regenerate grub config
   ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+  changed_when: false
 #
 - name: Change pacman config
   ansible.builtin.replace:
@@ -73,40 +74,9 @@
     mode: "0644"
   become: yes
 #
-- name: Generate zram
-  ansible.builtin.command: systemctl daemon-reload
-#
 - name: Start zram
-  ansible.builtin.command: systemctl start zram0
-#
-- name: Create keyd dir
-  ansible.builtin.file:
-    path: /etc/keyd
-    state: directory
-    owner: root
-    group: root
-    mode: "0755"
-  become: yes
-#
-- name: Set keyd config
-  ansible.builtin.copy:
-    dest: /etc/keyd/default.conf
-    content: |
-      [ids]
-
-      *
-
-      [main]
-
-      capslock = overload(meta, esc)
-      insert = S-insert
-
-      [alt]
-      h = left
-      j = down
-      k = up
-      l = right
-    owner: root
-    group: root
-    mode: "0644"
+  ansible.builtin.systemd_service:
+    name: systemd-zram-setup@zram0.service
+    state: started
+    daemon_reload: true
   become: yes

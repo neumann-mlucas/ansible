@@ -40,6 +40,5 @@
   become_user: "{{ username }}"
   loop:
     - choose-rust-git
-    - keyd
     - lazydocker-bin
     - viddy-bin
