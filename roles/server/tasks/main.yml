@@ -16,7 +16,7 @@
 - name: Configure backup storage
   import_tasks: backup.yml
 #
-- name: Configure server network and firewall
+- name: Configure server firewall
   import_tasks: network.yml
 #
 - name: Enable server services
