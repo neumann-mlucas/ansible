@@ -1,3 +1,13 @@
+- name: Schedule weekly gravity update
+  ansible.builtin.cron:
+    name: pihole gravity update
+    weekday: "0"
+    hour: "3"
+    minute: "0"
+    user: root
+    job: pihole -g
+  become: yes
+#
 - name: Create pi-hole config directory
   ansible.builtin.file:
     path: /etc/pihole
