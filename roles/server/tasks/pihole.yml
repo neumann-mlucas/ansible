@@ -8,28 +8,47 @@
     job: pihole -g
   become: yes
 #
-- name: Create pi-hole config directory
+- name: Create pi-hole log directory
   ansible.builtin.file:
-    path: /etc/pihole
+    path: /var/log/pihole
     state: directory
-    owner: root
-    group: root
+    owner: pihole
+    group: pihole
     mode: "0755"
   become: yes
 #
-- name: Write pi-hole setupVars (pre-seeds non-interactive install)
-  ansible.builtin.copy:
-    dest: /etc/pihole/setupVars.conf
-    content: |
-      PIHOLE_INTERFACE={{ ansible_facts['default_ipv4']['interface'] }}
-      IPV4_ADDRESS={{ static_ip }}/{{ network_prefix }}
-      QUERY_LOGGING=true
-      INSTALL_WEB_SERVER=true
-      INSTALL_WEB_INTERFACE=true
-      LIGHTTPD_ENABLED=true
-      BLOCKING_ENABLED=true
-      WEBPASSWORD=
-    owner: root
-    group: root
+- name: Create pi-hole log files
+  ansible.builtin.file:
+    path: "/var/log/pihole/{{ item }}"
+    state: touch
+    owner: pihole
+    group: pihole
     mode: "0644"
+  loop:
+    - pihole.log
+    - FTL.log
   become: yes
+#
+- name: Set pi-hole upstream DNS servers
+  ansible.builtin.command: pihole-FTL --config dns.upstreams '["1.1.1.1", "8.8.8.8"]'
+  become: yes
+  changed_when: false
+#
+- name: Set pi-hole web interface port
+  ansible.builtin.command: pihole-FTL --config webserver.port 8080
+  become: yes
+  changed_when: false
+#
+- name: Add default blocklist
+  ansible.builtin.shell:
+    cmd: >
+      sqlite3 /etc/pihole/gravity.db
+      "INSERT OR IGNORE INTO adlist (address, enabled, comment)
+       VALUES ('https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts', 1, 'StevenBlack')"
+  become: yes
+  changed_when: false
+#
+- name: Update gravity
+  ansible.builtin.command: pihole -g
+  become: yes
+  changed_when: false
