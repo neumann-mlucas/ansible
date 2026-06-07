@@ -1,5 +1,5 @@
 - name: Install Yazi plugins
-  ansible.builtin.command: ya pack -i
+  ansible.builtin.command: ya pkg upgrade --discard
   become: yes
   become_user: "{{ username }}"
   changed_when: false
