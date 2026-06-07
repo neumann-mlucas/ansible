@@ -1,28 +1,11 @@
-- name: Create backup directory
-  ansible.builtin.file:
-    path: "{{ syncthing_share_path }}/backups/{{ inventory_hostname }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0755"
-  become: yes
-#
-- name: Backup Jellyfin config
+- name: Backup personal files with restic
   ansible.builtin.shell:
     cmd: >
-      rsync -a --delete
-      --exclude='*.db-journal'
-      --exclude='transcodes/'
-      /var/lib/jellyfin/
-      "{{ syncthing_share_path }}/backups/{{ inventory_hostname }}/jellyfin/"
+      restic
+      -r sftp:homeserver:/srv/backup/restic/
+      --password-file ~/.config/restic/password
+      --verbose
+      backup {{ syncthing_share_path }}
   become: yes
-  when: is_server
-#
-- name: Backup pi-hole config
-  ansible.builtin.shell:
-    cmd: >
-      rsync -a --delete
-      /etc/pihole/
-      "{{ syncthing_share_path }}/backups/{{ inventory_hostname }}/pihole/"
-  become: yes
-  when: is_server
+  become_user: "{{ username }}"
+  when: is_desktop

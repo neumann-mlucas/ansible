@@ -13,6 +13,9 @@
 - name: Configure Syncthing shared directory
   import_tasks: syncthing.yml
 #
+- name: Configure backup storage
+  import_tasks: backup.yml
+#
 # - name: Configure server network and firewall
 #   import_tasks: network.yml
 #

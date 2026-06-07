@@ -55,6 +55,7 @@
       - firefox
       - flite
       - keyd
+      - restic
       - mplayer
       - mpv
       - npm
