@@ -7,3 +7,4 @@
   loop:
     - jellyfin.service
     - pihole-FTL.service
+    - syncthing@{{ username }}.service

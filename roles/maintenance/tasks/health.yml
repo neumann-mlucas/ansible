@@ -30,6 +30,8 @@
     state: started
   loop:
     - jellyfin.service
+    - pihole-FTL.service
+    - syncthing@{{ username }}.service
   become: yes
   ignore_errors: yes
   when: is_server
