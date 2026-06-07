@@ -1,5 +1,5 @@
 - name: Clone user dotfiles
-  git: repo={{ dotfiles.url }} dest=/home/{{ username }}/{{ dotfiles.destination }} accept_hostkey=yes update=true
+  git: repo={{ dotfiles.url }} dest=/home/{{ username }}/{{ dotfiles.destination }} accept_hostkey=yes update=true force=yes
   become: true
   become_user: '{{ username }}'
 #
