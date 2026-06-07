@@ -1,4 +1,5 @@
-- name: Clean yay cache
-  ansible.builtin.command: yay -Sc --noconfirm
+- name: Clean yay build cache
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.cache/yay"
+    state: absent
   become: yes
-  become_user: "{{ username }}"
