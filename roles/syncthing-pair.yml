@@ -40,6 +40,7 @@
       failed_when:
         - add_device_result.rc != 0
         - "'already' not in (add_device_result.stderr | lower)"
+        - "'duplicate' not in (add_device_result.stderr | lower)"
       changed_when: add_device_result.rc == 0
 
     - name: Add shared folder
@@ -52,6 +53,7 @@
       failed_when:
         - add_folder_result.rc != 0
         - "'already' not in (add_folder_result.stderr | lower)"
+        - "'duplicate' not in (add_folder_result.stderr | lower)"
       changed_when: add_folder_result.rc == 0
 
     - name: Share folder with remote devices
@@ -63,4 +65,5 @@
       failed_when:
         - share_folder_result.rc != 0
         - "'already' not in (share_folder_result.stderr | lower)"
+        - "'duplicate' not in (share_folder_result.stderr | lower)"
       changed_when: share_folder_result.rc == 0
