@@ -21,14 +21,13 @@ $ sudo ansible-playbook -i inventories/hosts roles/maintenance.yml
 
 #### TODO
 
-- [ ] add yazi plugins in setup
-- [ ] add backup script to maintenance playbook
+- [x] add yazi plugins in setup
+- [x] add backup script to maintenance playbook (rsync → Syncthing share)
 - [x] log journalctl and systemctl errors in maintenance playbook
-- [ ] clean `~/.cache` in maintenance playbook
-- [ ] clean broken symlinks
-- [ ] ensure services are running in maintenance
-- [ ] add ssh key setup to arch setup documentation
+- [x] clean broken symlinks
+- [x] ensure services are running in maintenance
 - [x] static IP setup via nmcli in server role
+- [ ] clean `~/.cache` in maintenance playbook (skip — rebuilds on demand)
 
 #### Syncthing Pairing
 
@@ -183,18 +182,50 @@ sudo ansible-playbook -i inventories/hosts roles/desktop.yml
 
 - set a static IP address
 
-> TODO
-
+Use DHCP reservation on the router (bind server MAC to fixed IP). Avoids
+broken static config when changing networks. The server playbook configures
+static IP via nmcli but DHCP reservation is more resilient.
 
 - set ssh keys
 
-> TODO
+```sh
+# on desktop: generate ansible key
+ssh-keygen -t ed25519 -f ~/.ssh/ansible -C "ansible"
+
+# temporarily allow password auth on server:
+# edit /etc/ssh/sshd_config.d/20-force_publickey_auth.conf
+# set: PasswordAuthentication yes / AuthenticationMethods password
+# sudo systemctl restart sshd
+
+# copy key from desktop
+ssh-copy-id -i ~/.ssh/ansible.pub -p 3141 neumann@SERVERIP
+
+# revert sshd config and restart sshd on server
+```
+
+- set syncthing shared folder
+
+```sh
+# after both machines are up and syncthing is running:
+ansible-playbook -i inventories/hosts roles/syncthing-pair.yml --ask-become-pass
+```
 
 
-- set syncthing folder
+- server post-setup (first run only)
 
-> TODO
+```sh
+# Jellyfin: complete wizard at http://SERVERIP:8096
+# - create admin account
+# - add media library pointing to /mnt/media
 
+# Pi-hole: set admin password
+sudo pihole -a -p
+# then point router DNS server to SERVERIP
+# verify: pihole status
+
+# Nginx (if running unexpectedly):
+sudo systemctl disable --now nginx
+```
 
 - run fwup
 

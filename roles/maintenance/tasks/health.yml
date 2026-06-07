@@ -1,3 +1,39 @@
+- name: Ensure common services are running
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - NetworkManager.service
+    - docker.service
+    - fail2ban.service
+    - sshd.service
+    - syncthing@{{ username }}.service
+    - ufw.service
+  become: yes
+  ignore_errors: yes
+#
+- name: Ensure desktop services are running
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - gdm.service
+    - keyd.service
+    - thermald.service
+  become: yes
+  ignore_errors: yes
+  when: is_desktop
+#
+- name: Ensure server services are running
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - jellyfin.service
+  become: yes
+  ignore_errors: yes
+  when: is_server
+#
 - name: Check for failed systemd services
   ansible.builtin.command: systemctl --failed --no-legend
   register: failed_services

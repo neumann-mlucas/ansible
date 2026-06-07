@@ -7,6 +7,9 @@
 - name: Install flatpak packages
   import_tasks: flatpak.yml
 #
+- name: Install Yazi plugins
+  import_tasks: yazi.yml
+#
 - name: Configure desktop system settings
   import_tasks: system.yml
 #

@@ -7,14 +7,14 @@
 - name: Configure Jellyfin
   import_tasks: jellyfin.yml
 #
-- name: Configure pi-hole
-  import_tasks: pihole.yml
+# - name: Configure pi-hole
+#   import_tasks: pihole.yml
 #
 - name: Configure Syncthing shared directory
   import_tasks: syncthing.yml
 #
-- name: Configure server network and firewall
-  import_tasks: network.yml
+# - name: Configure server network and firewall
+#   import_tasks: network.yml
 #
 - name: Enable server services
   import_tasks: services.yml
