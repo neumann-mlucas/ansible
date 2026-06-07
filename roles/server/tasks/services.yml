@@ -7,4 +7,3 @@
   loop:
     - jellyfin.service
     - pihole-FTL.service
-    - pihole-gravity.timer
