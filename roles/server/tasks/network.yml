@@ -13,7 +13,7 @@
     rule: allow
     port: '8096'
     proto: tcp
-    src: "192.168.0.0/24"
+    src: "192.168.15.0/24"
   become: yes
 #
 - name: Get active NetworkManager connection name for primary interface
