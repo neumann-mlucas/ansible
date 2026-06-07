@@ -19,20 +19,68 @@ $ sudo ansible-playbook -i inventories/hosts roles/desktop.yml
 $ sudo ansible-playbook -i inventories/hosts roles/maintenance.yml
 ```
 
-#### TODO
-
-- [x] add yazi plugins in setup
-- [x] add backup script to maintenance playbook (rsync → Syncthing share)
-- [x] log journalctl and systemctl errors in maintenance playbook
-- [x] clean broken symlinks
-- [x] ensure services are running in maintenance
-- [x] static IP setup via nmcli in server role
-- [ ] clean `~/.cache` in maintenance playbook (skip — rebuilds on demand)
-
 #### Syncthing Pairing
 
 ```sh
 $ ansible-playbook -i inventories/hosts roles/syncthing-pair.yml --ask-become-pass
+```
+
+---
+
+## Storage & Backup
+
+### Where to put files
+
+Everything goes in `~/Sync/` — Syncthing distributes it to all devices automatically.
+
+```
+~/Sync/
+├── photos/
+├── documents/
+├── books/
+└── ...
+```
+
+Drop files in `~/Sync/` on any device (desktop, phone, tablet, homeserver) and they appear everywhere.
+
+### How backup works
+
+```
+~/Sync (desktop)  ──[restic]──►  ~/backup/restic/ (homeserver)
+       ▲                                │
+       └──────[Syncthing]───────────────┘
+              (live sync, all devices)
+```
+
+- **Syncthing** — live sync across all devices. Every device has a current copy.
+- **restic** — versioned snapshots from desktop → homeserver. Recover deleted or corrupted files from any past point.
+
+Backup runs automatically as part of `ansible-maintenance`.
+
+### First-time restic setup (one-time)
+
+```sh
+# 1. create password file
+mkdir -p ~/.config/restic
+echo "yourpassword" > ~/.config/restic/password
+chmod 600 ~/.config/restic/password
+
+# 2. init repo on server (SSH config handles port/key)
+restic -r sftp:homeserver:/home/neumann/backup/restic/ \
+  --password-file ~/.config/restic/password init
+```
+
+### Restore a file
+
+```sh
+# list snapshots
+restic -r sftp:homeserver:/home/neumann/backup/restic/ \
+  --password-file ~/.config/restic/password snapshots
+
+# restore specific snapshot
+restic -r sftp:homeserver:/home/neumann/backup/restic/ \
+  --password-file ~/.config/restic/password \
+  restore SNAPSHOT_ID --target ~/restore/
 ```
 
 ---
