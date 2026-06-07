@@ -2,7 +2,7 @@
   ansible.builtin.shell:
     cmd: >
       restic
-      -r sftp:homeserver:/srv/backup/restic/
+      -r sftp:homeserver:/home/neumann/backup/restic/
       --password-file ~/.config/restic/password
       --verbose
       backup {{ syncthing_share_path }}

@@ -1,6 +1,6 @@
 - name: Create restic backup directory
   ansible.builtin.file:
-    path: /srv/backup/restic
+    path: /home/{{ username }}/backup/restic
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
