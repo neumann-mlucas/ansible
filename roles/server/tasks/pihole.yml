@@ -21,7 +21,7 @@
   ansible.builtin.copy:
     dest: /etc/pihole/setupVars.conf
     content: |
-      PIHOLE_INTERFACE={{ ansible_default_ipv4.interface }}
+      PIHOLE_INTERFACE={{ ansible_facts['default_ipv4']['interface'] }}
       IPV4_ADDRESS={{ static_ip }}/{{ network_prefix }}
       QUERY_LOGGING=true
       INSTALL_WEB_SERVER=true
