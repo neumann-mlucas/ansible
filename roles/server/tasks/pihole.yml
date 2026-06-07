@@ -38,3 +38,8 @@
   ansible.builtin.command: pihole-FTL --config webserver.port 8080
   become: yes
   changed_when: false
+#
+- name: Update gravity
+  ansible.builtin.command: pihole -g
+  become: yes
+  changed_when: false
