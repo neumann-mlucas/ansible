@@ -266,10 +266,19 @@ ansible-playbook -i inventories/hosts roles/syncthing-pair.yml --ask-become-pass
 # - create admin account
 # - add media library pointing to /mnt/media
 
-# Pi-hole: set admin password
-sudo pihole -a -p
-# then point router DNS server to SERVERIP
-# verify: pihole status
+# Pi-hole web UI: http://SERVERIP:8080/admin
+# Set password (pi-hole v6):
+sudo pihole-FTL --config webserver.api.password "yourpassword"
+sudo systemctl restart pihole-FTL
+#
+# Add blocklists via admin UI → Adlists → Add blocklist:
+#   https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts  (ads, safe)
+#   https://dbl.oisd.nl/                                               (ads + tracking)
+#   https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt  (aggressive)
+# Then run: sudo pihole -g
+#
+# Point router DNS to SERVERIP: router admin → DHCP → DNS server
+# Verify: pihole status
 
 # Nginx (if running unexpectedly):
 sudo systemctl disable --now nginx

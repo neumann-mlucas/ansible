@@ -38,17 +38,3 @@
   ansible.builtin.command: pihole-FTL --config webserver.port 8080
   become: yes
   changed_when: false
-#
-- name: Add default blocklist
-  ansible.builtin.shell:
-    cmd: >
-      sqlite3 /etc/pihole/gravity.db
-      "INSERT OR IGNORE INTO adlist (address, enabled, comment)
-       VALUES ('https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts', 1, 'StevenBlack')"
-  become: yes
-  changed_when: false
-#
-- name: Update gravity
-  ansible.builtin.command: pihole -g
-  become: yes
-  changed_when: false
