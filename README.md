@@ -21,15 +21,20 @@ $ sudo ansible-playbook -i inventories/hosts roles/maintenance.yml
 
 #### TODO
 
-- [ ] **add kubernetes setup to server setup**
 - [ ] add yazi plugins in setup
-- [ ] **add backup script do maintenance playbook**
-- [ ] log journalctl and systemctl errors in maintenance playbook (`systemctl --failed` and `journalctl -p 3 -xb`)
-- [ ] clean `~/.cache` in maintenance playbook?
-- [ ] clean broken symlinks?
+- [ ] add backup script to maintenance playbook
+- [x] log journalctl and systemctl errors in maintenance playbook
+- [ ] clean `~/.cache` in maintenance playbook
+- [ ] clean broken symlinks
 - [ ] ensure services are running in maintenance
 - [ ] add ssh key setup to arch setup documentation
-- [ ] add HOW TO make IP address static to the arch setup documentation
+- [x] static IP setup via nmcli in server role
+
+#### Syncthing Pairing
+
+```sh
+$ ansible-playbook -i inventories/hosts roles/syncthing-pair.yml --ask-become-pass
+```
 
 ---
 
