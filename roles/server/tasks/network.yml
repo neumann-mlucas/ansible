@@ -18,7 +18,7 @@
 #
 - name: Get active NetworkManager connection name for primary interface
   ansible.builtin.shell:
-    cmd: nmcli -t -f NAME,DEVICE con show --active | grep ":{{ ansible_default_ipv4.interface }}$" | cut -d: -f1
+    cmd: "nmcli -t -f NAME,DEVICE con show --active | grep ':{{ ansible_default_ipv4.interface }}$' | cut -d: -f1"
   register: nm_conn_name
   changed_when: false
   become: yes
