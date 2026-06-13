@@ -101,6 +101,7 @@
     name:
       - bash
       - bat
+      - choose
       - ctags
       - difftastic
       - direnv
