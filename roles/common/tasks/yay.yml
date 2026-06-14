@@ -37,13 +37,7 @@
     state: absent
   when: yay_installed is failed
 #
-- name: Refresh AUR index
-  ansible.builtin.shell:
-    cmd: yay -Syy --noconfirm
-  become: yes
-  become_user: "{{ username }}"
-#
-- name: Install AUR package using yay
+- name: Install AUR packages using yay
   ansible.builtin.shell:
     cmd: yay -S --sudoloop --noconfirm --needed {{ item }}
   become: yes
