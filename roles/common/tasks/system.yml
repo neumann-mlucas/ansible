@@ -17,6 +17,15 @@
     groups: docker
     append: yes
 #
+- name: Create docker config directory
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: yes
+#
 - name: Disable Docker iptables manipulation
   ansible.builtin.copy:
     dest: /etc/docker/daemon.json
