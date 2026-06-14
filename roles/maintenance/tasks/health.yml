@@ -4,7 +4,6 @@
     state: started
   loop:
     - NetworkManager.service
-    - docker.service
     - fail2ban.service
     - sshd.service
     - syncthing@{{ username }}.service

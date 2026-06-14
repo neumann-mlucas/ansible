@@ -1,11 +1,12 @@
-- name: Allow DNS traffic for pi-hole
+- name: Allow DNS traffic for pi-hole (LAN only)
   community.general.ufw:
     rule: allow
     port: '53'
-    proto: "{{ item }}"
+    proto: "{{ item.proto }}"
+    src: "{{ item.src }}"
   loop:
-    - tcp
-    - udp
+    - {proto: tcp, src: "192.168.15.0/24"}
+    - {proto: udp, src: "192.168.15.0/24"}
   become: yes
 #
 - name: Allow pi-hole web UI

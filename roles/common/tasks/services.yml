@@ -6,7 +6,6 @@
     masked: no
   loop:
     - NetworkManager.service
-    - docker.service
     - fail2ban.service
     - fstrim.timer
     - fwupd.service
