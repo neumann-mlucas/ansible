@@ -1,3 +1,13 @@
+- name: Allow pacman without password for yay
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/yay-pacman
+    content: "{{ username }} ALL=(ALL) NOPASSWD: /usr/bin/pacman\n"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: "visudo -cf %s"
+  become: yes
+#
 - name: Check if yay is installed
   ansible.builtin.raw: command -v yay
   register: yay_installed

@@ -1,6 +1,7 @@
 - name: Install core packages
   import_tasks: pacman.yml
 #
+- name: Install yay
 - import_tasks: yay.yml
 #
 - name: Set system setting
@@ -13,7 +14,3 @@
 #
 - name: Enable several services
   import_tasks: services.yml
-
-#
-# - name: Misc shell setups
-#   import_tasks: misc.yml
