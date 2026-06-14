@@ -2,7 +2,7 @@
   import_tasks: pacman.yml
 #
 - name: Install yay
-- import_tasks: yay.yml
+  import_tasks: yay.yml
 #
 - name: Set system setting
   import_tasks: system.yml

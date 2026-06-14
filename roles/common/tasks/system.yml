@@ -71,13 +71,15 @@
     mode: "0644"
   become: yes
 #
-- name: Set ip forwarding setting (docker needs this)
+- name: Network hardening sysctl settings
   ansible.builtin.copy:
-    dest: /etc/sysctl.d/20-ipforwarding.conf
+    dest: /etc/sysctl.d/20-network-hardening.conf
     content: |
-      net.ipv4.ip_forward = 1
-      net.ipv4.conf.all.forwarding = 1
-      net.ipv6.conf.all.forwarding = 1
+      net.ipv4.conf.all.rp_filter = 1
+      net.ipv4.conf.all.accept_redirects = 0
+      net.ipv6.conf.all.accept_redirects = 0
+      net.ipv4.conf.all.send_redirects = 0
+      net.ipv4.conf.all.accept_source_route = 0
     owner: root
     group: root
     mode: "0644"

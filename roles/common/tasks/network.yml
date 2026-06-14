@@ -5,6 +5,9 @@
       PasswordAuthentication no
       AuthenticationMethods publickey
       Port 3141
+      PermitRootLogin no
+      AllowUsers {{ username }}
+      MaxAuthTries 3
     owner: root
     group: root
     mode: '0644'
@@ -52,7 +55,7 @@
     content: |
       [DEFAULT]
       ignoreip = 127.0.0.1/8 ::1
-      bantime = 3600
+      bantime = 86400
       findtime = 600
       maxretry = 5
       [sshd]

@@ -1,3 +1,11 @@
+- name: Disable containerd
+  ansible.builtin.systemd_service:
+    name: containerd.service
+    enabled: false
+    state: stopped
+  become: yes
+  ignore_errors: yes
+#
 - name: Enable multiple services
   ansible.builtin.systemd_service:
     name: "{{ item }}"
