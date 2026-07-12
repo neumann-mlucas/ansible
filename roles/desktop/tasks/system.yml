@@ -12,11 +12,9 @@
     dest: /etc/keyd/default.conf
     content: |
       [ids]
-
       *
 
       [main]
-
       capslock = overload(meta, esc)
       insert = S-insert
 
@@ -25,6 +23,10 @@
       j = down
       k = up
       l = right
+
+      [meta]
+      c = C-c
+      v = C-v
     owner: root
     group: root
     mode: "0644"
