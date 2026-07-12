@@ -1,2 +1,8 @@
+- name: Check docker socket
+  ansible.builtin.stat:
+    path: /var/run/docker.sock
+  register: docker_sock
+
 - name: Clean dangling docker images
   ansible.builtin.command: docker image prune --force --filter until=24h
+  when: docker_sock.stat.exists
