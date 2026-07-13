@@ -1,13 +1,13 @@
 ---
 - name: Backup personal files with restic
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: >
       restic
       -r sftp:homeserver:/home/neumann/backup/restic/
       --password-file ~/.config/restic/password
-      --verbose
       backup {{ syncthing_share_path }}
   become: true
   become_user: "{{ username }}"
   when: is_desktop
-  changed_when: true
+  register: restic_result
+  changed_when: restic_result.stdout is not search("Files:\\s+0 new,\\s+0 changed")

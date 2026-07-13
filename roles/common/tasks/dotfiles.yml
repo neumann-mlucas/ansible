@@ -32,7 +32,9 @@
   when: not file_stat_hypr.stat.islnk
 #
 - name: Stow dotfiles
-  ansible.builtin.command: stow -R --no-folding --dotfiles -t ~ -d /home/{{ username }}/{{ dotfiles.destination }} .
+  ansible.builtin.command:
+    cmd: stow -R -v --no-folding --dotfiles -t ~ -d /home/{{ username }}/{{ dotfiles.destination }} .
   become: true
   become_user: "{{ username }}"
-  changed_when: true
+  register: stow_result
+  changed_when: stow_result.stderr is search("LINK:|UNLINK:")
