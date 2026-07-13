@@ -1,28 +1,34 @@
 # Ansible
 personal ansible playbooks
 
+### Full Bootstrap
+
+```sh
+$ sudo ansible-playbook site.yml -l <host>
+```
+
 ### Server Setup
 
 ```sh
-$ sudo ansible-playbook -i inventories/hosts roles/server.yml
+$ sudo ansible-playbook playbooks/server.yml
 ```
 
 ### Laptop Setup
 
 ```sh
-$ sudo ansible-playbook -i inventories/hosts roles/desktop.yml
+$ sudo ansible-playbook playbooks/desktop.yml
 ```
 
 ### Maintenance Scripts
 
 ```sh
-$ sudo ansible-playbook -i inventories/hosts roles/maintenance.yml
+$ sudo ansible-playbook playbooks/maintenance.yml
 ```
 
 #### Syncthing Pairing
 
 ```sh
-$ ansible-playbook -i inventories/hosts roles/syncthing-pair.yml --ask-become-pass
+$ ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 ```
 
 ---
@@ -225,7 +231,7 @@ reboot
 git clone https://github.com/neumann-mlucas/ansible
 cd ansible
 # change hosts to only localhost
-sudo ansible-playbook -i inventories/hosts roles/desktop.yml
+sudo ansible-playbook playbooks/desktop.yml
 ```
 
 - set a static IP address
@@ -255,7 +261,7 @@ ssh-copy-id -i ~/.ssh/ansible.pub -p 3141 neumann@SERVERIP
 
 ```sh
 # after both machines are up and syncthing is running:
-ansible-playbook -i inventories/hosts roles/syncthing-pair.yml --ask-become-pass
+ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 ```
 
 

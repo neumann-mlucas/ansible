@@ -163,3 +163,4 @@ tmp/
 # ansible-galaxy installed collections (declared in collections/requirements.yml)
 collections/ansible_collections/
 collections/galaxy_cache/
+galaxy_cache/

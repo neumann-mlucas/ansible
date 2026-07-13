@@ -14,7 +14,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
 
       - name: Install tools
         run: |
@@ -32,9 +31,9 @@ jobs:
 
       - name: ansible syntax-check
         run: |
-          for pb in roles/desktop.yml roles/server.yml roles/maintenance.yml roles/syncthing-pair.yml; do
+          for pb in playbooks/*.yml site.yml; do
             echo "== $pb =="
-            ansible-playbook --syntax-check -i inventories/hosts "$pb"
+            ansible-playbook --syntax-check "$pb"
           done
 
   shellcheck:

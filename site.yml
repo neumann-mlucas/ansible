@@ -1,0 +1,6 @@
+---
+- name: Bootstrap desktop hosts
+  import_playbook: playbooks/desktop.yml
+
+- name: Bootstrap server hosts
+  import_playbook: playbooks/server.yml
