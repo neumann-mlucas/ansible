@@ -1,9 +1,19 @@
-- import_tasks: pacman.yml
-- import_tasks: yay.yml
-- import_tasks: docker.yml
-- import_tasks: flatpak.yml
-- import_tasks: pip.yml
-- import_tasks: misc.yml
-- import_tasks: pihole.yml
-- import_tasks: backup.yml
-- import_tasks: health.yml
+---
+- name: Upgrade pacman packages
+  ansible.builtin.import_tasks: pacman.yml
+- name: Upgrade AUR packages
+  ansible.builtin.import_tasks: yay.yml
+- name: Clean docker
+  ansible.builtin.import_tasks: docker.yml
+- name: Update flatpaks
+  ansible.builtin.import_tasks: flatpak.yml
+- name: Upgrade uv tools
+  ansible.builtin.import_tasks: pip.yml
+- name: Miscellaneous cleanup
+  ansible.builtin.import_tasks: misc.yml
+- name: Update pihole
+  ansible.builtin.import_tasks: pihole.yml
+- name: Run restic backup
+  ansible.builtin.import_tasks: backup.yml
+- name: Run health checks
+  ansible.builtin.import_tasks: health.yml

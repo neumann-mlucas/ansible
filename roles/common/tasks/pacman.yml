@@ -1,3 +1,4 @@
+---
 - name: Install core software
   community.general.pacman:
     name:

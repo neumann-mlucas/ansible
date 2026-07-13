@@ -1,13 +1,16 @@
+---
 - name: Full system upgrade
   community.general.pacman:
-    update_cache: yes
-    upgrade: yes
+    update_cache: true
+    upgrade: true
 #
 - name: Delete orphan packages
   ansible.builtin.shell:
-    cmd: pacman -Qtdq | xargs -r pacman -Rns --noconfirm
+    cmd: set -o pipefail; pacman -Qtdq | xargs -r pacman -Rns --noconfirm
   args:
     executable: /bin/bash
+  changed_when: true
 #
 - name: Clean pacman cache
   ansible.builtin.command: pacman -Sc --noconfirm
+  changed_when: true

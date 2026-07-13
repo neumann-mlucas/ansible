@@ -1,7 +1,13 @@
+---
 - name: Clone user dotfiles
-  git: repo={{ dotfiles.url }} dest=/home/{{ username }}/{{ dotfiles.destination }} accept_hostkey=yes update=true force=yes
+  ansible.builtin.git:
+    repo: "{{ dotfiles.url }}"
+    dest: /home/{{ username }}/{{ dotfiles.destination }}
+    accept_hostkey: "yes"
+    update: "true"
+    force: "yes"
   become: true
-  become_user: '{{ username }}'
+  become_user: "{{ username }}"
 #
 - name: Check bashrc stat
   ansible.builtin.stat:
@@ -28,4 +34,5 @@
 - name: Stow dotfiles
   ansible.builtin.command: stow -R --no-folding --dotfiles -t ~ -d /home/{{ username }}/{{ dotfiles.destination }} .
   become: true
-  become_user: '{{ username }}'
+  become_user: "{{ username }}"
+  changed_when: true

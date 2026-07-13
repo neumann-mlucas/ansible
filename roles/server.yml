@@ -1,4 +1,6 @@
-- hosts: servers
+---
+- name: Configure server hosts
+  hosts: servers
   become: true
   roles:
     - common

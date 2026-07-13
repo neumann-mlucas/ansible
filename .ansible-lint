@@ -1,0 +1,11 @@
+---
+exclude_paths:
+  - tmp/
+  - .github/
+  - collections/
+
+skip_list:
+  - yaml[line-length]
+  - name[casing]
+  - var-naming[no-role-prefix]
+  - latest[git]

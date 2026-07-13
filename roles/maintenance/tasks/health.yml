@@ -1,3 +1,4 @@
+---
 - name: Ensure common services are running
   ansible.builtin.systemd_service:
     name: "{{ item }}"
@@ -8,8 +9,8 @@
     - sshd.service
     - syncthing@{{ username }}.service
     - ufw.service
-  become: yes
-  ignore_errors: yes
+  become: true
+  failed_when: false
 #
 - name: Ensure desktop services are running
   ansible.builtin.systemd_service:
@@ -19,8 +20,8 @@
     - gdm.service
     - keyd.service
     - thermald.service
-  become: yes
-  ignore_errors: yes
+  become: true
+  failed_when: false
   when: is_desktop
 #
 - name: Ensure server services are running
@@ -31,11 +32,11 @@
     - jellyfin.service
     - pihole-FTL.service
     - syncthing@{{ username }}.service
-  become: yes
-  ignore_errors: yes
+  become: true
+  failed_when: false
   when: is_server
 #
-- name: Check for failed systemd services
+- name: Check for failed systemd services  # noqa command-instead-of-module
   ansible.builtin.command: systemctl --failed --no-legend
   register: failed_services
   changed_when: false
@@ -46,7 +47,7 @@
   when: failed_services.stdout | length > 0
 #
 - name: Check for critical journal errors since last boot
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: journalctl -p 3 -xb --no-pager -n 20
   register: journal_errors
   changed_when: false

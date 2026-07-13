@@ -1,21 +1,22 @@
+---
 - name: change shell to zsh
-  become: yes
-  user:
+  become: true
+  ansible.builtin.user:
     name: "{{ username }}"
     shell: /usr/bin/zsh
 #
 - name: Create docker group
-  become: yes
-  group:
+  become: true
+  ansible.builtin.group:
     name: docker
     state: present
 #
 - name: Add user to docker group
-  become: yes
-  user:
+  become: true
+  ansible.builtin.user:
     name: "{{ username }}"
     groups: docker
-    append: yes
+    append: true
 #
 - name: Create docker config directory
   ansible.builtin.file:
@@ -24,7 +25,7 @@
     owner: root
     group: root
     mode: "0755"
-  become: yes
+  become: true
 #
 - name: Disable Docker iptables manipulation
   ansible.builtin.copy:
@@ -36,7 +37,7 @@
     owner: root
     group: root
     mode: "0644"
-  become: yes
+  become: true
 #
 - name: Regenerate grub config
   ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
@@ -48,9 +49,9 @@
     regexp: "{{ item.regexp }}"
     replace: "{{ item.replace }}"
   with_items:
-    - {regexp: "^#Color$", replace: "Color"}
-    - {regexp: "^#VerbosePkgLists$", replace: "VerbosePkgLists"}
-    - {regexp: "^#ParallelDownloads = 5$", replace: "ParallelDownloads = 20"}
+    - { regexp: "^#Color$", replace: "Color" }
+    - { regexp: "^#VerbosePkgLists$", replace: "VerbosePkgLists" }
+    - { regexp: "^#ParallelDownloads = 5$", replace: "ParallelDownloads = 20" }
 #
 - name: Change journald max log size
   ansible.builtin.replace:
@@ -69,7 +70,7 @@
     owner: root
     group: root
     mode: "0644"
-  become: yes
+  become: true
 #
 - name: Network hardening sysctl settings
   ansible.builtin.copy:
@@ -83,7 +84,7 @@
     owner: root
     group: root
     mode: "0644"
-  become: yes
+  become: true
 #
 - name: Set zram config
   ansible.builtin.copy:
@@ -95,11 +96,11 @@
     owner: root
     group: root
     mode: "0644"
-  become: yes
+  become: true
 #
 - name: Start zram
   ansible.builtin.systemd_service:
     name: systemd-zram-setup@zram0.service
     state: started
     daemon_reload: true
-  become: yes
+  become: true

@@ -1,3 +1,4 @@
+---
 - name: Schedule weekly gravity update
   ansible.builtin.cron:
     name: pihole gravity update
@@ -6,7 +7,7 @@
     minute: "0"
     user: root
     job: pihole -g
-  become: yes
+  become: true
 #
 - name: Create pi-hole log directory
   ansible.builtin.file:
@@ -15,7 +16,7 @@
     owner: pihole
     group: pihole
     mode: "0755"
-  become: yes
+  become: true
 #
 - name: Create pi-hole log files
   ansible.builtin.file:
@@ -27,19 +28,19 @@
   loop:
     - pihole.log
     - FTL.log
-  become: yes
+  become: true
 #
 - name: Set pi-hole upstream DNS servers
   ansible.builtin.command: pihole-FTL --config dns.upstreams '["1.1.1.1", "8.8.8.8"]'
-  become: yes
+  become: true
   changed_when: false
 #
 - name: Set pi-hole web interface port
   ansible.builtin.command: pihole-FTL --config webserver.port 8080
-  become: yes
+  become: true
   changed_when: false
 #
 - name: Update gravity
   ansible.builtin.command: pihole -g
-  become: yes
+  become: true
   changed_when: false

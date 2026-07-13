@@ -1,5 +1,6 @@
+---
 - name: Update pi-hole gravity
   ansible.builtin.command: pihole -g
-  become: yes
+  become: true
   changed_when: false
   when: is_server

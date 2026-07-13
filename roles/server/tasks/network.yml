@@ -1,52 +1,53 @@
+---
 - name: Allow DNS traffic for pi-hole (LAN only)
   community.general.ufw:
     rule: allow
-    port: '53'
+    port: "53"
     proto: "{{ item.proto }}"
     src: "{{ item.src }}"
   loop:
-    - {proto: tcp, src: "192.168.15.0/24"}
-    - {proto: udp, src: "192.168.15.0/24"}
-  become: yes
+    - { proto: tcp, src: "192.168.15.0/24" }
+    - { proto: udp, src: "192.168.15.0/24" }
+  become: true
 #
 - name: Allow pi-hole web UI
   community.general.ufw:
     rule: allow
-    port: '8080'
+    port: "8080"
     proto: tcp
     src: "192.168.15.0/24"
-  become: yes
+  become: true
 #
 - name: Allow Jellyfin from local network
   community.general.ufw:
     rule: allow
-    port: '8096'
+    port: "8096"
     proto: tcp
     src: "192.168.15.0/24"
-  become: yes
+  become: true
 #
 - name: Allow Syncthing web GUI (LAN only)
   community.general.ufw:
     rule: allow
-    port: '8384'
+    port: "8384"
     proto: tcp
     src: "192.168.15.0/24"
-  become: yes
+  become: true
 #
 - name: Allow Syncthing LAN discovery
   community.general.ufw:
     rule: allow
-    port: '21027'
+    port: "21027"
     proto: udp
     src: "192.168.15.0/24"
-  become: yes
+  become: true
 #
 - name: Allow Pi-hole DHCP
   community.general.ufw:
     rule: allow
-    port: '67'
+    port: "67"
     proto: "{{ item }}"
   loop:
     - tcp
     - udp
-  become: yes
+  become: true

@@ -1,3 +1,4 @@
+---
 - name: Install audio with pipewire
   community.general.pacman:
     name:
@@ -95,11 +96,11 @@
     state: present
 #
 - name: Install python tools using uv
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: uv tool install {{ item }}
   register: uv_install_result
   changed_when: "'Already installed' not in uv_install_result.stdout"
-  become: yes
+  become: true
   become_user: "{{ username }}"
   loop:
     - git-sim

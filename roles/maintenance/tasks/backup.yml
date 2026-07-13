@@ -1,3 +1,4 @@
+---
 - name: Backup personal files with restic
   ansible.builtin.shell:
     cmd: >
@@ -6,6 +7,7 @@
       --password-file ~/.config/restic/password
       --verbose
       backup {{ syncthing_share_path }}
-  become: yes
+  become: true
   become_user: "{{ username }}"
   when: is_desktop
+  changed_when: true

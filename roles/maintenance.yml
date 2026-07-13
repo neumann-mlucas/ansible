@@ -1,4 +1,6 @@
-- hosts: desktops:servers
+---
+- name: Run maintenance tasks on all hosts
+  hosts: desktops:servers
   become: true
   roles:
     - maintenance

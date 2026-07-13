@@ -1,3 +1,4 @@
+---
 - name: Install server packages with pacman
   community.general.pacman:
     name:

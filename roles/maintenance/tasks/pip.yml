@@ -1,5 +1,7 @@
+---
 - name: Upgrade uv tools
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: uv tool upgrade --all
-  become: no
+  become: false
   become_user: "{{ ansible_facts['user_id'] }}"
+  changed_when: true

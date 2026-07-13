@@ -9,12 +9,13 @@
 - name: Collect Syncthing device IDs from all hosts
   hosts: desktops:servers
   gather_facts: false
-  become: yes
+  become: true
   become_user: "{{ username }}"
   tasks:
     - name: Get device ID
       ansible.builtin.shell:
-        cmd: syncthing cli show system | python3 -c "import sys,json; print(json.load(sys.stdin)['myID'])"
+        cmd: set -o pipefail; syncthing cli show system | python3 -c "import sys,json; print(json.load(sys.stdin)['myID'])"
+        executable: /bin/bash
       register: device_id_raw
       changed_when: false
 
@@ -25,7 +26,7 @@
 - name: Configure Syncthing on all hosts
   hosts: desktops:servers
   gather_facts: false
-  become: yes
+  become: true
   become_user: "{{ username }}"
   vars:
     folder_id: "shared-{{ username }}"

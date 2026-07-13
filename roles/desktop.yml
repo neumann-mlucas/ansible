@@ -1,4 +1,6 @@
-- hosts: desktops
+---
+- name: Configure desktop hosts
+  hosts: desktops
   become: true
   roles:
     - common

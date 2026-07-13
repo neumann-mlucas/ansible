@@ -1,26 +1,27 @@
+---
 - name: Install server packages
-  import_tasks: pacman.yml
+  ansible.builtin.import_tasks: pacman.yml
 #
 - name: Install AUR packages
-  import_tasks: yay.yml
+  ansible.builtin.import_tasks: yay.yml
 #
 - name: Configure Jellyfin
-  import_tasks: jellyfin.yml
+  ansible.builtin.import_tasks: jellyfin.yml
 #
 - name: Configure pi-hole
-  import_tasks: pihole.yml
+  ansible.builtin.import_tasks: pihole.yml
 #
 - name: Configure Syncthing shared directory
-  import_tasks: syncthing.yml
+  ansible.builtin.import_tasks: syncthing.yml
 #
 - name: Configure backup storage
-  import_tasks: backup.yml
+  ansible.builtin.import_tasks: backup.yml
 #
 - name: Configure server firewall
-  import_tasks: network.yml
+  ansible.builtin.import_tasks: network.yml
 #
 - name: Enable server services
-  import_tasks: services.yml
+  ansible.builtin.import_tasks: services.yml
 #
 - name: Reboot the system
   ansible.builtin.reboot:

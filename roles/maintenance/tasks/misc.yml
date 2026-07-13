@@ -1,11 +1,13 @@
+---
 - name: Clean go cache
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: go clean -cache
-  become: yes
+  become: true
   become_user: "{{ ansible_facts['user_id'] }}"
+  changed_when: true
 #
 - name: Clean broken symlinks in home
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: find /home/{{ username }} -xtype l -delete
-  become: yes
+  become: true
   changed_when: false

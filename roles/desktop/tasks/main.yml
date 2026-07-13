@@ -1,20 +1,21 @@
+---
 - name: Install desktops packages
-  import_tasks: pacman.yml
+  ansible.builtin.import_tasks: pacman.yml
 #
 - name: Install AUR packages
-  import_tasks: yay.yml
+  ansible.builtin.import_tasks: yay.yml
 #
 - name: Install flatpak packages
-  import_tasks: flatpak.yml
+  ansible.builtin.import_tasks: flatpak.yml
 #
 - name: Install Yazi plugins
-  import_tasks: yazi.yml
+  ansible.builtin.import_tasks: yazi.yml
 #
 - name: Configure desktop system settings
-  import_tasks: system.yml
+  ansible.builtin.import_tasks: system.yml
 #
 - name: Enable desktop services
-  import_tasks: services.yml
+  ansible.builtin.import_tasks: services.yml
 #
 - name: Reboot the system
   ansible.builtin.reboot:

@@ -1,3 +1,4 @@
+---
 - name: Allow pacman without password for yay
   ansible.builtin.copy:
     dest: /etc/sudoers.d/yay-pacman
@@ -6,30 +7,32 @@
     group: root
     mode: "0440"
     validate: "visudo -cf %s"
-  become: yes
+  become: true
 #
 - name: Check if yay is installed
   ansible.builtin.raw: command -v yay
   register: yay_installed
-  ignore_errors: yes
-  become: yes
+  failed_when: false
+  changed_when: false
+  become: true
   become_user: "{{ username }}"
 #
 - name: Clone yay repository
   ansible.builtin.git:
     repo: "https://aur.archlinux.org/yay.git"
     dest: "/home/{{ username }}/yay"
-  become: yes
+  become: true
   become_user: "{{ username }}"
   when: yay_installed is failed
 #
 - name: Build and install yay
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: makepkg -si --noconfirm
     chdir: "/home/{{ username }}/yay"
-  become: yes
+  become: true
   become_user: "{{ username }}"
   when: yay_installed is failed
+  changed_when: true
 #
 - name: Remove yay build directory
   ansible.builtin.file:
@@ -38,9 +41,10 @@
   when: yay_installed is failed
 #
 - name: Install AUR packages using yay
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: yay -S --sudoloop --noconfirm --needed {{ item }}
-  become: yes
+  become: true
   become_user: "{{ username }}"
   loop:
     - viddy-bin
+  changed_when: true

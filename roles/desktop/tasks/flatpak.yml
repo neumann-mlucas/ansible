@@ -1,3 +1,4 @@
+---
 - name: Install flatpak
   community.general.pacman:
     name: [flatpak]
@@ -9,8 +10,8 @@
     creates: /var/lib/flatpak/repo/flathub
 #
 - name: Install the desired Flatpak desktop apps
-  flatpak:
-    name: '{{ item }}'
+  community.general.flatpak:
+    name: "{{ item }}"
     state: present
   loop:
     # >>> ESSENTIALS

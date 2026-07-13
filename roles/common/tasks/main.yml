@@ -1,16 +1,18 @@
+---
 - name: Install core packages
-  import_tasks: pacman.yml
+  ansible.builtin.import_tasks: pacman.yml
 #
 - name: Install yay
-  import_tasks: yay.yml
+  ansible.builtin.import_tasks: yay.yml
 #
 - name: Set system setting
-  import_tasks: system.yml
+  ansible.builtin.import_tasks: system.yml
 #
-- import_tasks: dotfiles.yml
+- name: Clone and stow dotfiles
+  ansible.builtin.import_tasks: dotfiles.yml
 #
 - name: Set network and firewall settings
-  import_tasks: network.yml
+  ansible.builtin.import_tasks: network.yml
 #
 - name: Enable several services
-  import_tasks: services.yml
+  ansible.builtin.import_tasks: services.yml

@@ -1,5 +1,7 @@
+---
 - name: Install yazi gruvbox dark theme
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: ya pack -i
-  become: yes
+  become: true
   become_user: "{{ username }}"
+  changed_when: true

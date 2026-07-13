@@ -1,3 +1,5 @@
+---
 - name: Update all Flatpak applications
   ansible.builtin.command: flatpak update -y
   when: is_desktop
+  changed_when: true

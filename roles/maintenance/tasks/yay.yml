@@ -1,5 +1,6 @@
+---
 - name: Clean yay build cache
   ansible.builtin.file:
     path: "/home/{{ username }}/.cache/yay"
     state: absent
-  become: yes
+  become: true

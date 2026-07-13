@@ -1,3 +1,4 @@
+---
 - name: Create keyd config directory
   ansible.builtin.file:
     path: /etc/keyd
@@ -5,7 +6,7 @@
     owner: root
     group: root
     mode: "0755"
-  become: yes
+  become: true
 #
 - name: Set keyd config
   ansible.builtin.copy:
@@ -30,4 +31,4 @@
     owner: root
     group: root
     mode: "0644"
-  become: yes
+  become: true

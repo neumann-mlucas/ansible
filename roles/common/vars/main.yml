@@ -1,3 +1,4 @@
+---
 ### Playbook Configuration Variables
 dotfiles:
   url: https://github.com/neumann-mlucas/dotfiles.git
