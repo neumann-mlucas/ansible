@@ -1,0 +1,196 @@
+---
+- name: Install glance from AUR
+  ansible.builtin.command:
+    cmd: yay -S --sudoloop --noconfirm --needed glance-bin
+  become: true
+  become_user: "{{ username }}"
+  register: yay_glance
+  changed_when: yay_glance.stdout is not search("there is nothing to do")
+#
+- name: Create glance system user
+  ansible.builtin.user:
+    name: glance
+    system: true
+    shell: /usr/sbin/nologin
+    home: /var/lib/glance
+    create_home: true
+  become: true
+#
+- name: Ensure glance config dir
+  ansible.builtin.file:
+    path: /etc/glance
+    state: directory
+    owner: root
+    group: glance
+    mode: "0750"
+  become: true
+#
+- name: Deploy glance config
+  ansible.builtin.copy:
+    dest: /etc/glance/glance.yml
+    content: |
+      server:
+        host: 0.0.0.0
+        port: {{ glance_port }}
+
+      theme:
+        background-color: 225 14 15
+        primary-color: 40 90 70
+        contrast-multiplier: 1.1
+
+      pages:
+        - name: Home
+          columns:
+            - size: small
+              widgets:
+                - type: calendar
+                  first-day-of-week: monday
+
+                - type: weather
+                  location: São Paulo, Brazil
+                  units: metric
+                  hour-format: 24h
+
+                - type: monitor
+                  cache: 1m
+                  title: Services
+                  sites:
+                    - title: Jellyfin
+                      url: http://{{ static_ip }}:8096
+                      check-url: http://127.0.0.1:8096/health
+                      icon: sh:jellyfin
+                    - title: Pi-hole
+                      url: http://{{ static_ip }}:8080/admin
+                      check-url: http://127.0.0.1:8080/admin/login
+                      icon: sh:pi-hole
+                    - title: Syncthing
+                      url: http://localhost:8384
+                      check-url: http://127.0.0.1:8384
+                      icon: sh:syncthing
+                    - title: Vaultwarden
+                      url: http://{{ static_ip }}:{{ vaultwarden_port }}
+                      check-url: http://127.0.0.1:{{ vaultwarden_port }}/alive
+                      icon: sh:vaultwarden
+                    - title: Readeck
+                      url: http://{{ static_ip }}:{{ readeck_port }}
+                      check-url: http://127.0.0.1:{{ readeck_port }}
+                      icon: sh:readeck
+
+            - size: full
+              widgets:
+                - type: server-stats
+                  servers:
+                    - type: local
+                      name: homeserver
+
+                - type: group
+                  widgets:
+                    - type: hacker-news
+                    - type: lobsters
+
+                - type: releases
+                  cache: 6h
+                  repositories:
+                    - dani-garcia/vaultwarden
+                    - readeck/readeck
+                    - glanceapp/glance
+                    - jellyfin/jellyfin
+                    - syncthing/syncthing
+                    - pi-hole/pi-hole
+
+            - size: small
+              widgets:
+                - type: bookmarks
+                  groups:
+                    - title: Server
+                      color: 40 90 70
+                      links:
+                        - title: Jellyfin
+                          url: http://{{ static_ip }}:8096
+                        - title: Pi-hole
+                          url: http://{{ static_ip }}:8080/admin
+                        - title: Syncthing
+                          url: http://localhost:8384
+                        - title: Vaultwarden
+                          url: http://{{ static_ip }}:{{ vaultwarden_port }}
+                        - title: Readeck
+                          url: http://{{ static_ip }}:{{ readeck_port }}
+                    - title: External
+                      links:
+                        - title: GitHub
+                          url: https://github.com
+                        - title: ArchWiki
+                          url: https://wiki.archlinux.org
+                        - title: DuckDuckGo
+                          url: https://duckduckgo.com
+
+                - type: rss
+                  style: horizontal-cards
+                  limit: 20
+                  collapse-after: 5
+                  cache: 30m
+                  feeds:
+                    - url: https://archlinux.org/feeds/news/
+                      title: Arch news
+                    - url: https://lwn.net/headlines/rss
+                      title: LWN
+                    - url: https://www.phoronix.com/rss.php
+                      title: Phoronix
+                    - url: https://blog.python.org/feeds/posts/default?alt=rss
+                      title: Python blog
+                    - url: https://neovim.io/news.xml
+                      title: Neovim
+    owner: root
+    group: glance
+    mode: "0640"
+  become: true
+  notify: restart glance
+#
+- name: Glance systemd unit
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/glance.service
+    content: |
+      [Unit]
+      Description=Glance dashboard
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=glance
+      Group=glance
+      WorkingDirectory=/var/lib/glance
+      ExecStart=/usr/bin/glance --config /etc/glance/glance.yml
+      Restart=on-failure
+      RestartSec=5
+
+      NoNewPrivileges=true
+      ProtectSystem=strict
+      ProtectHome=true
+      PrivateTmp=true
+      ReadWritePaths=/var/lib/glance
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: "0644"
+  become: true
+  notify:
+    - reload systemd
+    - restart glance
+#
+- name: Enable glance service
+  ansible.builtin.systemd_service:
+    name: glance.service
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  when: not ansible_check_mode
+#
+- name: Allow glance from LAN
+  community.general.ufw:
+    rule: allow
+    port: "{{ glance_port }}"
+    proto: tcp
+    src: "{{ lan_cidr }}"
+  become: true

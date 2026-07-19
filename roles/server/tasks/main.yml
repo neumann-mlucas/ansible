@@ -17,6 +17,15 @@
 - name: Configure backup storage
   ansible.builtin.import_tasks: backup.yml
 #
+- name: Deploy vaultwarden
+  ansible.builtin.import_tasks: vaultwarden.yml
+#
+- name: Deploy glance dashboard
+  ansible.builtin.import_tasks: glance.yml
+#
+- name: Deploy readeck bookmarks
+  ansible.builtin.import_tasks: readeck.yml
+#
 - name: Configure server firewall
   ansible.builtin.import_tasks: network.yml
 #
@@ -26,3 +35,4 @@
 - name: Reboot the system
   ansible.builtin.reboot:
     reboot_timeout: 120
+  when: reboot | default(false) | bool

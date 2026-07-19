@@ -27,7 +27,7 @@
 - name: UFW allow all access from local network
   community.general.ufw:
     rule: allow
-    src: 192.168.0.0/24
+    src: "{{ lan_cidr | default('192.168.15.0/24') }}"
 #
 - name: UFW enable SSH traffic on port 3141
   community.general.ufw:
@@ -40,7 +40,7 @@
     rule: allow
     port: "22000"
     proto: tcp
-    src: 192.168.0.0/16
+    src: "{{ lan_cidr | default('192.168.15.0/24') }}"
 #
 - name: Enable UFW
   community.general.ufw:

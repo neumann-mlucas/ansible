@@ -1,0 +1,53 @@
+---
+- name: Install vaultwarden and web vault (extra repo)
+  community.general.pacman:
+    name:
+      - vaultwarden
+      - vaultwarden-web
+    state: present
+  become: true
+#
+- name: Ensure vaultwarden data dir
+  ansible.builtin.file:
+    path: /var/lib/vaultwarden
+    state: directory
+    owner: vaultwarden
+    group: vaultwarden
+    mode: "0750"
+  become: true
+#
+- name: Configure vaultwarden environment
+  ansible.builtin.copy:
+    dest: /etc/vaultwarden.env
+    content: |
+      DATA_FOLDER=/var/lib/vaultwarden
+      ROCKET_ADDRESS=0.0.0.0
+      ROCKET_PORT={{ vaultwarden_port }}
+      WEB_VAULT_ENABLED=true
+      WEB_VAULT_FOLDER=/usr/share/webapps/vaultwarden-web
+      DOMAIN={{ vaultwarden_domain }}
+      SIGNUPS_ALLOWED=false
+      INVITATIONS_ALLOWED=true
+      ADMIN_TOKEN={{ vaultwarden_admin_token }}
+    owner: root
+    group: vaultwarden
+    mode: "0640"
+  become: true
+  notify: restart vaultwarden
+#
+- name: Enable vaultwarden service
+  ansible.builtin.systemd_service:
+    name: vaultwarden.service
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  when: not ansible_check_mode
+#
+- name: Allow vaultwarden from LAN
+  community.general.ufw:
+    rule: allow
+    port: "{{ vaultwarden_port }}"
+    proto: tcp
+    src: "{{ lan_cidr }}"
+  become: true

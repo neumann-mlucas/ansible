@@ -1,0 +1,106 @@
+---
+- name: Install readeck from AUR
+  ansible.builtin.command:
+    cmd: yay -S --sudoloop --noconfirm --needed readeck-bin
+  become: true
+  become_user: "{{ username }}"
+  register: yay_readeck
+  changed_when: yay_readeck.stdout is not search("there is nothing to do")
+#
+- name: Create readeck system user
+  ansible.builtin.user:
+    name: readeck
+    system: true
+    shell: /usr/sbin/nologin
+    home: /var/lib/readeck
+    create_home: true
+  become: true
+#
+- name: Ensure readeck data dir
+  ansible.builtin.file:
+    path: /var/lib/readeck
+    state: directory
+    owner: readeck
+    group: readeck
+    mode: "0750"
+  become: true
+#
+- name: Ensure readeck config dir
+  ansible.builtin.file:
+    path: /etc/readeck
+    state: directory
+    owner: root
+    group: readeck
+    mode: "0750"
+  become: true
+#
+- name: Deploy readeck config
+  ansible.builtin.copy:
+    dest: /etc/readeck/config.toml
+    content: |
+      [main]
+      log_level = "info"
+      data_directory = "/var/lib/readeck"
+      secret_key = "{{ readeck_secret_key }}"
+
+      [server]
+      host = "0.0.0.0"
+      port = {{ readeck_port }}
+      allowed_hosts = ["{{ static_ip }}", "127.0.0.1", "localhost"]
+
+      [database]
+      source = "sqlite3:/var/lib/readeck/db.sqlite3"
+    owner: root
+    group: readeck
+    mode: "0640"
+  become: true
+  notify: restart readeck
+#
+- name: Readeck systemd unit
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/readeck.service
+    content: |
+      [Unit]
+      Description=Readeck bookmark manager
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=readeck
+      Group=readeck
+      WorkingDirectory=/var/lib/readeck
+      ExecStart=/usr/bin/readeck serve -config /etc/readeck/config.toml
+      Restart=on-failure
+      RestartSec=5
+
+      NoNewPrivileges=true
+      ProtectSystem=strict
+      ProtectHome=true
+      PrivateTmp=true
+      ReadWritePaths=/var/lib/readeck
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: "0644"
+  become: true
+  notify:
+    - reload systemd
+    - restart readeck
+#
+- name: Enable readeck service
+  ansible.builtin.systemd_service:
+    name: readeck.service
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  when: not ansible_check_mode
+#
+- name: Allow readeck from LAN
+  community.general.ufw:
+    rule: allow
+    port: "{{ readeck_port }}"
+    proto: tcp
+    src: "{{ lan_cidr }}"
+  become: true
