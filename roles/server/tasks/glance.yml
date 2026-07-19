@@ -178,14 +178,6 @@
     - reload systemd
     - restart glance
 #
-- name: Enable glance service
-  ansible.builtin.systemd_service:
-    name: glance.service
-    state: started
-    enabled: true
-    daemon_reload: true
-  become: true
-  when: not ansible_check_mode
 - name: Allow glance from LAN
   community.general.ufw:
     rule: allow

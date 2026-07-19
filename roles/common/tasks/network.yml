@@ -26,7 +26,7 @@
 #
 - name: UFW enable SSH traffic on port 3141
   community.general.ufw:
-    rule: allow
+    rule: limit
     port: "3141"
     proto: tcp
 #
@@ -50,7 +50,7 @@
     dest: /etc/fail2ban/jail.local
     content: |
       [DEFAULT]
-      ignoreip = 127.0.0.1/8 ::1
+      ignoreip = 127.0.0.1/8 ::1 {{ lan_cidr | default('192.168.15.0/24') }}
       bantime = 86400
       findtime = 600
       maxretry = 5

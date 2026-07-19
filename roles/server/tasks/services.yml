@@ -5,7 +5,10 @@
     enabled: true
     state: started
     masked: false
+    daemon_reload: true
   loop:
     - jellyfin.service
     - pihole-FTL.service
-    - syncthing@{{ username }}.service
+    - vaultwarden.service
+    - glance.service
+    - readeck.service

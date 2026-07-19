@@ -88,14 +88,6 @@
     - reload systemd
     - restart readeck
 #
-- name: Enable readeck service
-  ansible.builtin.systemd_service:
-    name: readeck.service
-    state: started
-    enabled: true
-    daemon_reload: true
-  become: true
-  when: not ansible_check_mode
 - name: Allow readeck from LAN
   community.general.ufw:
     rule: allow

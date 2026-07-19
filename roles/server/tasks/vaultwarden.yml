@@ -35,15 +35,6 @@
   become: true
   notify: restart vaultwarden
 #
-- name: Enable vaultwarden service
-  ansible.builtin.systemd_service:
-    name: vaultwarden.service
-    state: started
-    enabled: true
-    daemon_reload: true
-  become: true
-  when: not ansible_check_mode
-#
 - name: Allow vaultwarden from LAN
   community.general.ufw:
     rule: allow
