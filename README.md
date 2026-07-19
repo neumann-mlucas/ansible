@@ -1,17 +1,29 @@
 # Ansible
 personal ansible playbooks
 
+## Run rules
+
+- **Localhost plays** (desktop, maintenance on laptop): use `sudo` — connection is local.
+- **Remote plays** (server, site.yml): **do not** use `sudo`. Run as your user, pass `-K` for remote sudo. Sudo locally breaks SSH key/known_hosts lookup (uses `/root/.ssh/`).
+- Vaulted secrets: add `--ask-vault-pass` (or `--vault-password-file`).
+
 ### Full Bootstrap
 
 ```sh
-$ sudo ansible-playbook site.yml -l <host>
+# desktop (localhost)
+$ sudo ansible-playbook site.yml -l localhost
+
+# server (remote)
+$ ansible-playbook site.yml -l homeserver -K --ask-vault-pass
 ```
 
 ### Server Setup
 
 ```sh
-$ sudo ansible-playbook playbooks/server.yml
+$ ansible-playbook playbooks/server.yml -K --ask-vault-pass
 ```
+
+First run: accept host key once — `ssh -p 3141 -i ~/.ssh/ansible neumann@<server-ip> exit`.
 
 ### Laptop Setup
 
@@ -22,10 +34,14 @@ $ sudo ansible-playbook playbooks/desktop.yml
 ### Maintenance Scripts
 
 ```sh
+# on laptop (localhost)
 $ sudo ansible-playbook playbooks/maintenance.yml
+
+# on server (remote)
+$ ansible-playbook playbooks/maintenance.yml -l homeserver -K
 ```
 
-#### Syncthing Pairing
+### Syncthing Pairing
 
 ```sh
 $ ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
