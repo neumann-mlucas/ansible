@@ -18,7 +18,7 @@
   ansible.builtin.file:
     path: /home/{{ username }}/.bashrc
     state: absent
-  when: not file_stat_bashrc.stat.islnk
+  when: file_stat_bashrc.stat.exists and not file_stat_bashrc.stat.islnk
 #
 - name: Check hyprland.config stat
   ansible.builtin.stat:
@@ -29,7 +29,7 @@
   ansible.builtin.file:
     path: /home/{{ username }}/.config/hypr/hyprland.conf
     state: absent
-  when: not file_stat_hypr.stat.islnk
+  when: file_stat_hypr.stat.exists and not file_stat_hypr.stat.islnk
 #
 - name: Stow dotfiles
   ansible.builtin.command:
