@@ -6,10 +6,11 @@
 #
 - name: Delete orphan packages
   ansible.builtin.shell:
-    cmd: set -o pipefail; pacman -Qtdq | xargs -r pacman -Rns --noconfirm
+    cmd: set -o pipefail; pacman -Qtdq | xargs -r pacman -Rns --noconfirm || true
   args:
     executable: /bin/bash
-  changed_when: true
+  register: orphan_result
+  changed_when: orphan_result.stdout | length > 0
 #
 - name: Clean pacman cache
   ansible.builtin.command: pacman -Sc --noconfirm
