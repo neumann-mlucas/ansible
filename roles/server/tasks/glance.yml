@@ -186,7 +186,6 @@
     daemon_reload: true
   become: true
   when: not ansible_check_mode
-#
 - name: Allow glance from LAN
   community.general.ufw:
     rule: allow

@@ -96,7 +96,6 @@
     daemon_reload: true
   become: true
   when: not ansible_check_mode
-#
 - name: Allow readeck from LAN
   community.general.ufw:
     rule: allow
