@@ -9,6 +9,7 @@
       - base
       - base-devel
       # core tools
+      - ansible
       - git
       - zram-generator
       # firmware related
@@ -109,6 +110,7 @@
       - duf
       - dust
       - duckdb
+      - erdtree
       - expac
       - eza
       - fd
@@ -117,10 +119,12 @@
       - github-cli
       - hyperfine
       - jq
+      - just
       - procs
       - ripgrep
       - ripgrep-all
       - rsync
+      - sdcv
       - starship
       - stow
       - tealdeer
