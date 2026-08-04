@@ -8,6 +8,7 @@
     - fail2ban.service
     - sshd.service
     - syncthing@{{ username }}.service
+    - thermald.service
     - ufw.service
   become: true
   failed_when: false
@@ -19,7 +20,7 @@
   loop:
     - gdm.service
     - keyd.service
-    - thermald.service
+    - tlp.service
   become: true
   failed_when: false
   when: is_desktop

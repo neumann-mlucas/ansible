@@ -21,5 +21,6 @@
     - reflector.timer
     - sshd.service
     - syncthing@{{ username }}.service
+    - thermald.service
     - udisks2.service
     - ufw.service

@@ -8,5 +8,4 @@
   loop:
     - gdm.service
     - keyd.service
-    - thermald.service
     - tlp.service
