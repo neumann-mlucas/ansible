@@ -23,8 +23,11 @@
       - hyprpaper
       - hyprsunset
       - mako
+      - network-manager-applet
+      - playerctl
       - slurp
       - wayland
+      - wl-clipboard
       - wofi
       - waybar
       - xdg-desktop-portal
@@ -63,12 +66,27 @@
       - firefox
       - flite
       - keyd
+      - ollama
       - restic
-      - mplayer
       - mpv
-      - npm
+      - pnpm
       - surfraw
       - task
+    state: present
+#
+- name: Install cloud/infra CLIs
+  community.general.pacman:
+    name:
+      - argocd
+      - aws-cli-v2
+      - helm
+    state: present
+#
+- name: Install extra language runtimes
+  community.general.pacman:
+    name:
+      - luarocks
+      - ruby
     state: present
 #
 - name: Install go toolchain
@@ -76,6 +94,10 @@
     name:
       - go
       - go-tools
+      - gofumpt
+      - golangci-lint
+      - govulncheck
+      - shfmt
     state: present
 #
 - name: Install rust toolchain

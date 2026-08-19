@@ -46,7 +46,6 @@
       - man-db
       - man-pages
       - sed
-      - tree
       - which
     state: present
 #
@@ -79,14 +78,16 @@
       - gping
       - iputils
       - net-tools
+      - socat
       - wget
     state: present
 #
 - name: Install python stuff
   community.general.pacman:
     name:
+      - prek
       - python
-      - python-pip
+      - ruff
       - uv
     state: present
 #
@@ -101,8 +102,10 @@
 - name: Install CLI tools
   community.general.pacman:
     name:
+      - ast-grep
       - bash
       - bat
+      - chafa
       - choose
       - ctags
       - difftastic
@@ -115,8 +118,10 @@
       - eza
       - fd
       - fzf
+      - git-cliff
       - git-delta
       - github-cli
+      - glow
       - hyperfine
       - jq
       - just
@@ -124,14 +129,17 @@
       - ripgrep
       - ripgrep-all
       - rsync
+      - sd
       - sdcv
+      - shellcheck
       - starship
       - stow
       - tealdeer
-      - glow
       - tokei
+      - tree-sitter-cli
       - typos
       - words
+      - yq
       - zoxide
       - zsh
       - zsh-autosuggestions
