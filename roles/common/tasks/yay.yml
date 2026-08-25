@@ -39,12 +39,3 @@
     path: "/home/{{ username }}/yay"
     state: absent
   when: yay_installed is failed
-#
-- name: Install AUR packages using yay
-  ansible.builtin.command:
-    cmd: yay -S --sudoloop --noconfirm --needed {{ item }}
-  become: true
-  become_user: "{{ username }}"
-  loop:
-    - viddy-bin
-  changed_when: true

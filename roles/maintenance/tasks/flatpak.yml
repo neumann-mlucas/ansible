@@ -3,3 +3,8 @@
   ansible.builtin.command: flatpak update -y
   when: is_desktop
   changed_when: true
+#
+- name: Remove unused Flatpak runtimes
+  ansible.builtin.command: flatpak uninstall --unused -y
+  when: is_desktop
+  changed_when: true

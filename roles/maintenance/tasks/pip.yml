@@ -5,3 +5,10 @@
   become: false
   become_user: "{{ ansible_facts['user_id'] }}"
   changed_when: true
+#
+- name: Prune uv cache
+  ansible.builtin.command:
+    cmd: uv cache prune
+  become: false
+  become_user: "{{ ansible_facts['user_id'] }}"
+  changed_when: true

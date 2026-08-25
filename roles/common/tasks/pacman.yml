@@ -91,6 +91,13 @@
       - uv
     state: present
 #
+- name: Install rust toolchain
+  community.general.pacman:
+    name:
+      - rust
+      - cargo-update
+    state: present
+#
 - name: Install TUIs
   community.general.pacman:
     name:

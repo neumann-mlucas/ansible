@@ -100,12 +100,6 @@
       - shfmt
     state: present
 #
-- name: Install rust toolchain
-  community.general.pacman:
-    name:
-      - rust
-    state: present
-#
 - name: Install julia toolchain
   community.general.pacman:
     name:
