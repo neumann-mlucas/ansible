@@ -6,6 +6,19 @@
   become_user: "{{ ansible_facts['user_id'] }}"
   changed_when: true
 #
+- name: Vacuum systemd journal
+  ansible.builtin.command:
+    cmd: journalctl --vacuum-time=30d
+  become: true
+  changed_when: true
+#
+- name: Refresh tealdeer cache
+  ansible.builtin.command:
+    cmd: tldr --update
+  become: false
+  become_user: "{{ ansible_facts['user_id'] }}"
+  changed_when: true
+#
 - name: Clean broken symlinks in home
   ansible.builtin.command:
     cmd: find /home/{{ username }} -xtype l -delete

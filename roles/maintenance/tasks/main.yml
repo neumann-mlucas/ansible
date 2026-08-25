@@ -9,6 +9,8 @@
   ansible.builtin.import_tasks: flatpak.yml
 - name: Upgrade uv tools
   ansible.builtin.import_tasks: pip.yml
+- name: Upgrade cargo tools
+  ansible.builtin.import_tasks: cargo.yml
 - name: Miscellaneous cleanup
   ansible.builtin.import_tasks: misc.yml
 - name: Update pihole

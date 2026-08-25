@@ -11,3 +11,15 @@
   when: is_desktop
   register: restic_result
   changed_when: restic_result.stdout is not search("Files:\\s+0 new,\\s+0 changed")
+#
+- name: Prune old restic snapshots
+  ansible.builtin.command:
+    cmd: >
+      restic
+      -r sftp:homeserver:/home/neumann/backup/restic/
+      --password-file ~/.config/restic/password
+      forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --prune
+  become: true
+  become_user: "{{ username }}"
+  when: is_desktop
+  changed_when: true

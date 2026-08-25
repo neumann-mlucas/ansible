@@ -1,0 +1,7 @@
+---
+- name: Upgrade cargo tools
+  ansible.builtin.command:
+    cmd: cargo install-update -a
+  become: false
+  become_user: "{{ ansible_facts['user_id'] }}"
+  changed_when: true
