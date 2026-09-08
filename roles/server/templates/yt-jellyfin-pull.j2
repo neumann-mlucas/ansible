@@ -1,0 +1,28 @@
+#!/bin/sh
+# yt-jellyfin-pull — download YouTube videos into the Jellyfin library.
+#   yt-jellyfin-pull            # sync: read newsboat urls, pull new videos
+#   yt-jellyfin-pull URL [URL]  # on-demand: pull specific video/playlist/channel
+set -eu
+
+MEDIA_DIR="{{ jellyfin_media_path }}/youtube"
+ARCHIVE="$MEDIA_DIR/.archive"
+NEWSBOAT_URLS="{{ youtube_newsboat_urls }}"
+
+mkdir -p "$MEDIA_DIR"
+
+if [ "$#" -eq 0 ]; then
+  [ -r "$NEWSBOAT_URLS" ] || {
+    echo "no newsboat urls at $NEWSBOAT_URLS" >&2
+    exit 0
+  }
+  awk '/youtube\.com\/feeds/ {print $1}' "$NEWSBOAT_URLS"
+else
+  printf '%s\n' "$@"
+fi | yt-dlp --batch-file - \
+  --download-archive "$ARCHIVE" \
+  --write-info-json --write-thumbnail \
+  --write-subs --write-auto-subs --sub-langs 'en.*' --convert-subs srt --embed-subs \
+  --ignore-errors \
+  -f 'bv*[height<=1080]+ba/b[height<=1080]' \
+  --merge-output-format mkv \
+  -o "$MEDIA_DIR/%(uploader)s/%(title)s [%(id)s].%(ext)s"

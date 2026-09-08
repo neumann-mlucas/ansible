@@ -1,0 +1,14 @@
+[Unit]
+Description=Sync YouTube subscriptions to Jellyfin library
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User={{ username }}
+Group={{ username }}
+ExecStart=/usr/local/bin/yt-jellyfin-pull
+ExecStartPost=/usr/bin/find {{ jellyfin_media_path }}/youtube -type f -mtime +{{ youtube_retention_days }} -delete
+ExecStartPost=/usr/bin/find {{ jellyfin_media_path }}/youtube -mindepth 1 -type d -empty -delete
+Nice=10
+IOSchedulingClass=idle

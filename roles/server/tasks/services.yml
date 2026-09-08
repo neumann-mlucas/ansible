@@ -12,3 +12,4 @@
     - vaultwarden.service
     - glance.service
     - readeck.service
+    - yt-jellyfin-sync.timer

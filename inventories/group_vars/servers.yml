@@ -6,6 +6,9 @@ network_prefix: 24
 network_gateway: 192.168.15.1
 lan_cidr: 192.168.15.0/24
 jellyfin_media_path: /mnt/media
+youtube_newsboat_urls: "{{ syncthing_share_path }}/newsboat-urls.txt"
+youtube_sync_schedule: hourly
+youtube_retention_days: 14
 vaultwarden_port: 8222
 vaultwarden_domain: "http://{{ static_ip }}:{{ vaultwarden_port }}"
 vaultwarden_admin_token: !vault |

@@ -1,0 +1,48 @@
+---
+# Newsboat urls file is the source of truth for channel list.
+# Sync it into {{ youtube_newsboat_urls }} (default: syncthing share)
+# so this host can read it.
+#
+- name: Install yt-dlp
+  community.general.pacman:
+    name: yt-dlp
+    state: present
+  become: true
+#
+- name: Ensure YouTube library dir
+  ansible.builtin.file:
+    path: "{{ jellyfin_media_path }}/youtube"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
+  become: true
+#
+- name: Deploy yt-jellyfin-pull script
+  ansible.builtin.template:
+    src: yt-jellyfin-pull.j2
+    dest: /usr/local/bin/yt-jellyfin-pull
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+#
+- name: Deploy yt-jellyfin-sync service unit
+  ansible.builtin.template:
+    src: yt-jellyfin-sync.service.j2
+    dest: /etc/systemd/system/yt-jellyfin-sync.service
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: reload systemd
+#
+- name: Deploy yt-jellyfin-sync timer unit
+  ansible.builtin.template:
+    src: yt-jellyfin-sync.timer.j2
+    dest: /etc/systemd/system/yt-jellyfin-sync.timer
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: reload systemd

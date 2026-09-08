@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodic YouTube sync to Jellyfin
+
+[Timer]
+OnBootSec=5min
+OnCalendar={{ youtube_sync_schedule }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

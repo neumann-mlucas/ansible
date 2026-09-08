@@ -8,6 +8,9 @@
 - name: Configure Jellyfin
   ansible.builtin.import_tasks: jellyfin.yml
 #
+- name: Configure YouTube -> Jellyfin sync
+  ansible.builtin.import_tasks: youtube.yml
+#
 - name: Configure pi-hole
   ansible.builtin.import_tasks: pihole.yml
 #
