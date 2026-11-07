@@ -164,3 +164,6 @@ tmp/
 collections/ansible_collections/
 collections/galaxy_cache/
 galaxy_cache/
+
+# ansible-galaxy credential
+galaxy_token
