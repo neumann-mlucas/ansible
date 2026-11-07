@@ -30,7 +30,7 @@
     dest: /etc/glance/glance.yml
     content: |
       server:
-        host: 0.0.0.0
+        host: {{ static_ip }}
         port: {{ glance_port }}
 
       theme:
@@ -57,7 +57,7 @@
                   sites:
                     - title: Jellyfin
                       url: http://{{ static_ip }}:8096
-                      check-url: http://127.0.0.1:8096/health
+                      check-url: http://{{ static_ip }}:8096/health
                       icon: sh:jellyfin
                     - title: Pi-hole
                       url: http://{{ static_ip }}:8080/admin
@@ -69,11 +69,11 @@
                       icon: sh:syncthing
                     - title: Vaultwarden
                       url: http://{{ static_ip }}:{{ vaultwarden_port }}
-                      check-url: http://127.0.0.1:{{ vaultwarden_port }}/alive
+                      check-url: http://{{ static_ip }}:{{ vaultwarden_port }}/alive
                       icon: sh:vaultwarden
                     - title: Readeck
                       url: http://{{ static_ip }}:{{ readeck_port }}
-                      check-url: http://127.0.0.1:{{ readeck_port }}
+                      check-url: http://{{ static_ip }}:{{ readeck_port }}
                       icon: sh:readeck
 
             - size: full

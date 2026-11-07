@@ -35,10 +35,26 @@
   become: true
   changed_when: false
 #
-- name: Set pi-hole web interface port
-  ansible.builtin.command: pihole-FTL --config webserver.port 8080
+- name: Read pi-hole listener config
+  ansible.builtin.command: pihole-FTL --config {{ item.key }}
+  loop: "{{ pihole_listen | dict2items }}"
+  register: pihole_listen_cur
   become: true
   changed_when: false
+  check_mode: false
+  vars:
+    pihole_listen:
+      webserver.port: "127.0.0.1:8080,{{ static_ip }}:8080"
+      dns.listeningMode: BIND
+      dns.interface: "{{ ansible_facts['default_ipv4']['interface'] }}"
+#
+- name: Bind pi-hole web UI and DNS to LAN interface
+  ansible.builtin.command: pihole-FTL --config {{ item.item.key }} '{{ item.item.value }}'
+  loop: "{{ pihole_listen_cur.results }}"
+  when: item.stdout | trim != item.item.value
+  become: true
+  changed_when: true
+  notify: restart pihole-FTL
 #
 - name: Update gravity
   ansible.builtin.command: pihole -g

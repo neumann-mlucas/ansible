@@ -1,0 +1,7 @@
+---
+- name: restart dictd
+  ansible.builtin.systemd_service:
+    name: dictd.service
+    state: restarted
+  become: true
+  when: not ansible_check_mode

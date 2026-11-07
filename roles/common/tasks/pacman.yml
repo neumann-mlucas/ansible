@@ -22,6 +22,7 @@
 - name: Install system services
   community.general.pacman:
     name:
+      - arch-audit
       - cronie
       - fail2ban
       - networkmanager

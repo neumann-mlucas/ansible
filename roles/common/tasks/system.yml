@@ -17,6 +17,19 @@
     name: "{{ username }}"
     groups: docker
     append: true
+  when: is_server
+#
+- name: Read docker group members
+  ansible.builtin.getent:
+    database: group
+    key: docker
+  when: is_desktop
+#
+- name: Remove user from docker group (desktop)
+  ansible.builtin.command: gpasswd -d {{ username }} docker
+  become: true
+  changed_when: true
+  when: is_desktop and username in getent_group.docker[2].split(',')
 #
 - name: Create docker config directory
   ansible.builtin.file:
@@ -81,10 +94,32 @@
       net.ipv6.conf.all.accept_redirects = 0
       net.ipv4.conf.all.send_redirects = 0
       net.ipv4.conf.all.accept_source_route = 0
+      net.ipv4.conf.all.secure_redirects = 0
+      net.ipv4.conf.default.rp_filter = 1
+      net.ipv4.conf.default.send_redirects = 0
+      net.ipv4.conf.all.log_martians = 1
+      net.ipv6.conf.default.accept_redirects = 0
     owner: root
     group: root
     mode: "0644"
   become: true
+  notify: apply sysctl
+#
+- name: Kernel hardening sysctl settings
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/21-kernel-hardening.conf
+    content: |
+      kernel.kptr_restrict = 2
+      kernel.kexec_load_disabled = 1
+      kernel.sysrq = 0
+      fs.suid_dumpable = 0
+      fs.protected_fifos = 2
+      fs.protected_regular = 2
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: apply sysctl
 #
 - name: Set zram config
   ansible.builtin.copy:

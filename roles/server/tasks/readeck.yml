@@ -44,7 +44,7 @@
       secret_key = "{{ readeck_secret_key }}"
 
       [server]
-      host = "0.0.0.0"
+      host = "{{ static_ip }}"
       port = {{ readeck_port }}
       allowed_hosts = ["{{ static_ip }}", "127.0.0.1", "localhost"]
 

@@ -21,7 +21,7 @@
     dest: /etc/vaultwarden.env
     content: |
       DATA_FOLDER=/var/lib/vaultwarden
-      ROCKET_ADDRESS=0.0.0.0
+      ROCKET_ADDRESS={{ static_ip }}
       ROCKET_PORT={{ vaultwarden_port }}
       WEB_VAULT_ENABLED=true
       WEB_VAULT_FOLDER=/usr/share/webapps/vaultwarden-web

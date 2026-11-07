@@ -34,20 +34,21 @@
     src: "192.168.15.0/24"
   become: true
 #
-- name: Allow Syncthing LAN discovery
+- name: Allow Jellyfin client discovery (LAN only)
   community.general.ufw:
     rule: allow
-    port: "21027"
+    port: "7359"
     proto: udp
     src: "192.168.15.0/24"
   become: true
 #
-- name: Allow Pi-hole DHCP
-  community.general.ufw:
-    rule: allow
-    port: "67"
-    proto: "{{ item }}"
-  loop:
-    - tcp
-    - udp
+- name: Allow binding to LAN IP before network is up
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/30-nonlocal-bind.conf
+    content: |
+      net.ipv4.ip_nonlocal_bind = 1
+    owner: root
+    group: root
+    mode: "0644"
   become: true
+  notify: apply sysctl

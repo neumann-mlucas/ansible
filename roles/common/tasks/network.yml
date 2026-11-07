@@ -9,10 +9,16 @@
       PermitRootLogin no
       AllowUsers {{ username }}
       MaxAuthTries 3
+      LoginGraceTime 30
+      KbdInteractiveAuthentication no
+      AllowAgentForwarding no
+      AllowTcpForwarding no
     owner: root
     group: root
     mode: "0644"
+    validate: /usr/bin/sshd -t -f %s
   become: true
+  notify: reload sshd
 #
 - name: UFW set default outgoing policy to allow
   community.general.ufw:
@@ -24,18 +30,38 @@
     direction: incoming
     policy: deny
 #
+# ponytail: explicit list of known stale rules; switch to `ufw: state: reset` if drift recurs
+- name: UFW delete stale rules
+  community.general.ufw:
+    rule: allow
+    port: "{{ item.port | default(omit) }}"
+    proto: "{{ item.proto | default(omit) }}"
+    src: "{{ item.src | default(omit) }}"
+    delete: true
+  loop:
+    - { src: "192.168.0.0/24" }
+    - { src: "192.168.15.0/24" }
+    - { port: "22000", proto: tcp, src: "192.168.0.0/16" }
+    - { port: "3141", proto: tcp }
+    - { port: "67", proto: tcp }
+    - { port: "67", proto: udp }
+#
 - name: UFW enable SSH traffic on port 3141
   community.general.ufw:
     rule: limit
     port: "3141"
     proto: tcp
 #
-- name: UFW enable Syncthing port (LAN only)
+- name: UFW enable Syncthing ports (LAN only)
   community.general.ufw:
     rule: allow
-    port: "22000"
-    proto: tcp
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
     src: "{{ lan_cidr | default('192.168.15.0/24') }}"
+  loop:
+    - { port: "22000", proto: tcp }
+    - { port: "22000", proto: udp }
+    - { port: "21027", proto: udp }
 #
 - name: Enable UFW
   community.general.ufw:
@@ -56,7 +82,9 @@
       maxretry = 5
       [sshd]
       enabled = true
+      backend = systemd
     owner: root
     group: root
     mode: "0644"
   become: true
+  notify: restart fail2ban

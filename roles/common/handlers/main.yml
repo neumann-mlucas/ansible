@@ -1,0 +1,20 @@
+---
+- name: apply sysctl
+  ansible.builtin.command: sysctl --system
+  become: true
+  changed_when: true
+  when: not ansible_check_mode
+
+- name: reload sshd
+  ansible.builtin.systemd_service:
+    name: sshd.service
+    state: reloaded
+  become: true
+  when: not ansible_check_mode
+
+- name: restart fail2ban
+  ansible.builtin.systemd_service:
+    name: fail2ban.service
+    state: restarted
+  become: true
+  when: not ansible_check_mode

@@ -7,3 +7,17 @@
     group: jellyfin
     mode: "0755"
   become: true
+#
+- name: Check Jellyfin network config
+  ansible.builtin.stat:
+    path: /etc/jellyfin/network.xml
+  register: jellyfin_network
+#
+- name: Bind Jellyfin to LAN address
+  ansible.builtin.replace:
+    path: /etc/jellyfin/network.xml
+    regexp: '<LocalNetworkAddresses\s*/>|<LocalNetworkAddresses>.*?</LocalNetworkAddresses>'
+    replace: "<LocalNetworkAddresses><string>{{ static_ip }}</string></LocalNetworkAddresses>"
+  become: true
+  when: jellyfin_network.stat.exists
+  notify: restart jellyfin

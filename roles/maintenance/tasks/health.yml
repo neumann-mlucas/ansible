@@ -58,6 +58,17 @@
     msg: "{{ journal_errors.stdout_lines }}"
   when: journal_errors.stdout | length > 0
 #
+- name: Check installed packages for known CVEs
+  ansible.builtin.command: arch-audit -u
+  register: arch_audit
+  changed_when: false
+  failed_when: false
+#
+- name: Report vulnerable packages with available fixes
+  ansible.builtin.debug:
+    msg: "{{ arch_audit.stdout_lines }}"
+  when: arch_audit.stdout | length > 0
+#
 - name: Check free space on /
   ansible.builtin.set_fact:
     root_free_gb: "{{ ((ansible_facts['mounts'] | selectattr('mount', 'equalto', '/') | first).size_available / 1024 ** 3) | round(1) }}"
