@@ -112,6 +112,11 @@
       - python-pynvim
     state: present
 #
+- name: Remove Arch python yq (conflicts with go-yq)
+  community.general.pacman:
+    name: yq
+    state: absent
+#
 - name: Install CLI tools
   community.general.pacman:
     name:

@@ -8,6 +8,9 @@ Type=oneshot
 User={{ username }}
 Group={{ username }}
 ExecStart=/usr/local/bin/yt-jellyfin-pull
+# yt-dlp exits 1 when any single video fails (geo-block, removed), even with --ignore-errors
+# ponytail: also hides network-wide failures; check the journal if the library stops growing
+SuccessExitStatus=1
 ExecStartPost=/usr/bin/find {{ jellyfin_media_path }}/youtube -type f -mtime +{{ youtube_retention_days }} -delete
 ExecStartPost=/usr/bin/find {{ jellyfin_media_path }}/youtube -mindepth 1 -type d -empty -delete
 Nice=10
