@@ -18,5 +18,5 @@
   become: false
   become_user: "{{ ansible_facts['user_id'] }}"
   register: cargo_sweep_result
-  changed_when: "'Cleaned' in cargo_sweep_result.stdout"
+  changed_when: "'Total amount: 0.00 B' not in (cargo_sweep_result.stdout ~ cargo_sweep_result.stderr)"
   when: cargo_sweep_root_stat.stat.isdir | default(false)
