@@ -42,7 +42,6 @@
     - { src: "192.168.0.0/24" }
     - { src: "192.168.15.0/24" }
     - { port: "22000", proto: tcp, src: "192.168.0.0/16" }
-    - { port: "3141", proto: tcp }
     - { port: "67", proto: tcp }
     - { port: "67", proto: udp }
 #
