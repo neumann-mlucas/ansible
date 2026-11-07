@@ -4,6 +4,11 @@
 #   yt-jellyfin-pull URL [URL]  # on-demand: pull specific video/playlist/channel
 set -eu
 
+# Serialize: prevent overlapping runs (timer + manual invocation) racing on fragments.
+LOCKFILE="{{ jellyfin_media_path }}/youtube/.lock"  # /run/lock is root-only; service runs as {{ username }}
+exec 9>"$LOCKFILE"
+flock -n 9 || { echo "another yt-jellyfin-pull in progress; exiting" >&2; exit 0; }
+
 MEDIA_DIR="{{ jellyfin_media_path }}/youtube"
 ARCHIVE="$MEDIA_DIR/.archive"
 NEWSBOAT_URLS="{{ youtube_newsboat_urls }}"
@@ -21,7 +26,7 @@ else
 fi | yt-dlp --batch-file - \
   --download-archive "$ARCHIVE" \
   --write-info-json --write-thumbnail \
-  --write-subs --write-auto-subs --sub-langs 'en.*' --convert-subs srt --embed-subs \
+  --write-subs --write-auto-subs --sub-langs 'en,en-orig,en-US,en-GB' --convert-subs srt --embed-subs \
   --ignore-errors \
   -f 'bv*[height<=1080]+ba/b[height<=1080]' \
   --merge-output-format mkv \

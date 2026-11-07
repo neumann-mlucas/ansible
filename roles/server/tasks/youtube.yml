@@ -3,9 +3,12 @@
 # Sync it into {{ youtube_newsboat_urls }} (default: syncthing share)
 # so this host can read it.
 #
-- name: Install yt-dlp
+- name: Install yt-dlp and browser-impersonation deps
   community.general.pacman:
-    name: yt-dlp
+    name:
+      - yt-dlp
+      - python-curl_cffi
+      - curl-impersonate
     state: present
   become: true
 #
