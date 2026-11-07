@@ -1,1 +1,7 @@
+---
 ### Playbook Configuration Variables
+# Rust target/ dirs under this root are swept of artifacts unused for N days
+cargo_sweep_root: "/home/{{ username }}/Desktop/Projects"
+cargo_sweep_days: 30
+# Health check warns when / has less free space than this
+disk_free_min_gb: 10

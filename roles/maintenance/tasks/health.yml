@@ -57,3 +57,12 @@
   ansible.builtin.debug:
     msg: "{{ journal_errors.stdout_lines }}"
   when: journal_errors.stdout | length > 0
+#
+- name: Check free space on /
+  ansible.builtin.set_fact:
+    root_free_gb: "{{ ((ansible_facts['mounts'] | selectattr('mount', 'equalto', '/') | first).size_available / 1024 ** 3) | round(1) }}"
+#
+- name: Warn on low disk space
+  ansible.builtin.debug:
+    msg: "Low disk space on /: {{ root_free_gb }} GB free (< {{ disk_free_min_gb }} GB). Check Rust target/ dirs and ~/.cache."
+  when: root_free_gb | float < disk_free_min_gb | float

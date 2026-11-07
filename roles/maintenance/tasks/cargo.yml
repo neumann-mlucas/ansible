@@ -5,3 +5,18 @@
   become: false
   become_user: "{{ ansible_facts['user_id'] }}"
   changed_when: true
+#
+- name: Check cargo-sweep root
+  ansible.builtin.stat:
+    path: "{{ cargo_sweep_root }}"
+  register: cargo_sweep_root_stat
+#
+# Per-worktree target/ dirs grow unbounded and filled / once (2026-11)
+- name: Sweep stale Rust build artifacts
+  ansible.builtin.command:
+    cmd: cargo sweep --recursive --time {{ cargo_sweep_days }} {{ cargo_sweep_root }}
+  become: false
+  become_user: "{{ ansible_facts['user_id'] }}"
+  register: cargo_sweep_result
+  changed_when: "'Cleaned' in cargo_sweep_result.stdout"
+  when: cargo_sweep_root_stat.stat.isdir | default(false)
