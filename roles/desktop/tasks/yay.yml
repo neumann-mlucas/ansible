@@ -6,6 +6,7 @@
   become_user: "{{ username }}"
   loop:
     - activitywatch-bin
+    - cargo-mutants
     - claude-code
     - dict-wn
     - newsraft

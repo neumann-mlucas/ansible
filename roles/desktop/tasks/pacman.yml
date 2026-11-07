@@ -85,6 +85,7 @@
 - name: Install extra language runtimes
   community.general.pacman:
     name:
+      - lua-language-server
       - luarocks
       - ruby
     state: present
@@ -96,6 +97,7 @@
       - go-tools
       - gofumpt
       - golangci-lint
+      - gopls
       - govulncheck
       - shfmt
     state: present
