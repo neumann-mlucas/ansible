@@ -38,13 +38,6 @@
     src: "{{ lan_cidr }}"
   when: is_server
 #
-- name: UFW drop SSH rule open to anywhere
-  community.general.ufw:
-    rule: limit
-    port: "3141"
-    proto: tcp
-    delete: true
-#
 - name: UFW enable Syncthing ports (LAN only)
   community.general.ufw:
     rule: allow

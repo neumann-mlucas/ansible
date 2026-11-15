@@ -1,12 +1,6 @@
 ---
 # AUR packages are installed by hand with yay (see README); only yay itself is bootstrapped.
 # makepkg runs as the user, pacman -U as root: no sudoers rule needed.
-- name: Remove old passwordless pacman sudoers rule
-  ansible.builtin.file:
-    path: /etc/sudoers.d/yay-pacman
-    state: absent
-  become: true
-#
 - name: Check if yay is installed
   ansible.builtin.raw: command -v yay
   register: yay_installed

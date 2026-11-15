@@ -19,18 +19,6 @@
     name: docker
     state: present
 #
-- name: Read docker group members
-  ansible.builtin.getent:
-    database: group
-    key: docker
-#
-# docker group = passwordless root
-- name: Remove user from docker group
-  ansible.builtin.command: gpasswd -d {{ username }} docker
-  become: true
-  changed_when: true
-  when: username in ansible_facts['getent_group']['docker'][2].split(',')
-#
 - name: Create docker config directory
   ansible.builtin.file:
     path: /etc/docker
@@ -84,19 +72,6 @@
     group: root
     mode: "0644"
   become: true
-#
-# leftovers from old k8s/cilium setup; they force rp_filter=0 and ip_forward=1
-- name: Remove stale sysctl overrides
-  ansible.builtin.file:
-    path: /etc/sysctl.d/{{ item }}
-    state: absent
-  loop:
-    - 20-ipfowarding.conf
-    - 99-kubernetes-cri.conf
-    - 99-kubernetes.conf
-    - 99-zzz-override_cilium.conf
-  become: true
-  notify: apply sysctl
 #
 - name: Network hardening sysctl settings
   ansible.builtin.copy:

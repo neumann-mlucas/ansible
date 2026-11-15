@@ -1,12 +1,4 @@
 ---
-# pi-hole-gravity.timer covers this; cronie is not enabled
-- name: Remove weekly gravity cron job
-  ansible.builtin.cron:
-    name: pihole gravity update
-    user: root
-    state: absent
-  become: true
-#
 - name: Create pi-hole log directory
   ansible.builtin.file:
     path: /var/log/pihole
