@@ -1,0 +1,50 @@
+---
+# Daily ~/Sync -> homeserver snapshot; maintenance.yml still runs one on demand.
+# ponytail: fails (shows in systemctl --failed) when off the home LAN; Persistent only catches up at boot
+- name: Deploy restic backup service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/restic-backup.service
+    content: |
+      [Unit]
+      Description=Restic backup of {{ syncthing_share_path }} to homeserver
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=oneshot
+      User={{ username }}
+      ExecStart=/usr/bin/restic -r sftp:homeserver:/home/{{ username }}/backup/restic/ --password-file /home/{{ username }}/.config/restic/password backup {{ syncthing_share_path }}
+      ExecStartPost=/usr/bin/restic -r sftp:homeserver:/home/{{ username }}/backup/restic/ --password-file /home/{{ username }}/.config/restic/password forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --prune
+      Nice=10
+      IOSchedulingClass=idle
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+#
+- name: Deploy restic backup timer
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/restic-backup.timer
+    content: |
+      [Unit]
+      Description=Daily restic backup
+
+      [Timer]
+      OnCalendar=daily
+      RandomizedDelaySec=1h
+      Persistent=true
+
+      [Install]
+      WantedBy=timers.target
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+#
+- name: Enable restic backup timer
+  ansible.builtin.systemd_service:
+    name: restic-backup.timer
+    enabled: true
+    state: started
+    daemon_reload: true
+  become: true
