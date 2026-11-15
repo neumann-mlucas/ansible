@@ -4,3 +4,6 @@
   become: true
   become_user: "{{ username }}"
   changed_when: false
+  # plugins are public: skip user's https->ssh insteadOf rewrite so no ssh agent is needed under sudo
+  environment:
+    GIT_CONFIG_GLOBAL: /dev/null

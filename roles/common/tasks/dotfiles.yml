@@ -8,8 +8,9 @@
     force: "yes"
   become: true
   become_user: "{{ username }}"
+  # public repo: skip user's https->ssh insteadOf rewrite so no ssh agent is needed under sudo
   environment:
-    SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+    GIT_CONFIG_GLOBAL: /dev/null
 #
 - name: Check bashrc stat
   ansible.builtin.stat:
