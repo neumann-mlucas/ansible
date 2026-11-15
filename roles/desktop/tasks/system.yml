@@ -34,12 +34,9 @@
   become: true
 #
 - name: Bind dictd to localhost
-  ansible.builtin.copy:
-    dest: /etc/default/dictd
-    content: |
-      DICTD_ARGS="--listen-to 127.0.0.1"
-    owner: root
-    group: root
-    mode: "0644"
+  ansible.builtin.lineinfile:
+    path: /etc/default/dictd
+    regexp: "^DICTD_ARGS="
+    line: 'DICTD_ARGS="--locale C.utf8 --listen-to 127.0.0.1"'
   become: true
   notify: restart dictd

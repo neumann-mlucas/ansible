@@ -20,3 +20,4 @@
 - name: Reboot the system
   ansible.builtin.reboot:
     reboot_timeout: 120
+  when: reboot | default(false) | bool
