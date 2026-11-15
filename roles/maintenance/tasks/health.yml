@@ -6,7 +6,6 @@
   loop:
     - NetworkManager.service
     - fail2ban.service
-    - sshd.service
     - syncthing@{{ username }}.service
     - thermald.service
     - ufw.service
@@ -32,6 +31,7 @@
   loop:
     - jellyfin.service
     - pihole-FTL.service
+    - sshd.service
     - syncthing@{{ username }}.service
   become: true
   failed_when: false

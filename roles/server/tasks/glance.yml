@@ -1,12 +1,4 @@
 ---
-- name: Install glance from AUR
-  ansible.builtin.command:
-    cmd: yay -S --sudoloop --noconfirm --needed glance-bin
-  become: true
-  become_user: "{{ username }}"
-  register: yay_glance
-  changed_when: yay_glance.stdout is not search("there is nothing to do")
-#
 - name: Create glance system user
   ansible.builtin.user:
     name: glance

@@ -21,3 +21,12 @@
   become: true
   when: jellyfin_network.stat.exists
   notify: restart jellyfin
+#
+- name: Disable Jellyfin remote (non-LAN) access
+  ansible.builtin.replace:
+    path: /etc/jellyfin/network.xml
+    regexp: "<EnableRemoteAccess>true</EnableRemoteAccess>"
+    replace: "<EnableRemoteAccess>false</EnableRemoteAccess>"
+  become: true
+  when: jellyfin_network.stat.exists
+  notify: restart jellyfin

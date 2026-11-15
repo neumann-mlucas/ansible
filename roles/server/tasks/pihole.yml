@@ -1,12 +1,10 @@
 ---
-- name: Schedule weekly gravity update
+# pi-hole-gravity.timer covers this; cronie is not enabled
+- name: Remove weekly gravity cron job
   ansible.builtin.cron:
     name: pihole gravity update
-    weekday: "0"
-    hour: "3"
-    minute: "0"
     user: root
-    job: pihole -g
+    state: absent
   become: true
 #
 - name: Create pi-hole log directory
@@ -35,7 +33,7 @@
   become: true
   changed_when: false
 #
-- name: Read pi-hole listener config
+- name: Read pi-hole config
   ansible.builtin.command: pihole-FTL --config {{ item.key }}
   loop: "{{ pihole_listen | dict2items }}"
   register: pihole_listen_cur
@@ -47,8 +45,10 @@
       webserver.port: "127.0.0.1:8080,{{ static_ip }}:8080"
       dns.listeningMode: BIND
       dns.interface: "{{ ansible_facts['default_ipv4']['interface'] }}"
+      dns.dnssec: "true"
+      ntp.sync.active: "false"
 #
-- name: Bind pi-hole web UI and DNS to LAN interface
+- name: Apply pi-hole listener, DNSSEC and NTP config
   ansible.builtin.command: pihole-FTL --config {{ item.item.key }} '{{ item.item.value }}'
   loop: "{{ pihole_listen_cur.results }}"
   when: item.stdout | trim != item.item.value

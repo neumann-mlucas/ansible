@@ -7,3 +7,21 @@
     group: "{{ username }}"
     mode: "0755"
   become: true
+#
+- name: Read Syncthing internet-facing options
+  ansible.builtin.command: syncthing cli config options {{ item }} get
+  loop: [global-ann-enabled, relays-enabled, natenabled]
+  register: syncthing_opts
+  become: true
+  become_user: "{{ username }}"
+  changed_when: false
+  check_mode: false
+#
+# LAN-only sync: no global discovery, relays or NAT traversal
+- name: Disable Syncthing global discovery, relays and NAT
+  ansible.builtin.command: syncthing cli config options {{ item.item }} set false
+  loop: "{{ syncthing_opts.results }}"
+  when: item.stdout | trim != "false"
+  become: true
+  become_user: "{{ username }}"
+  changed_when: true

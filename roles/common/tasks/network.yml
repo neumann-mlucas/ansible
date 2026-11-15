@@ -30,11 +30,20 @@
     direction: incoming
     policy: deny
 #
-- name: UFW enable SSH traffic on port 3141
+- name: UFW allow SSH on port 3141 (LAN only)
   community.general.ufw:
     rule: limit
     port: "3141"
     proto: tcp
+    src: "{{ lan_cidr }}"
+  when: is_server
+#
+- name: UFW drop SSH rule open to anywhere
+  community.general.ufw:
+    rule: limit
+    port: "3141"
+    proto: tcp
+    delete: true
 #
 - name: UFW enable Syncthing ports (LAN only)
   community.general.ufw:
@@ -60,7 +69,7 @@
     dest: /etc/fail2ban/jail.local
     content: |
       [DEFAULT]
-      ignoreip = 127.0.0.1/8 ::1 {{ lan_cidr | default('192.168.15.0/24') }}
+      ignoreip = 127.0.0.1/8 ::1
       bantime = 86400
       findtime = 600
       maxretry = 5

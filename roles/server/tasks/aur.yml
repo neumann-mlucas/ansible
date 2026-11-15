@@ -1,0 +1,17 @@
+---
+# AUR packages are installed by hand (see README); fail early with a clear message.
+- name: Gather installed packages
+  ansible.builtin.package_facts:
+    manager: pacman
+#
+- name: Assert AUR packages are installed
+  ansible.builtin.assert:
+    that: item in ansible_facts.packages
+    fail_msg: "{{ item }} missing: run `yay -S {{ item }}` on {{ inventory_hostname }}"
+    quiet: true
+  loop:
+    - pi-hole-core
+    - pi-hole-web
+    - pi-hole-ftl
+    - glance-bin
+    - readeck-bin

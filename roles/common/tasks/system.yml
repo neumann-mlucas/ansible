@@ -5,19 +5,31 @@
     name: "{{ username }}"
     shell: /usr/bin/zsh
 #
+- name: Require password for wheel sudo
+  ansible.builtin.replace:
+    path: /etc/sudoers
+    regexp: '^%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL$'
+    replace: "%wheel ALL=(ALL:ALL) ALL"
+    validate: "visudo -cf %s"
+  become: true
+#
 - name: Create docker group
   become: true
   ansible.builtin.group:
     name: docker
     state: present
 #
-- name: Add user to docker group
+- name: Read docker group members
+  ansible.builtin.getent:
+    database: group
+    key: docker
+#
+# docker group = passwordless root
+- name: Remove user from docker group
+  ansible.builtin.command: gpasswd -d {{ username }} docker
   become: true
-  ansible.builtin.user:
-    name: "{{ username }}"
-    groups: docker
-    append: true
-  when: is_server
+  changed_when: true
+  when: username in ansible_facts['getent_group']['docker'][2].split(',')
 #
 - name: Create docker config directory
   ansible.builtin.file:
@@ -73,6 +85,19 @@
     mode: "0644"
   become: true
 #
+# leftovers from old k8s/cilium setup; they force rp_filter=0 and ip_forward=1
+- name: Remove stale sysctl overrides
+  ansible.builtin.file:
+    path: /etc/sysctl.d/{{ item }}
+    state: absent
+  loop:
+    - 20-ipfowarding.conf
+    - 99-kubernetes-cri.conf
+    - 99-kubernetes.conf
+    - 99-zzz-override_cilium.conf
+  become: true
+  notify: apply sysctl
+#
 - name: Network hardening sysctl settings
   ansible.builtin.copy:
     dest: /etc/sysctl.d/20-network-hardening.conf
@@ -87,6 +112,8 @@
       net.ipv4.conf.default.send_redirects = 0
       net.ipv4.conf.all.log_martians = 1
       net.ipv6.conf.default.accept_redirects = 0
+      net.ipv4.ip_forward = 0
+      net.ipv6.conf.all.forwarding = 0
     owner: root
     group: root
     mode: "0644"

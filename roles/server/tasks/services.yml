@@ -8,8 +8,19 @@
     daemon_reload: true
   loop:
     - jellyfin.service
+    - sshd.service
     - pihole-FTL.service
     - vaultwarden.service
     - glance.service
     - readeck.service
     - yt-jellyfin-sync.timer
+#
+- name: Disable docker on server
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop:
+    - docker.socket
+    - docker.service
+  become: true

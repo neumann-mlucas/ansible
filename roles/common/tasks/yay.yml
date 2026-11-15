@@ -1,12 +1,10 @@
 ---
-- name: Allow pacman without password for yay
-  ansible.builtin.copy:
-    dest: /etc/sudoers.d/yay-pacman
-    content: "{{ username }} ALL=(ALL) NOPASSWD: /usr/bin/pacman\n"
-    owner: root
-    group: root
-    mode: "0440"
-    validate: "visudo -cf %s"
+# AUR packages are installed by hand with yay (see README); only yay itself is bootstrapped.
+# makepkg runs as the user, pacman -U as root: no sudoers rule needed.
+- name: Remove old passwordless pacman sudoers rule
+  ansible.builtin.file:
+    path: /etc/sudoers.d/yay-pacman
+    state: absent
   become: true
 #
 - name: Check if yay is installed
@@ -17,25 +15,39 @@
   become: true
   become_user: "{{ username }}"
 #
-- name: Clone yay repository
-  ansible.builtin.git:
-    repo: "https://aur.archlinux.org/yay.git"
-    dest: "/home/{{ username }}/yay"
-  become: true
-  become_user: "{{ username }}"
+- name: Install yay
   when: yay_installed is failed
-#
-- name: Build and install yay
-  ansible.builtin.command:
-    cmd: makepkg -si --noconfirm
-    chdir: "/home/{{ username }}/yay"
-  become: true
-  become_user: "{{ username }}"
-  when: yay_installed is failed
-  changed_when: true
-#
-- name: Remove yay build directory
-  ansible.builtin.file:
-    path: "/home/{{ username }}/yay"
-    state: absent
-  when: yay_installed is failed
+  block:
+    - name: Clone yay-bin repository
+      ansible.builtin.git:
+        repo: "https://aur.archlinux.org/yay-bin.git"
+        dest: "/home/{{ username }}/yay-bin"
+        version: master
+      become: true
+      become_user: "{{ username }}"
+    #
+    - name: Build yay package
+      ansible.builtin.command:
+        cmd: makepkg --noconfirm --force
+        chdir: "/home/{{ username }}/yay-bin"
+      become: true
+      become_user: "{{ username }}"
+      changed_when: true
+    #
+    - name: Find built yay package
+      ansible.builtin.find:
+        paths: "/home/{{ username }}/yay-bin"
+        patterns: "yay-bin-[0-9]*.pkg.tar.zst"
+      register: yay_pkg
+    #
+    - name: Install yay package
+      community.general.pacman:
+        name: "{{ yay_pkg.files | map(attribute='path') | list }}"
+        state: present
+      become: true
+  always:
+    - name: Remove yay build directory
+      ansible.builtin.file:
+        path: "/home/{{ username }}/yay-bin"
+        state: absent
+      become: true

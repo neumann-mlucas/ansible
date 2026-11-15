@@ -2,8 +2,8 @@
 - name: Install server packages
   ansible.builtin.import_tasks: pacman.yml
 #
-- name: Install AUR packages
-  ansible.builtin.import_tasks: yay.yml
+- name: Check AUR packages are installed
+  ansible.builtin.import_tasks: aur.yml
 #
 - name: Configure Jellyfin
   ansible.builtin.import_tasks: jellyfin.yml

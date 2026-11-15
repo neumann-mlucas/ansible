@@ -41,6 +41,19 @@ $ sudo ansible-playbook playbooks/maintenance.yml
 $ ansible-playbook playbooks/maintenance.yml -l homeserver -K
 ```
 
+### AUR Packages
+
+Not managed by ansible (PKGBUILDs are unreviewed code; install and update by hand with `yay`).
+The playbook only bootstraps `yay` itself.
+
+```sh
+# server (server playbook asserts these are present)
+$ yay -S pi-hole-core pi-hole-web pi-hole-ftl glance-bin readeck-bin
+
+# desktop
+$ yay -S activitywatch-bin cargo-mutants claude-code dict-wn newsraft
+```
+
 ### Syncthing Pairing
 
 ```sh

@@ -5,3 +5,12 @@
       - jellyfin-server
       - jellyfin-web
     state: present
+#
+- name: Remove leftover k8s packages
+  community.general.pacman:
+    name:
+      - alacritty
+      - crictl
+      - kubeadm
+      - kubelet
+    state: absent

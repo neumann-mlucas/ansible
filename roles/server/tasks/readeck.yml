@@ -1,12 +1,4 @@
 ---
-- name: Install readeck from AUR
-  ansible.builtin.command:
-    cmd: yay -S --sudoloop --noconfirm --needed readeck-bin
-  become: true
-  become_user: "{{ username }}"
-  register: yay_readeck
-  changed_when: yay_readeck.stdout is not search("there is nothing to do")
-#
 - name: Create readeck system user
   ansible.builtin.user:
     name: readeck

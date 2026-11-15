@@ -2,9 +2,6 @@
 - name: Install desktops packages
   ansible.builtin.import_tasks: pacman.yml
 #
-- name: Install AUR packages
-  ansible.builtin.import_tasks: yay.yml
-#
 - name: Install flatpak packages
   ansible.builtin.import_tasks: flatpak.yml
 #
