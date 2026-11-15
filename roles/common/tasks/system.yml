@@ -105,9 +105,16 @@
   become: true
   notify: apply sysctl
 #
+- name: Remove misordered kernel hardening file
+  ansible.builtin.file:
+    path: /etc/sysctl.d/21-kernel-hardening.conf
+    state: absent
+  become: true
+#
+# 99- so it applies after systemd's 50-default.conf / 50-coredump.conf
 - name: Kernel hardening sysctl settings
   ansible.builtin.copy:
-    dest: /etc/sysctl.d/21-kernel-hardening.conf
+    dest: /etc/sysctl.d/99-kernel-hardening.conf
     content: |
       kernel.kptr_restrict = 2
       kernel.kexec_load_disabled = 1
@@ -120,6 +127,14 @@
     mode: "0644"
   become: true
   notify: apply sysctl
+#
+# ufw applies its own sysctl.conf at start, after systemd-sysctl
+- name: Enable martian logging in ufw sysctl
+  ansible.builtin.replace:
+    path: /etc/ufw/sysctl.conf
+    regexp: '^(net/ipv4/conf/(all|default)/log_martians)=0$'
+    replace: '\1=1'
+  become: true
 #
 - name: Set zram config
   ansible.builtin.copy:
