@@ -19,18 +19,6 @@
     append: true
   when: is_server
 #
-- name: Read docker group members
-  ansible.builtin.getent:
-    database: group
-    key: docker
-  when: is_desktop
-#
-- name: Remove user from docker group (desktop)
-  ansible.builtin.command: gpasswd -d {{ username }} docker
-  become: true
-  changed_when: true
-  when: is_desktop and username in getent_group.docker[2].split(',')
-#
 - name: Create docker config directory
   ansible.builtin.file:
     path: /etc/docker
@@ -104,12 +92,6 @@
     mode: "0644"
   become: true
   notify: apply sysctl
-#
-- name: Remove misordered kernel hardening file
-  ansible.builtin.file:
-    path: /etc/sysctl.d/21-kernel-hardening.conf
-    state: absent
-  become: true
 #
 # 99- so it applies after systemd's 50-default.conf / 50-coredump.conf
 - name: Kernel hardening sysctl settings
