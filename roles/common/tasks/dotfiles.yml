@@ -8,6 +8,8 @@
     force: "yes"
   become: true
   become_user: "{{ username }}"
+  environment:
+    SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
 #
 - name: Check bashrc stat
   ansible.builtin.stat:
