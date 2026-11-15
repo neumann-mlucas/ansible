@@ -69,6 +69,7 @@
       [sshd]
       enabled = true
       backend = systemd
+      port = 3141
     owner: root
     group: root
     mode: "0644"

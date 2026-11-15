@@ -71,6 +71,23 @@
       ProtectHome=true
       PrivateTmp=true
       ReadWritePaths=/var/lib/readeck
+      CapabilityBoundingSet=
+      ProtectKernelTunables=true
+      ProtectKernelModules=true
+      ProtectKernelLogs=true
+      ProtectControlGroups=true
+      ProtectClock=true
+      ProtectHostname=true
+      PrivateDevices=true
+      RestrictSUIDSGID=true
+      RestrictRealtime=true
+      RestrictNamespaces=true
+      LockPersonality=true
+      MemoryDenyWriteExecute=true
+      RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+      SystemCallArchitectures=native
+      SystemCallFilter=@system-service
+      UMask=0027
 
       [Install]
       WantedBy=multi-user.target
