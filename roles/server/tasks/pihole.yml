@@ -47,12 +47,32 @@
       dns.interface: "{{ ansible_facts['default_ipv4']['interface'] }}"
       dns.dnssec: "true"
       ntp.sync.active: "false"
+      # drop upstream answers pointing at private IPs (DNS rebinding)
+      misc.dnsmasq_lines: '["stop-dns-rebind"]'
 #
 - name: Apply pi-hole listener, DNSSEC and NTP config
   ansible.builtin.command: pihole-FTL --config {{ item.item.key }} '{{ item.item.value }}'
   loop: "{{ pihole_listen_cur.results }}"
-  when: item.stdout | trim != item.item.value
+  when: item.stdout | regex_replace('[][" ]', '') != item.item.value | regex_replace('[][" ]', '')
   become: true
+  changed_when: true
+  notify: restart pihole-FTL
+#
+- name: Read pi-hole web password hash
+  ansible.builtin.command: pihole-FTL --config webserver.api.pwhash
+  register: pihole_pwhash
+  become: true
+  changed_when: false
+  check_mode: false
+#
+# API sends CORS `*`: without a password any website can reconfigure DNS.
+# Set once; rotate with `sudo pihole setpassword`.
+# ponytail: password is briefly visible in argv on the server; fine for a single-user host
+- name: Set pi-hole web password
+  ansible.builtin.command: pihole-FTL --config webserver.api.password {{ pihole_password | quote }}
+  when: pihole_pwhash.stdout | trim | length == 0
+  become: true
+  no_log: true
   changed_when: true
   notify: restart pihole-FTL
 #

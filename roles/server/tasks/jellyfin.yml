@@ -8,6 +8,48 @@
     mode: "0755"
   become: true
 #
+# jellyfin+ffmpeg parse downloaded media: confine them
+- name: Create Jellyfin systemd drop-in dir
+  ansible.builtin.file:
+    path: /etc/systemd/system/jellyfin.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+#
+- name: Sandbox Jellyfin service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/jellyfin.service.d/hardening.conf
+    content: |
+      [Service]
+      NoNewPrivileges=true
+      ProtectSystem=strict
+      ProtectHome=true
+      PrivateTmp=true
+      ReadWritePaths=/var/lib/jellyfin /var/cache/jellyfin /var/log/jellyfin /etc/jellyfin {{ jellyfin_media_path }}
+      CapabilityBoundingSet=
+      ProtectKernelTunables=true
+      ProtectKernelModules=true
+      ProtectKernelLogs=true
+      ProtectControlGroups=true
+      ProtectClock=true
+      ProtectHostname=true
+      RestrictSUIDSGID=true
+      RestrictRealtime=true
+      RestrictNamespaces=true
+      LockPersonality=true
+      RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+      SystemCallArchitectures=native
+      UMask=0027
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify:
+    - reload systemd
+    - restart jellyfin
+#
 - name: Check Jellyfin network config
   ansible.builtin.stat:
     path: /etc/jellyfin/network.xml
