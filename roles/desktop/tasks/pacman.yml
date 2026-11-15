@@ -91,6 +91,35 @@
       - ruby
     state: present
 #
+- name: Install containerization related software
+  community.general.pacman:
+    name:
+      - docker
+      - docker-buildx
+      - docker-compose
+    state: present
+#
+- name: Install python tooling
+  community.general.pacman:
+    name:
+      - pyright
+      - ruff
+      - ty
+      - uv
+    state: present
+#
+- name: Install rust toolchain
+  community.general.pacman:
+    name:
+      - rust
+      - rust-analyzer
+      - cargo-deny
+      - cargo-machete
+      - cargo-nextest
+      - cargo-sweep
+      - cargo-update
+    state: present
+#
 - name: Install go toolchain
   community.general.pacman:
     name:

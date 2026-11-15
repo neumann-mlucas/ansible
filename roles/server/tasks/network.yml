@@ -6,8 +6,8 @@
     proto: "{{ item.proto }}"
     src: "{{ item.src }}"
   loop:
-    - { proto: tcp, src: "192.168.15.0/24" }
-    - { proto: udp, src: "192.168.15.0/24" }
+    - { proto: tcp, src: "{{ lan_cidr }}" }
+    - { proto: udp, src: "{{ lan_cidr }}" }
   become: true
 #
 - name: Allow pi-hole web UI
@@ -15,7 +15,7 @@
     rule: allow
     port: "8080"
     proto: tcp
-    src: "192.168.15.0/24"
+    src: "{{ lan_cidr }}"
   become: true
 #
 - name: Allow Jellyfin from local network
@@ -23,7 +23,7 @@
     rule: allow
     port: "8096"
     proto: tcp
-    src: "192.168.15.0/24"
+    src: "{{ lan_cidr }}"
   become: true
 #
 # GUI binds 127.0.0.1 only; drop the old LAN rule
@@ -32,7 +32,7 @@
     rule: allow
     port: "8384"
     proto: tcp
-    src: "192.168.15.0/24"
+    src: "{{ lan_cidr }}"
     delete: true
   become: true
 #
@@ -41,7 +41,7 @@
     rule: allow
     port: "7359"
     proto: udp
-    src: "192.168.15.0/24"
+    src: "{{ lan_cidr }}"
   become: true
 #
 - name: Allow binding to LAN IP before network is up

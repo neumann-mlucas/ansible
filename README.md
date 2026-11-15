@@ -302,9 +302,8 @@ ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 # - add media library pointing to /mnt/media
 
 # Pi-hole web UI: http://SERVERIP:8080/admin
-# Set password (pi-hole v6):
-sudo pihole-FTL --config webserver.api.password "yourpassword"
-sudo systemctl restart pihole-FTL
+# Password is set by the server playbook from vaulted `pihole_password`.
+# Rotate: sudo pihole setpassword
 #
 # Add blocklists via admin UI → Adlists → Add blocklist:
 #   https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts  (ads, safe)

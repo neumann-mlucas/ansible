@@ -2,3 +2,4 @@
 username: neumann
 syncthing_share_path: "/home/{{ username }}/Sync"
 ansible_python_interpreter: /usr/bin/python3
+lan_cidr: 192.168.15.0/24

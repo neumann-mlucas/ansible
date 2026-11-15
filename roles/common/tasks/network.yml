@@ -43,7 +43,7 @@
     rule: allow
     port: "{{ item.port }}"
     proto: "{{ item.proto }}"
-    src: "{{ lan_cidr | default('192.168.15.0/24') }}"
+    src: "{{ lan_cidr }}"
   loop:
     - { port: "22000", proto: tcp }
     - { port: "22000", proto: udp }

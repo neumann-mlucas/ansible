@@ -32,7 +32,6 @@
     - jellyfin.service
     - pihole-FTL.service
     - sshd.service
-    - syncthing@{{ username }}.service
   become: true
   failed_when: false
   when: is_server

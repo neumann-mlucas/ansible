@@ -1,7 +1,7 @@
 ---
 # Pairs Syncthing between desktops and servers.
 # Requires syncthing to be running on all hosts.
-# Run: sudo ansible-playbook -i inventories/hosts roles/syncthing-pair.yml
+# Run: ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 #
 # This is idempotent — safe to re-run. Devices/folders already configured
 # are skipped (ignore_errors handles "already exists" from the CLI).

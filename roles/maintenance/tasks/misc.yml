@@ -5,6 +5,7 @@
   become: true
   become_user: "{{ ansible_facts['user_id'] }}"
   changed_when: true
+  when: is_desktop
 #
 - name: Vacuum systemd journal
   ansible.builtin.command:

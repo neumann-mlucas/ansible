@@ -40,3 +40,30 @@
     line: 'DICTD_ARGS="--locale C.utf8 --listen-to 127.0.0.1"'
   become: true
   notify: restart dictd
+#
+- name: Create docker group
+  become: true
+  ansible.builtin.group:
+    name: docker
+    state: present
+#
+- name: Create docker config directory
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+#
+- name: Disable Docker iptables manipulation
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "iptables": false
+      }
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
