@@ -17,6 +17,7 @@
       - fwupd-docs
       - intel-ucode
       - udisks2
+      - dosfstools  # fsck.fat: boot-time check of the vfat EFI partition
     state: present
 #
 - name: Install system services
