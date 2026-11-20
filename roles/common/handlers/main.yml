@@ -18,3 +18,9 @@
     state: restarted
   become: true
   when: not ansible_check_mode
+
+- name: apply zswap tmpfiles
+  ansible.builtin.command: systemd-tmpfiles --create /etc/tmpfiles.d/zswap.conf
+  become: true
+  changed_when: true
+  when: not ansible_check_mode

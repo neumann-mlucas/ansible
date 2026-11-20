@@ -107,3 +107,14 @@
     state: started
     daemon_reload: true
   become: true
+#
+- name: Disable zswap (redundant with zram)
+  ansible.builtin.copy:
+    dest: /etc/tmpfiles.d/zswap.conf
+    content: |
+      w /sys/module/zswap/parameters/enabled - - - - 0
+    owner: root
+    group: root
+    mode: "0644"
+  notify: apply zswap tmpfiles
+  become: true
