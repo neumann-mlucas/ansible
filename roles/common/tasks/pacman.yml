@@ -119,6 +119,7 @@
       - hyperfine
       - jq
       - just
+      - poppler
       - prek
       - procs
       - ripgrep
@@ -132,7 +133,7 @@
       - tealdeer
       - tokei
       - tree-sitter-cli
-      - typos
+      - typst
       - words
       - go-yq  # mikefarah yq; Arch `yq` is the Python jq wrapper
       - zoxide
