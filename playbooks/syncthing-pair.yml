@@ -4,7 +4,7 @@
 # Run: ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 #
 # This is idempotent — safe to re-run. Devices/folders already configured
-# are skipped (ignore_errors handles "already exists" from the CLI).
+# are skipped (failed_when tolerates "already exists" from the CLI).
 
 - name: Collect Syncthing device IDs from all hosts
   hosts: desktops:servers

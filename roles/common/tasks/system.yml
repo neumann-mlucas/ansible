@@ -5,14 +5,6 @@
     name: "{{ username }}"
     shell: /usr/bin/zsh
 #
-- name: Require password for wheel sudo
-  ansible.builtin.replace:
-    path: /etc/sudoers
-    regexp: '^%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL$'
-    replace: "%wheel ALL=(ALL:ALL) ALL"
-    validate: "visudo -cf %s"
-  become: true
-#
 - name: Change pacman config
   ansible.builtin.replace:
     path: /etc/pacman.conf

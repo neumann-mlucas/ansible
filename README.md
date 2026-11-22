@@ -187,8 +187,9 @@ $ arch-chroot /mnt
 - set timezone and clock
 ```sh
 $ timedatectl set-ntp true
-$ ln -sf /usr/share/zoneinfo/Americas/Sao_Paulo /etc/localtime
+$ ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 $ hwclock --systohc
+$ sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 $ locale-gen
 $ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 ```
@@ -230,7 +231,7 @@ $ pacman -S reflector
 $ systemctl enable reflector.service
 $ reflector -c 'Brazil' -f 12 -l 10 -n 12 --save /etc/pacman.d/mirrorlist
 
-$ pacman pipewire-audio pipewire-docs pipewire-alsa pipewire-jack pipewire-pulse
+$ pacman -S pipewire-audio pipewire-docs pipewire-alsa pipewire-jack pipewire-pulse
 
 $ pacman -S wayland gnome hyprland # or: $ pacman -S wayland gdm hyprland
 $ systemctl enable gdm.service
@@ -259,15 +260,14 @@ reboot
 ```bash
 git clone https://github.com/neumann-mlucas/ansible
 cd ansible
-# change hosts to only localhost
 sudo ansible-playbook playbooks/desktop.yml
 ```
 
 - set a static IP address
 
-Use DHCP reservation on the router (bind server MAC to fixed IP). Avoids
-broken static config when changing networks. The server playbook configures
-static IP via nmcli but DHCP reservation is more resilient.
+Use DHCP reservation on the router (bind server MAC to fixed IP). The
+playbooks do not configure a static IP; `static_ip` in `group_vars/servers.yml`
+must match the reservation.
 
 - set ssh keys
 
@@ -314,8 +314,6 @@ ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 # Point router DNS to SERVERIP: router admin → DHCP → DNS server
 # Verify: pihole status
 
-# Nginx (if running unexpectedly):
-sudo systemctl disable --now nginx
 ```
 
 - run fwup

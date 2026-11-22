@@ -26,16 +26,6 @@
     src: "{{ lan_cidr }}"
   become: true
 #
-# GUI binds 127.0.0.1 only; drop the old LAN rule
-- name: Remove Syncthing web GUI rule
-  community.general.ufw:
-    rule: allow
-    port: "8384"
-    proto: tcp
-    src: "{{ lan_cidr }}"
-    delete: true
-  become: true
-#
 - name: Allow Jellyfin client discovery (LAN only)
   community.general.ufw:
     rule: allow
