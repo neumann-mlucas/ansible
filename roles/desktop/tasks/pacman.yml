@@ -18,6 +18,7 @@
     name:
       - brightnessctl
       - cliphist
+      - gdm
       - grim
       - hyprland
       - hyprpaper

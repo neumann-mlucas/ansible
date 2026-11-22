@@ -233,10 +233,9 @@ $ systemctl enable reflector.service
 $ reflector -c 'Brazil' -f 12 -l 10 -n 12 --save /etc/pacman.d/mirrorlist
 
 $ pacman -S pipewire-audio pipewire-docs pipewire-alsa pipewire-jack pipewire-pulse
-
-$ pacman -S wayland gnome hyprland # or: $ pacman -S wayland gdm hyprland
-$ systemctl enable gdm.service
 ```
+
+The desktop playbook installs and enables `gdm` and Hyprland.
 
 - create grub configuration
 ```sh
