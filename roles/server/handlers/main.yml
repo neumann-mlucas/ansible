@@ -5,13 +5,6 @@
   become: true
   when: not ansible_check_mode
 
-- name: restart vaultwarden
-  ansible.builtin.systemd_service:
-    name: vaultwarden.service
-    state: restarted
-  become: true
-  when: not ansible_check_mode
-
 - name: restart glance
   ansible.builtin.systemd_service:
     name: glance.service

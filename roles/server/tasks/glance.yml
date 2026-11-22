@@ -59,10 +59,6 @@
                       url: http://localhost:8384
                       check-url: http://127.0.0.1:8384
                       icon: sh:syncthing
-                    - title: Vaultwarden
-                      url: http://{{ static_ip }}:{{ vaultwarden_port }}
-                      check-url: http://{{ static_ip }}:{{ vaultwarden_port }}/alive
-                      icon: sh:vaultwarden
                     - title: Readeck
                       url: http://{{ static_ip }}:{{ readeck_port }}
                       check-url: http://{{ static_ip }}:{{ readeck_port }}
@@ -83,7 +79,6 @@
                 - type: releases
                   cache: 6h
                   repositories:
-                    - dani-garcia/vaultwarden
                     - readeck/readeck
                     - glanceapp/glance
                     - jellyfin/jellyfin
@@ -103,8 +98,6 @@
                           url: http://{{ static_ip }}:8080/admin
                         - title: Syncthing
                           url: http://localhost:8384
-                        - title: Vaultwarden
-                          url: http://{{ static_ip }}:{{ vaultwarden_port }}
                         - title: Readeck
                           url: http://{{ static_ip }}:{{ readeck_port }}
                     - title: External

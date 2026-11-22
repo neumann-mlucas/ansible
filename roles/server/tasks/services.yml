@@ -10,7 +10,6 @@
     - jellyfin.service
     - sshd.service
     - pihole-FTL.service
-    - vaultwarden.service
     - glance.service
     - readeck.service
     - taskchampion-sync-server.service
