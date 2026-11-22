@@ -4,8 +4,8 @@
     repo: "{{ dotfiles.url }}"
     dest: /home/{{ username }}/{{ dotfiles.destination }}
     accept_hostkey: "yes"
-    update: "true"
-    force: "yes"
+    # Clone only. ~/.dotfiles is the live checkout: never pull or reset it here.
+    update: "false"
   become: true
   become_user: "{{ username }}"
   # public repo: skip user's https->ssh insteadOf rewrite so no ssh agent is needed under sudo
