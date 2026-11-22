@@ -1,6 +1,15 @@
 ---
 # Taskwarrior sync server. Clients encrypt tasks before upload, so the server only stores opaque data.
 # The AUR package ships the unit; this drop-in binds it to the LAN address and adds sandboxing.
+- name: Create taskchampion systemd drop-in dir
+  ansible.builtin.file:
+    path: /etc/systemd/system/taskchampion-sync-server.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+#
 - name: Taskchampion sync server unit override
   ansible.builtin.copy:
     dest: /etc/systemd/system/taskchampion-sync-server.service.d/override.conf
