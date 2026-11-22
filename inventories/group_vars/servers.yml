@@ -2,6 +2,7 @@
 is_desktop: false
 is_server: true
 static_ip: 192.168.15.12
+ansible_host: "{{ static_ip }}"
 jellyfin_media_path: /mnt/media
 youtube_newsboat_urls: "{{ syncthing_share_path }}/newsboat-urls.txt"
 youtube_sync_schedule: hourly

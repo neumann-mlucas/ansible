@@ -27,12 +27,13 @@
   ansible.builtin.stat:
     path: /home/{{ username }}/.config/hypr/hyprland.conf
   register: file_stat_hypr
+  when: is_desktop
 #
 - name: Delete hyprland.conf so stow does not fail
   ansible.builtin.file:
     path: /home/{{ username }}/.config/hypr/hyprland.conf
     state: absent
-  when: file_stat_hypr.stat.exists and not file_stat_hypr.stat.islnk
+  when: is_desktop and file_stat_hypr.stat.exists and not file_stat_hypr.stat.islnk
 #
 - name: Stow dotfiles
   ansible.builtin.command:

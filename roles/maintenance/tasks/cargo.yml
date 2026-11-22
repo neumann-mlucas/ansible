@@ -1,4 +1,5 @@
 ---
+# Some tools in ~/.cargo/bin come from `cargo install`, not pacman, so they need this upgrade.
 - name: Upgrade cargo tools
   ansible.builtin.command:
     cmd: cargo install-update -a

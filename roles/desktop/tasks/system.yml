@@ -41,12 +41,6 @@
   become: true
   notify: restart dictd
 #
-- name: Create docker group
-  become: true
-  ansible.builtin.group:
-    name: docker
-    state: present
-#
 - name: Create docker config directory
   ansible.builtin.file:
     path: /etc/docker
