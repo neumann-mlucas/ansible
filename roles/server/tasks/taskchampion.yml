@@ -1,0 +1,49 @@
+---
+# Taskwarrior sync server. Clients encrypt tasks before upload, so the server only stores opaque data.
+# The AUR package ships the unit; this drop-in binds it to the LAN address and adds sandboxing.
+- name: Taskchampion sync server unit override
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/taskchampion-sync-server.service.d/override.conf
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/taskchampion-sync-server --listen {{ static_ip }}:{{ taskchampion_port }} --data-dir /var/lib/taskchampion-sync-server
+      Restart=on-failure
+      RestartSec=5
+
+      NoNewPrivileges=true
+      ProtectSystem=strict
+      ProtectHome=true
+      PrivateTmp=true
+      CapabilityBoundingSet=
+      ProtectKernelTunables=true
+      ProtectKernelModules=true
+      ProtectKernelLogs=true
+      ProtectControlGroups=true
+      ProtectClock=true
+      ProtectHostname=true
+      PrivateDevices=true
+      RestrictSUIDSGID=true
+      RestrictRealtime=true
+      RestrictNamespaces=true
+      LockPersonality=true
+      MemoryDenyWriteExecute=true
+      RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+      SystemCallArchitectures=native
+      SystemCallFilter=@system-service
+      UMask=0077
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify:
+    - reload systemd
+    - restart taskchampion-sync-server
+#
+- name: Allow taskchampion sync from LAN
+  community.general.ufw:
+    rule: allow
+    port: "{{ taskchampion_port }}"
+    proto: tcp
+    src: "{{ lan_cidr }}"
+  become: true

@@ -48,7 +48,7 @@ The playbook only bootstraps `yay` itself.
 
 ```sh
 # server (server playbook asserts these are present)
-$ yay -S pi-hole-core pi-hole-web pi-hole-ftl glance-bin readeck-bin
+$ yay -S pi-hole-core pi-hole-web pi-hole-ftl glance-bin readeck-bin taskchampion-sync-server
 
 # desktop
 $ yay -S activitywatch-bin cargo-mutants claude-code dict-wn newsraft

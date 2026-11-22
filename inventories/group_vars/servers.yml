@@ -22,6 +22,7 @@ vaultwarden_admin_token: !vault |
   36383338393636313066
 glance_port: 8280
 readeck_port: 8750
+taskchampion_port: 53589
 readeck_secret_key: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   61386563356637613865636433353130623139316231663031623236376562363364343862356131

@@ -39,3 +39,10 @@
     state: restarted
   become: true
   when: not ansible_check_mode
+
+- name: restart taskchampion-sync-server
+  ansible.builtin.systemd_service:
+    name: taskchampion-sync-server.service
+    state: restarted
+  become: true
+  when: not ansible_check_mode

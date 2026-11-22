@@ -13,4 +13,5 @@
     - vaultwarden.service
     - glance.service
     - readeck.service
+    - taskchampion-sync-server.service
     - yt-jellyfin-sync.timer

@@ -29,6 +29,9 @@
 - name: Deploy readeck bookmarks
   ansible.builtin.import_tasks: readeck.yml
 #
+- name: Deploy taskchampion sync server
+  ansible.builtin.import_tasks: taskchampion.yml
+#
 - name: Configure server firewall
   ansible.builtin.import_tasks: network.yml
 #
