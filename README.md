@@ -308,7 +308,7 @@ ansible-playbook playbooks/syncthing-pair.yml --ask-become-pass
 # Add blocklists via admin UI → Adlists → Add blocklist:
 #   https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts  (ads, safe)
 #   https://dbl.oisd.nl/                                               (ads + tracking)
-#   https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt  (aggressive)
+#   https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro-onlydomains.txt  (aggressive)
 # Then run: sudo pihole -g
 #
 # Point router DNS to SERVERIP: router admin → DHCP → DNS server
