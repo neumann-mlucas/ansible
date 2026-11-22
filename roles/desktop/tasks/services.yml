@@ -6,6 +6,7 @@
     state: started
     masked: false
   loop:
+    - dictd.service
     - gdm.service
     - keyd.service
     - tlp.service

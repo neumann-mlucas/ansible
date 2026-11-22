@@ -3,7 +3,8 @@ personal ansible playbooks
 
 ## Run rules
 
-- **Localhost plays** (desktop, maintenance on laptop): use `sudo` — connection is local.
+- **Localhost bootstrap** (desktop, site.yml on laptop): use `sudo` — connection is local.
+- **Maintenance**: **do not** use `sudo`. Run as your user with `-K`; user tasks (uv, cargo, tldr, go) run as `username`.
 - **Remote plays** (server, site.yml): **do not** use `sudo`. Run as your user, pass `-K` for remote sudo. Sudo locally breaks SSH key/known_hosts lookup (uses `/root/.ssh/`).
 - Vaulted secrets: add `--ask-vault-pass` (or `--vault-password-file`).
 
@@ -35,7 +36,7 @@ $ sudo ansible-playbook playbooks/desktop.yml
 
 ```sh
 # on laptop (localhost)
-$ sudo ansible-playbook playbooks/maintenance.yml
+$ ansible-playbook playbooks/maintenance.yml -l localhost -K
 
 # on server (remote)
 $ ansible-playbook playbooks/maintenance.yml -l homeserver -K

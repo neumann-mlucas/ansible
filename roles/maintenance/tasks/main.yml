@@ -1,7 +1,7 @@
 ---
 - name: Upgrade pacman packages
   ansible.builtin.import_tasks: pacman.yml
-- name: Upgrade AUR packages
+- name: Clean yay build cache
   ansible.builtin.import_tasks: yay.yml
 - name: Clean docker
   ansible.builtin.import_tasks: docker.yml
