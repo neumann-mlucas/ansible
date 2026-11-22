@@ -17,7 +17,6 @@
     - NetworkManager.service
     - fail2ban.service
     - fstrim.timer
-    - fwupd.service
     - reflector.timer
     - syncthing@{{ username }}.service
     - systemd-timesyncd.service

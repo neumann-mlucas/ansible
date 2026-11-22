@@ -5,9 +5,11 @@
     state: present
 #
 - name: Add the flathub repository
-  ansible.builtin.command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  args:
-    creates: /var/lib/flatpak/repo/flathub
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: system
+    state: present
 #
 - name: Install the desired Flatpak desktop apps
   community.general.flatpak:
