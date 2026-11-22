@@ -172,5 +172,6 @@
   loop:
     - git-sim
     - radon
-    - visidata
+    # extras match the old `vd` alias: xlsx, parquet, postgres
+    - visidata --with openpyxl --with pyarrow --with psycopg2-binary
     - yt-dlp
