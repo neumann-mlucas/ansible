@@ -2,6 +2,12 @@
 - name: Install desktops packages
   ansible.builtin.import_tasks: pacman.yml
 #
+- name: Install uv, cargo and go user tools
+  ansible.builtin.import_tasks: tools.yml
+#
+- name: Configure Taskwarrior sync
+  ansible.builtin.import_tasks: taskwarrior.yml
+#
 - name: Install flatpak packages
   ansible.builtin.import_tasks: flatpak.yml
 #

@@ -13,6 +13,9 @@
 - name: Upgrade cargo tools
   ansible.builtin.import_tasks: cargo.yml
   when: is_desktop
+- name: Upgrade go tools
+  ansible.builtin.import_tasks: go.yml
+  when: is_desktop
 - name: Miscellaneous cleanup
   ansible.builtin.import_tasks: misc.yml
 - name: Update pihole

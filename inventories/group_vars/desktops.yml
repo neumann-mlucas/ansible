@@ -1,3 +1,20 @@
 ---
 is_desktop: true
 is_server: false
+
+# User tools outside pacman. maintenance.yml updates the same lists.
+uv_tools:
+  - git-sim
+  - radon
+  # extras: xlsx, parquet, postgres
+  - visidata --with openpyxl --with pyarrow --with psycopg2-binary
+  - yt-dlp
+cargo_tools:
+  - cargo-llvm-cov
+  - cargo-mutants
+  - dprint
+go_tools:
+  - github.com/wakatara/harsh
+
+taskwarrior_sync_url: "http://{{ hostvars['homeserver'].static_ip }}:{{ hostvars['homeserver'].taskchampion_port }}"
+# Vaulted below: taskwarrior_client_id, taskwarrior_encryption_secret, restic_password

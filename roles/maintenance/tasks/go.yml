@@ -1,0 +1,10 @@
+---
+- name: Upgrade go tools
+  ansible.builtin.command:
+    cmd: go install {{ item }}@latest
+  environment:
+    GOPATH: /home/{{ username }}/.go
+  become: true
+  become_user: "{{ username }}"
+  loop: "{{ go_tools }}"
+  changed_when: true

@@ -161,17 +161,3 @@
     name:
       - tlp
     state: present
-#
-- name: Install python tools using uv
-  ansible.builtin.command:
-    cmd: uv tool install {{ item }}
-  register: uv_install_result
-  changed_when: "'Already installed' not in uv_install_result.stdout"
-  become: true
-  become_user: "{{ username }}"
-  loop:
-    - git-sim
-    - radon
-    # extras match the old `vd` alias: xlsx, parquet, postgres
-    - visidata --with openpyxl --with pyarrow --with psycopg2-binary
-    - yt-dlp

@@ -1,0 +1,30 @@
+---
+# User-level tools that pacman does not ship. Lists live in group_vars/desktops.yml,
+# so the maintenance role can update the same set.
+- name: Install python tools using uv
+  ansible.builtin.command:
+    cmd: uv tool install {{ item }}
+  register: uv_install_result
+  changed_when: "'Installed' in uv_install_result.stderr"
+  become: true
+  become_user: "{{ username }}"
+  loop: "{{ uv_tools }}"
+#
+- name: Install rust tools using cargo
+  ansible.builtin.command:
+    cmd: cargo install --locked {{ item }}
+    creates: /home/{{ username }}/.cargo/bin/{{ item }}
+  become: true
+  become_user: "{{ username }}"
+  loop: "{{ cargo_tools }}"
+#
+# Editor-only Go binaries (dlv, gotests, ...) are managed by go.nvim, not here.
+- name: Install go tools using go install
+  ansible.builtin.command:
+    cmd: go install {{ item }}@latest
+    creates: /home/{{ username }}/.go/bin/{{ item | basename }}
+  environment:
+    GOPATH: /home/{{ username }}/.go
+  become: true
+  become_user: "{{ username }}"
+  loop: "{{ go_tools }}"

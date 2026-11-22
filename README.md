@@ -12,7 +12,7 @@ personal ansible playbooks
 
 ```sh
 # desktop (localhost)
-$ sudo ansible-playbook site.yml -l localhost
+$ sudo ansible-playbook site.yml -l localhost --ask-vault-pass
 
 # server (remote)
 $ ansible-playbook site.yml -l homeserver -K --ask-vault-pass
@@ -29,8 +29,11 @@ First run: accept host key once — `ssh -p 3141 -i ~/.ssh/ansible neumann@<serv
 ### Laptop Setup
 
 ```sh
-$ sudo ansible-playbook playbooks/desktop.yml
+$ sudo ansible-playbook playbooks/desktop.yml --ask-vault-pass
 ```
+
+The desktop play writes the vaulted Taskwarrior sync keys and the restic password.
+Rust and Go user tools (`cargo_tools`, `go_tools` in `group_vars/desktops.yml`) install without yay.
 
 ### Maintenance Scripts
 
@@ -52,7 +55,7 @@ The playbook only bootstraps `yay` itself.
 $ yay -S pi-hole-core pi-hole-web pi-hole-ftl glance-bin readeck-bin taskchampion-sync-server
 
 # desktop
-$ yay -S activitywatch-bin cargo-mutants claude-code dict-wn newsraft
+$ yay -S activitywatch-bin claude-code codegraph-bin dict-wn newsraft
 ```
 
 ### Syncthing Pairing
@@ -96,10 +99,8 @@ Backup runs automatically as part of `ansible-maintenance`.
 ### First-time restic setup (one-time)
 
 ```sh
-# 1. create password file
-mkdir -p ~/.config/restic
-echo "yourpassword" > ~/.config/restic/password
-chmod 600 ~/.config/restic/password
+# 1. vault the password as `restic_password` in group_vars/desktops.yml,
+#    then run the desktop play: it writes ~/.config/restic/password (0600)
 
 # 2. init repo on server (SSH config handles port/key)
 restic -r sftp:homeserver:/home/neumann/backup/restic/ \

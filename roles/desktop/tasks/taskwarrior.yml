@@ -1,0 +1,38 @@
+---
+# The live taskrc stays a local file: `task context` and `task config` write to it.
+# Ansible only creates it and owns the sync keys. Losing the secret makes server data unreadable.
+- name: Create Taskwarrior config dir
+  ansible.builtin.file:
+    path: /home/{{ username }}/.config/task
+    state: directory
+    mode: "0755"
+  become: true
+  become_user: "{{ username }}"
+#
+- name: Create local taskrc that includes the stowed base.rc
+  ansible.builtin.copy:
+    dest: /home/{{ username }}/.config/task/taskrc
+    content: |
+      # Local Taskwarrior config. `task context` and `task config` write here.
+      # Shared settings come from the stowed base file.
+      include ~/.config/task/base.rc
+    force: false
+    mode: "0600"
+  become: true
+  become_user: "{{ username }}"
+#
+- name: Set Taskwarrior sync settings
+  ansible.builtin.lineinfile:
+    path: /home/{{ username }}/.config/task/taskrc
+    regexp: "^{{ item.key | regex_escape }}="
+    line: "{{ item.key }}={{ item.value }}"
+    mode: "0600"
+  loop:
+    - { key: sync.server.url, value: "{{ taskwarrior_sync_url }}" }
+    - { key: sync.server.client_id, value: "{{ taskwarrior_client_id }}" }
+    - { key: sync.encryption_secret, value: "{{ taskwarrior_encryption_secret }}" }
+  loop_control:
+    label: "{{ item.key }}"
+  no_log: true
+  become: true
+  become_user: "{{ username }}"
