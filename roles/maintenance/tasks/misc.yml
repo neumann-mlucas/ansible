@@ -20,8 +20,20 @@
   become_user: "{{ username }}"
   changed_when: true
 #
-- name: Clean broken symlinks in home
+# Report only: some dangling links are intentional (Firefox profile lock, links tracked in repos).
+- name: Find broken symlinks in stowed config dirs
   ansible.builtin.command:
-    cmd: find /home/{{ username }} -xtype l -delete
+    cmd: >-
+      find /home/{{ username }}/.config /home/{{ username }}/.local/bin
+      /home/{{ username }}/.claude /home/{{ username }}/.agents
+      -path '*/mozilla' -prune -o -xtype l -print
   become: true
+  become_user: "{{ username }}"
+  register: broken_links
   changed_when: false
+  failed_when: false
+#
+- name: Report broken symlinks
+  ansible.builtin.debug:
+    msg: "Broken symlinks (remove by hand): {{ broken_links.stdout_lines }}"
+  when: broken_links.stdout | length > 0

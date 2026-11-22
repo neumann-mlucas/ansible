@@ -29,9 +29,13 @@
     name: "{{ item }}"
     state: started
   loop:
+    - glance.service
     - jellyfin.service
     - pihole-FTL.service
+    - readeck.service
     - sshd.service
+    - taskchampion-sync-server.service
+    - yt-jellyfin-sync.timer
   become: true
   failed_when: false
   when: is_server
